@@ -46,6 +46,44 @@ class Wgt {
     ).centered();
   }
 
+  static getPrimaryBtn({String text, BuildContext context, cb}) {
+    return ElevatedButton(
+      onPressed: cb,
+      child: text.text.make(),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Coolors.primaryBtn),
+      ),
+    ).wFull(context);
+  }
+
+  static getSecondaryBtn({String text, BuildContext context, cb}) {
+    return ElevatedButton(
+      onPressed: cb,
+      child: text.text.make(),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Coolors.secondaryBtn),
+      ),
+    ).wFull(context);
+  }
+
+  static getTFF({String text}) {
+    return TextFormField(
+      style: TextStyle(color: Color(0xff00ADB5)),
+      decoration: InputDecoration(
+        hintText: text,
+        hintStyle: TextStyle(color: Color(0xff00ADB5)),
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+        ),
+        filled: true,
+        focusColor: Color(0xff393E46),
+        hoverColor: Color(0xff393E46),
+        contentPadding: EdgeInsets.all(10),
+        fillColor: Color(0xff393E46),
+      ),
+    ).pOnly(left: 16, right: 16);
+  }
+
   static getImg(String path, double height, double width) {
     return SvgPicture.asset(path,
             fit: BoxFit.contain, height: height, width: width)

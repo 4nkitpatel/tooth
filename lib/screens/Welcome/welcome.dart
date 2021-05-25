@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -37,24 +38,13 @@ class WelcomePage extends StatelessWidget {
                   height: 50,
                 ),
                 "Welcome to the Tooth".text.color(Colors.white).make(),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: "SIGN IN".text.make(),
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Color(0xff51AADF)),
-                  ),
-                ).wFull(context),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/signup");
-                  },
-                  child: "SIGN UP".text.make(),
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Color(0xff273A5E)),
-                  ),
-                ).wFull(context)
+                Wgt.getPrimaryBtn(text: "SIGN IN", context: context, cb: () {}),
+                Wgt.getSecondaryBtn(
+                    text: "SIGN UP",
+                    context: context,
+                    cb: () {
+                      Navigator.pushNamed(context, "/signup");
+                    })
               ],
             ),
           ),
