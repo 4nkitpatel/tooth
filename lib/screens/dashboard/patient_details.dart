@@ -1,7 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tooth/colors.dart';
+import 'package:tooth/screens/dashboard/advice.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class PatientDetailsPage extends StatelessWidget {
@@ -113,17 +111,28 @@ class PatientDetailsPage extends StatelessWidget {
                           10.widthBox,
                           "Advice".text.xl3.color(Color(0xffCECECE)).make(),
                           Spacer(),
-                          Icon(
-                            Icons.add,
-                            color: Colors.white,
+                          Container(
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AdvicePage()),
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
-                      10.heightBox,
+                      // 10.heightBox,
                       Container(
                         padding: EdgeInsets.all(5),
                         color: Color(0xff1F2125),
-                        height: 25,
+                        height: 26,
                         width: MediaQuery.of(context).size.width,
                         child: Row(
                           children: [
@@ -136,7 +145,7 @@ class PatientDetailsPage extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.all(5),
                         color: Color(0xff39393A),
-                        height: 25,
+                        height: 26,
                         width: MediaQuery.of(context).size.width,
                         child: Row(
                           children: [
@@ -148,10 +157,73 @@ class PatientDetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  10.heightBox,
-                  // buildFullWidthBox(context),
-                  10.heightBox,
-                  // buildFullWidthBox(context),
+                  20.heightBox,
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.medical_services,
+                            color: Color(0xff646464),
+                            size: 30,
+                          ),
+                          10.widthBox,
+                          "Medication".text.xl3.color(Color(0xffCECECE)).make(),
+                          Spacer(),
+                          Container(
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      // 10.heightBox,
+                      Container(
+                        padding: EdgeInsets.all(5),
+                        color: Color(0xff1F2125),
+                        height: 26,
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: 120,
+                              child: "Orindazole 100mg"
+                                  .text
+                                  .color(Color(0xff00ADB5))
+                                  .make(),
+                            ),
+                            "1Tab-TDS-BF".text.white.make(),
+                            "15 Days".text.color(Colors.white).make(),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(5),
+                        color: Color(0xff39393A),
+                        height: 26,
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: 120,
+                              child: "Rantine 200mg"
+                                  .text
+                                  .color(Color(0xff00ADB5))
+                                  .make(),
+                            ),
+                            "1Tab-TDS-BF".text.white.make(),
+                            "15 Days".text.color(Colors.white).make(),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -179,7 +251,7 @@ ClipRRect buildCard() {
         ],
       ),
       color: Color(0xff1F2125),
-      height: 160,
+      height: 150,
       width: 160,
     ),
   );

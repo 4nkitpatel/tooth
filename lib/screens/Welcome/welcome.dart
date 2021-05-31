@@ -3,7 +3,6 @@ import 'package:tooth/colors.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class WelcomePage extends StatelessWidget {
   @override
