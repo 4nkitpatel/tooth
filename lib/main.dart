@@ -4,7 +4,9 @@ import 'package:tooth/login/login_page.dart';
 import 'package:tooth/pages/expenditure.dart';
 import 'package:tooth/pages/first_visit.dart';
 import 'package:tooth/screens/Welcome/welcome.dart';
-import 'package:tooth/signup/signup_page.dart';
+import 'package:tooth/screens/dashboard/dashboard.dart';
+import 'package:tooth/screens/dashboard/patient_details.dart';
+import 'package:tooth/screens/signup/signup_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,13 +20,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Vendor',
       theme: ThemeData(
-          primaryColor: Coolors.orangish, accentColor: Coolors.purplish),
+          primaryColor: Coolors.bgColorT, accentColor: Coolors.appBar),
       home: WelcomePage(),
       routes: {
         '/signup': (context) => SignUpPage(),
         '/login': (context) => LoginPage(),
         '/firstvisit': (context) => FirstVisit(),
         '/expenditure': (context) => ExpenditurePage(),
+        '/dashboard': (context) => DashboardPage(),
+        '/patientDetails': (context) => PatientDetailsPage(),
       },
     );
   }

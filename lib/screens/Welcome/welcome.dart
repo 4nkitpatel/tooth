@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:tooth/colors.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xff2A2E43),
+        backgroundColor: Coolors.bgColorP,
         body: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.only(left: 14, right: 14),
@@ -18,26 +20,27 @@ class WelcomePage extends StatelessWidget {
                   "Your Guide \nto Adventure",
                   style: TextStyle(fontSize: 40, color: Colors.white),
                   maxLines: 2,
+                  textAlign: TextAlign.center,
                 ).centered().pOnly(top: 75),
                 SizedBox(
                   height: 20,
                 ),
                 "The best way to navigate your world and discover your capabilities!!!"
                     .text
+                    .center
                     .color(Colors.white)
                     .make(),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
-                Placeholder(
-                  fallbackHeight: 200,
-                  fallbackWidth: 128,
-                  color: Colors.white,
-                ),
+                Image.asset('assets/doctors_1x.png'),
                 SizedBox(
-                  height: 50,
+                  height: 40,
                 ),
                 "Welcome to the Tooth".text.color(Colors.white).make(),
+                SizedBox(
+                  height: 10,
+                ),
                 Wgt.getPrimaryBtn(text: "SIGN IN", context: context, cb: () {}),
                 Wgt.getSecondaryBtn(
                     text: "SIGN UP",
