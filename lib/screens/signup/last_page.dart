@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tooth/colors.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -7,6 +8,13 @@ class LastPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: "New User".text.size(17).color(Colors.white).center.make(),
+        backgroundColor: Coolors.appBar,
+        centerTitle: true,
+        foregroundColor: Colors.white,
+      ),
       backgroundColor: Color(0xff2A2E43),
       body: SafeArea(
         child: Container(
@@ -27,7 +35,9 @@ class LastPage extends StatelessWidget {
                   child: Wgt.getSecondaryBtn(
                     text: "Done",
                     context: context,
-                    cb: () {},
+                    cb: () {
+                      Navigator.pushNamed(context, '/dashboard');
+                    },
                   ),
                 ),
               ],

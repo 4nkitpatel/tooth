@@ -39,7 +39,7 @@ class Wgt {
       label: Text(text),
       style: TextButton.styleFrom(
         padding: EdgeInsets.all(10),
-        backgroundColor: Coolors.orangish,
+        backgroundColor: Coolors.secondaryBtn,
         primary: Colors.white,
       ),
       icon: Icon(icn),
@@ -116,7 +116,7 @@ class _SWgtState extends State<DateWgt> {
             label: Text(getDateText()),
             style: TextButton.styleFrom(
               padding: EdgeInsets.all(10),
-              backgroundColor: Coolors.orangish,
+              backgroundColor: Coolors.secondaryBtn,
               primary: Colors.white,
             ),
             icon: Icon(Icons.date_range))

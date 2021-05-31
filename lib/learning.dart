@@ -234,3 +234,8 @@ class MessageFromBottom extends StatelessWidget {
 
 // ! u can use in icon button or floating button .badge() provided by vx so that use too give that message count effect that we have in WA
 // ! like in whatsapp if we get messagae little red dot appearse in WA icon
+// TODO ? we can use sliver that take chilfren and many many more things
+// TODO ShaderMask() widget look into it - make something shaded or gradianrt by wrapping this widget
+// TODO ClipRRect() widget add border radius and all to any widget which is rectangle
+// TODO - we also have ClipOval() , ClipPath() and more
+// TODO TabBar() one side widget many many widget in it r & d

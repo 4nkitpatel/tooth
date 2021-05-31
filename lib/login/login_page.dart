@@ -11,7 +11,7 @@ class LoginPage extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              color: Coolors.purplish,
+              color: Coolors.bgColorP,
             ),
             Container(
               width: context.screenWidth,
@@ -29,7 +29,7 @@ class LoginPage extends StatelessWidget {
                             text: "Already Registered ?",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: Coolors.purplish,
+                                color: Coolors.bgColorP,
                                 fontSize: 25)))
                     .centered(),
                 Wgt.getTF("Registration No"),
@@ -49,8 +49,8 @@ class LoginPage extends StatelessWidget {
                   style: ButtonStyle(
                       foregroundColor:
                           MaterialStateProperty.all<Color>(Colors.white),
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Coolors.orangish)),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Coolors.secondaryBtn)),
                   icon: Icon(Icons.create),
                 ).centered(),
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tooth/signup/last_page.dart';
+import 'package:tooth/colors.dart';
+import 'package:tooth/screens/signup/last_page.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -8,6 +9,13 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: "New User".text.size(15).color(Colors.white).center.make(),
+          backgroundColor: Coolors.appBar,
+          centerTitle: true,
+          foregroundColor: Colors.white,
+        ),
         backgroundColor: Color(0xff2A2E43),
         body: SafeArea(
           child: Container(
@@ -21,6 +29,7 @@ class SignUpPage extends StatelessWidget {
                     "You Are \n1/2 Away"
                         .text
                         .xl5
+                        .center
                         .color(Colors.white)
                         .make()
                         .centered(),
