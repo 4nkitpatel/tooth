@@ -5,7 +5,11 @@ import 'package:tooth/pages/expenditure.dart';
 import 'package:tooth/pages/first_visit.dart';
 import 'package:tooth/screens/Welcome/welcome.dart';
 import 'package:tooth/screens/dashboard/dashboard.dart';
+import 'package:tooth/screens/dashboard/expenditure_details.dart';
 import 'package:tooth/screens/dashboard/patient_details.dart';
+import 'package:tooth/screens/dashboard/patients.dart';
+import 'package:tooth/screens/dashboard/schedule.dart';
+import 'package:tooth/screens/dashboard/symptoms.dart';
 import 'package:tooth/screens/signup/signup_page.dart';
 
 void main() {
@@ -29,6 +33,10 @@ class MyApp extends StatelessWidget {
         '/expenditure': (context) => ExpenditurePage(),
         '/dashboard': (context) => DashboardPage(),
         '/patientDetails': (context) => PatientDetailsPage(),
+        '/symptoms': (context) => SymptomsPage(),
+        '/expenditureDetails': (context) => ExpenditureDetailsPage(),
+        '/patients': (context) => PatientsPage(),
+        '/schedule': (context) => SchedulePage(),
       },
     );
   }

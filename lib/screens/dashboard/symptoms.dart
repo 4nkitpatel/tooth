@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-//TODO may be for check box we need statefulll widget
-class AdvicePage extends StatelessWidget {
+class SymptomsPage extends StatefulWidget {
+  @override
+  _SymptomsPageState createState() => _SymptomsPageState();
+}
+
+class _SymptomsPageState extends State<SymptomsPage> {
+  double sliderValue = 0;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -19,7 +24,7 @@ class AdvicePage extends StatelessWidget {
               ),
               children: <InlineSpan>[
                 TextSpan(
-                  text: 'Advice',
+                  text: 'Complaints',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 10,
@@ -76,6 +81,8 @@ class AdvicePage extends StatelessWidget {
                   ),
                 ),
                 20.heightBox,
+                "Upper Left Maxila".text.headline6(context).white.make(),
+                10.heightBox,
                 "Advice List".text.color(Color(0xffCECECE)).make(),
                 10.heightBox,
                 Container(
@@ -93,17 +100,19 @@ class AdvicePage extends StatelessWidget {
                           height: 100,
                           child: Row(
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  "Root Canal".text.white.make(),
-                                  "Price".text.size(10).white.make(),
-                                  "30000"
-                                      .text
-                                      .size(10)
-                                      .color(Color(0xffEBEBF599))
-                                      .make(),
-                                ],
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    "Cavity".text.white.make(),
+                                    "Cavities are permanently damaged areas in the hard surface of your teeth that develop into tiny openings or holes"
+                                        .text
+                                        .size(10)
+                                        .color(Color(0xffEBEBF599))
+                                        .make(),
+                                  ],
+                                ),
                               ),
                               Spacer(),
                               Radio(
@@ -123,11 +132,55 @@ class AdvicePage extends StatelessWidget {
                     },
                   ),
                 ),
+                "Teeth Number".text.color(Color(0xffCECECE)).make(),
+                5.heightBox,
+                Container(
+                  // color: Colors.white,
+                  width: MediaQuery.of(context).size.width,
+                  height: 35,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (context, index) => 10.widthBox,
+                    itemCount: 8,
+                    itemBuilder: (context, index) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15)),
+                        child: Container(
+                          color: index == 2 ? Color(0xff0A84FF) : Colors.white,
+                          width: 33,
+                          child: (index + 1).text.make().centered(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                10.heightBox,
+                "Severity".text.color(Color(0xffCECECE)).make(),
+                10.heightBox,
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 40,
+                  color: Colors.white,
+                  child: Slider(
+                    activeColor: Color(0xff007AFF),
+                    value: sliderValue,
+                    onChanged: (newValue) {
+                      setState(() {
+                        sliderValue = newValue;
+                      });
+                    },
+                    min: 0,
+                    max: 100,
+                  ),
+                ),
+                20.heightBox,
                 Wgt.getPrimaryBtn(
-                  text: 'Add Custom Advice',
+                  text: 'Add More O/E',
                   context: context,
                   cb: () {
-                    Navigator.pushNamed(context, "/symptoms");
+                    Navigator.pushNamed(context, "/expenditureDetails");
                   },
                 )
               ],
