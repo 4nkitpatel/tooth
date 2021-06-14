@@ -12,18 +12,18 @@ class SignUpPage extends StatelessWidget {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: "New User".text.size(15).color(Colors.white).center.make(),
-          backgroundColor: Coolors.appBar,
+          backgroundColor: Color(0xff1F1F1F),
           centerTitle: true,
           foregroundColor: Colors.white,
         ),
-        backgroundColor: Color(0xff2A2E43),
+        backgroundColor: Color(0xff222831),
         body: SafeArea(
           child: Container(
             padding: EdgeInsets.all(14),
             child: SingleChildScrollView(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height),
+                    maxHeight: MediaQuery.of(context).size.height * 0.7),
                 child: Column(
                   children: [
                     "You Are \n1/2 Away"
@@ -39,8 +39,9 @@ class SignUpPage extends StatelessWidget {
                     Wgt.getTFF(text: "WhatsApp"),
                     17.heightBox,
                     Wgt.getTFF(text: "DR"),
-                    // 10.heightBox,
-                    Spacer(),
+                    17.heightBox,
+                    Wgt.getTFF(text: "Qualification"),
+                    17.heightBox,
                     Padding(
                       padding: EdgeInsets.all(16),
                       child: Wgt.getSecondaryBtn(

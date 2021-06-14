@@ -40,8 +40,8 @@ class AddClinicPage extends StatelessWidget {
                   Wgt.getTFF(text: "State"),
                   17.heightBox,
                   Wgt.getTFF(text: "Address"),
-                  // 10.heightBox,
-                  Spacer(),
+                  17.heightBox,
+                  // Spacer(),
                   Padding(
                     padding: EdgeInsets.all(16),
                     child: Wgt.getSecondaryBtn(

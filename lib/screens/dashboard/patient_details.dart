@@ -85,21 +85,41 @@ class PatientDetailsPage extends StatelessWidget {
                   30.heightBox,
                   Row(
                     children: [
-                      buildCard(),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/symptoms");
+                        },
+                        child: buildCard(),
+                      ),
                       SizedBox(
                         width: 10,
                       ),
-                      buildCard(),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/symptoms");
+                        },
+                        child: buildCardWithText(text: "Upper Right"),
+                      ),
                     ],
                   ),
                   10.heightBox,
                   Row(
                     children: [
-                      buildCard(),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/symptoms");
+                        },
+                        child: buildCardWithText(text: "Lower Left"),
+                      ),
                       SizedBox(
                         width: 10,
                       ),
-                      buildCard(),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/symptoms");
+                        },
+                        child: buildCardWithText(text: "Lower Right"),
+                      ),
                     ],
                   ),
                   20.heightBox,
@@ -230,6 +250,19 @@ class PatientDetailsPage extends StatelessWidget {
           )),
     );
   }
+}
+
+ClipRRect buildCardWithText({String text}) {
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(5),
+    child: Container(
+      padding: EdgeInsets.all(10),
+      child: text.text.size(20).color(Color(0xff646262)).make().centered(),
+      color: Color(0xff1F2125),
+      height: 150,
+      width: 160,
+    ),
+  );
 }
 
 ClipRRect buildCard() {

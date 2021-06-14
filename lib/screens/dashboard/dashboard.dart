@@ -1,5 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tooth/colors.dart';
+import 'package:tooth/screens/dashboard/add_clinic.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -11,7 +13,7 @@ class DashboardPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: "Dashboard".text.size(17).make(),
-        backgroundColor: Coolors.appBar,
+        backgroundColor: Color(0xff1F2125),
         leading: Builder(
           builder: (context) => IconButton(
             icon: Icon(Icons.menu_rounded),
@@ -49,7 +51,7 @@ class DashboardPage extends StatelessWidget {
           ),
         ]),
       ),
-      backgroundColor: Color(0xff2A2E43),
+      backgroundColor: Color(0xff161819),
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.all(14),
@@ -58,20 +60,19 @@ class DashboardPage extends StatelessWidget {
             children: [
               Row(
                 children: [
+                  "Wed, May 31".text.color(Color(0xff0A84FF)).make(),
+                  Spacer(),
+                  "All Clinics".text.color(Color(0xff0A84FF)).make(),
+                ],
+              ),
+              10.heightBox,
+              Row(
+                children: [
                   "Welcome Dr. Bens"
                       .text
                       .size(20)
                       .color(Color(0xff00BCD4))
                       .make(),
-                  Spacer(),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: "Filter".text.make(),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Coolors.secondaryBtn),
-                    ),
-                  ).w32(context)
                 ],
               ),
               10.heightBox,
@@ -85,10 +86,15 @@ class DashboardPage extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  buildCard(
-                    header: "Appointment",
-                    price: "234",
-                    icon: Icons.accessible_sharp,
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, "/schedule");
+                    },
+                    child: buildCard(
+                      header: "Appointment",
+                      price: "234",
+                      icon: Icons.accessible_sharp,
+                    ),
                   ),
                 ],
               ),
@@ -102,22 +108,52 @@ class DashboardPage extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  buildCard(
-                    header: "Total Expense",
-                    price: "2.34K",
-                  ),
+                  InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/expenditureDetails");
+                      },
+                      child: buildCard(
+                        header: "Total Expense",
+                        price: "2.34K",
+                      )),
                 ],
               ),
               20.heightBox,
               "Today's Appointment"
                   .text
-                  .size(25)
+                  .size(18)
                   .color(Color(0xffCECECE))
                   .make(),
               10.heightBox,
               buildFullWidthBox(context),
               10.heightBox,
               buildFullWidthBox(context),
+              10.heightBox,
+              Container(
+                color: Colors.white,
+                height: 100,
+                width: 100,
+              ).centered(),
+              10.heightBox,
+              AutoSizeText(
+                "OOPS!!! no clinic Address has been added. Please add to sync your dashboard....",
+                style: TextStyle(color: Color(0xff989696)),
+                maxLines: 1,
+                minFontSize: 5,
+                textAlign: TextAlign.center,
+              ).centered(),
+              10.heightBox,
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AddClinicPage()));
+                },
+                child: "Add Clinic Address".text.size(7).make(),
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Coolors.secondaryBtn),
+                ),
+              ).wh(180, 30).centered(),
             ],
           ),
         ),
@@ -175,7 +211,15 @@ class DashboardPage extends StatelessWidget {
               ),
               Row(
                 children: [
-                  "Root Canal".text.size(10).color(Color(0xffFFFFFF)).make(),
+                  Icon(
+                    Icons.accessibility_outlined,
+                    color: Color(0xffCECECE),
+                  ),
+                  Icon(
+                    Icons.accessibility_rounded,
+                    color: Colors.white,
+                    size: 35,
+                  ),
                   Spacer(),
                   "7:30 PM".text.size(10).color(Color(0xffFFFFFF)).make(),
                 ],

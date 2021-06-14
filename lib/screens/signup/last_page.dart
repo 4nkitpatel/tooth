@@ -11,11 +11,11 @@ class LastPage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: "New User".text.size(17).color(Colors.white).center.make(),
-        backgroundColor: Coolors.appBar,
+        backgroundColor: Color(0xff1F1F1F),
         centerTitle: true,
         foregroundColor: Colors.white,
       ),
-      backgroundColor: Color(0xff2A2E43),
+      backgroundColor: Color(0xff222831),
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.all(14),
@@ -28,7 +28,9 @@ class LastPage extends StatelessWidget {
                 Wgt.getTFF(text: "Mob"),
                 17.heightBox,
                 Wgt.getTFF(text: "Dob"),
-                50.heightBox,
+                17.heightBox,
+                Wgt.getTFF(text: "Registration"),
+                17.heightBox,
                 // Spacer(),
                 Padding(
                   padding: EdgeInsets.all(16),
