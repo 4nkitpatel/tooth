@@ -9,6 +9,9 @@ class SymptomsPage extends StatefulWidget {
 
 class _SymptomsPageState extends State<SymptomsPage> {
   double sliderValue = 0;
+  List<bool> isTeethSelected = List.generate(8, (i) => false).toList();
+  List<bool> _value = List<bool>.filled(3, false).toList();
+  // int _value = 0;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -109,20 +112,21 @@ class _SymptomsPageState extends State<SymptomsPage> {
                                     "Cavities are permanently damaged areas in the hard surface of your teeth that develop into tiny openings or holes"
                                         .text
                                         .size(10)
-                                        .color(Color(0xffEBEBF599))
+                                        .color(Color(0xff616165))
                                         .make(),
                                   ],
                                 ),
                               ),
                               Spacer(),
-                              Radio(
-                                activeColor: Colors.red,
-                                fillColor:
-                                    MaterialStateProperty.all(Colors.white),
-                                value: index,
-                                groupValue: -1,
+                              Checkbox(
+                                shape: CircleBorder(),
+                                fillColor: MaterialStateProperty.all(
+                                    Color(0xff0A84FF)),
+                                value: _value[index],
                                 onChanged: (value) {
-                                  print(value);
+                                  setState(() {
+                                    _value[index] = value;
+                                  });
                                 },
                               ),
                             ],
@@ -135,7 +139,7 @@ class _SymptomsPageState extends State<SymptomsPage> {
                 "Teeth Number".text.color(Color(0xffCECECE)).make(),
                 5.heightBox,
                 Container(
-                  // color: Colors.white,
+                  // color: Colors.red,
                   width: MediaQuery.of(context).size.width,
                   height: 35,
                   child: ListView.separated(
@@ -143,14 +147,44 @@ class _SymptomsPageState extends State<SymptomsPage> {
                     separatorBuilder: (context, index) => 10.widthBox,
                     itemCount: 8,
                     itemBuilder: (context, index) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15)),
+                      return Align(
+                        alignment: Alignment.topLeft,
                         child: Container(
-                          color: index == 2 ? Color(0xff0A84FF) : Colors.white,
+                          decoration: BoxDecoration(
+                            color: isTeethSelected[index]
+                                ? Color(0xff0A84FF)
+                                : Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
+                            ),
+                          ),
+                          // alignment: Alignment.center,
+                          // color: Colors.green,
                           width: 33,
-                          child: (index + 1).text.make().centered(),
+                          height: 35,
+                          // color: Colors.white,
+                          child: ListTile(
+                            contentPadding: EdgeInsets.all(0),
+                            selected: isTeethSelected[index],
+                            // selectedTileColor: Color(0xff0A84FF),
+                            title: Align(
+                              alignment: Alignment.topCenter,
+                              child: Text(
+                                (index + 1).toString(),
+                                style: TextStyle(
+                                    color: isTeethSelected[index]
+                                        ? Colors.white
+                                        : Colors.black),
+                              ),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                isTeethSelected[index] =
+                                    !isTeethSelected[index];
+                              });
+                            },
+                          ).centered(),
                         ),
                       );
                     },
@@ -159,12 +193,13 @@ class _SymptomsPageState extends State<SymptomsPage> {
                 10.heightBox,
                 "Severity".text.color(Color(0xffCECECE)).make(),
                 10.heightBox,
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 40,
-                  color: Colors.white,
+                SliderTheme(
+                  data: SliderThemeData(
+                    thumbColor: Colors.white,
+                    activeTrackColor: Color(0xff007AFF),
+                  ),
                   child: Slider(
-                    activeColor: Color(0xff007AFF),
+                    // activeColor: Color(0xff007AFF),
                     value: sliderValue,
                     onChanged: (newValue) {
                       setState(() {
@@ -175,7 +210,7 @@ class _SymptomsPageState extends State<SymptomsPage> {
                     max: 100,
                   ),
                 ),
-                20.heightBox,
+                10.heightBox,
                 Wgt.getPrimaryBtn(
                   text: 'Add More O/E',
                   context: context,

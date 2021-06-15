@@ -158,6 +158,7 @@ class _PatientsPageState extends State<PatientsPage> {
               Container(
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: DragSelectGridView(
+                  triggerSelectionOnTap: true,
                   gridController: controller,
                   padding: EdgeInsets.all(8),
                   itemCount: urlImages.length,
