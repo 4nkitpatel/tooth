@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-//TODO may be for check box we need statefulll widget
-class AdvicePage extends StatelessWidget {
+class AdvicePage extends StatefulWidget {
+  @override
+  _AdvicePageState createState() => _AdvicePageState();
+}
+
+class _AdvicePageState extends State<AdvicePage> {
+  List<bool> _value = List<bool>.filled(3, false).toList();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -106,16 +112,27 @@ class AdvicePage extends StatelessWidget {
                                 ],
                               ),
                               Spacer(),
-                              Radio(
-                                activeColor: Colors.red,
-                                fillColor:
-                                    MaterialStateProperty.all(Colors.white),
-                                value: index,
-                                groupValue: -1,
+                              Checkbox(
+                                shape: CircleBorder(),
+                                fillColor: MaterialStateProperty.all(
+                                    Color(0xff0A84FF)),
+                                value: _value[index],
                                 onChanged: (value) {
-                                  print(value);
+                                  setState(() {
+                                    _value[index] = value;
+                                  });
                                 },
                               ),
+                              // Radio(
+                              //   activeColor: Colors.red,
+                              //   fillColor:
+                              //       MaterialStateProperty.all(Colors.white),
+                              //   value: index,
+                              //   groupValue: -1,
+                              //   onChanged: (value) {
+                              //     print(value);
+                              //   },
+                              // ),
                             ],
                           ).p8(),
                         ),
@@ -127,7 +144,8 @@ class AdvicePage extends StatelessWidget {
                   text: 'Add Custom Advice',
                   context: context,
                   cb: () {
-                    Navigator.pushNamed(context, "/symptoms");
+                    // Navigator.pushNamed(context, "/symptoms");
+                    Get.toNamed("/symptoms");
                   },
                 )
               ],

@@ -1,5 +1,6 @@
 import 'package:drag_select_grid_view/drag_select_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:tooth/widgets/selectable_item_widget.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -179,7 +180,8 @@ class _PatientsPageState extends State<PatientsPage> {
                 text: 'Send Greetings',
                 context: context,
                 cb: () {
-                  Navigator.pushNamed(context, '/schedule');
+                  // Navigator.pushNamed(context, '/schedule');
+                  Get.toNamed("/schedule");
                 },
               ),
             ],

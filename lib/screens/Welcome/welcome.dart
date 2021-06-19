@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:tooth/colors.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -45,7 +46,8 @@ class WelcomePage extends StatelessWidget {
                     text: "SIGN UP",
                     context: context,
                     cb: () {
-                      Navigator.pushNamed(context, "/signup");
+                      // Navigator.pushNamed(context, "/signup");
+                      Get.toNamed('/signup');
                     })
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/route_manager.dart';
 import 'package:tooth/colors.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -38,7 +39,8 @@ class LastPage extends StatelessWidget {
                     text: "Done",
                     context: context,
                     cb: () {
-                      Navigator.pushNamed(context, '/dashboard');
+                      // Navigator.pushNamed(context, '/dashboard');
+                      Get.toNamed("/dashboard");
                     },
                   ),
                 ),

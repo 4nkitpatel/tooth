@@ -1,6 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/route_manager.dart';
+import 'package:tooth/controllers/Symptoms.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:get/instance_manager.dart';
 
 class SymptomsPage extends StatefulWidget {
   @override
@@ -8,9 +13,12 @@ class SymptomsPage extends StatefulWidget {
 }
 
 class _SymptomsPageState extends State<SymptomsPage> {
+  final SymptomsController symptomsController = Get.put(SymptomsController());
+
+  // ? may be this both will go to contoller
   double sliderValue = 0;
   List<bool> isTeethSelected = List.generate(8, (i) => false).toList();
-  List<bool> _value = List<bool>.filled(3, false).toList();
+
   // int _value = 0;
   @override
   Widget build(BuildContext context) {
@@ -91,51 +99,71 @@ class _SymptomsPageState extends State<SymptomsPage> {
                 Container(
                   height: 350,
                   // color: Colors.red,
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => 10.heightBox,
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Container(
-                          color: Color(0xff2C2C2E),
-                          width: MediaQuery.of(context).size.width,
-                          height: 100,
-                          child: Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.7,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Obx(
+                    () {
+                      if (symptomsController.isLoading.value)
+                        return Center(child: CircularProgressIndicator());
+                      else
+                        return ListView.separated(
+                          separatorBuilder: (context, index) => 10.heightBox,
+                          itemCount: symptomsController.symptomsList.length,
+                          itemBuilder: (context, index) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Container(
+                                color: Color(0xff2C2C2E),
+                                width: MediaQuery.of(context).size.width,
+                                height: 100,
+                                child: Row(
                                   children: [
-                                    "Cavity".text.white.make(),
-                                    "Cavities are permanently damaged areas in the hard surface of your teeth that develop into tiny openings or holes"
-                                        .text
-                                        .size(10)
-                                        .color(Color(0xff616165))
-                                        .make(),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.7,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          symptomsController.symptomsList[index]
+                                              .name.text.white
+                                              .make(),
+                                          AutoSizeText(
+                                            symptomsController
+                                                .symptomsList[index].desc,
+                                            style: TextStyle(
+                                              fontSize: 10.0,
+                                              color: Color(0xff616165),
+                                            ),
+                                            maxLines: 4,
+                                            minFontSize: 8,
+                                            // maxFontSize: 10,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Checkbox(
+                                      shape: CircleBorder(),
+                                      fillColor: MaterialStateProperty.all(
+                                          Color(0xff0A84FF)),
+                                      value:
+                                          symptomsController.isSelected[index],
+                                      onChanged: (value) {
+                                        setState(() {
+                                          symptomsController.isSelected[index] =
+                                              value;
+                                        });
+                                      },
+                                    ),
                                   ],
-                                ),
+                                ).p8(),
                               ),
-                              Spacer(),
-                              Checkbox(
-                                shape: CircleBorder(),
-                                fillColor: MaterialStateProperty.all(
-                                    Color(0xff0A84FF)),
-                                value: _value[index],
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value[index] = value;
-                                  });
-                                },
-                              ),
-                            ],
-                          ).p8(),
-                        ),
-                      );
+                            );
+                          },
+                        );
                     },
                   ),
                 ),
+                10.heightBox,
                 "Teeth Number".text.color(Color(0xffCECECE)).make(),
                 5.heightBox,
                 Container(
@@ -215,7 +243,8 @@ class _SymptomsPageState extends State<SymptomsPage> {
                   text: 'Add More O/E',
                   context: context,
                   cb: () {
-                    Navigator.pushNamed(context, "/expenditureDetails");
+                    // Navigator.pushNamed(context, "/expenditureDetails");
+                    Get.toNamed("/expenditureDetails");
                   },
                 )
               ],

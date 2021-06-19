@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:tooth/screens/dashboard/advice.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -87,7 +88,8 @@ class PatientDetailsPage extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, "/symptoms");
+                          // Navigator.pushNamed(context, "/symptoms");
+                          Get.toNamed("/symptoms");
                         },
                         child: buildCard(),
                       ),
@@ -96,7 +98,8 @@ class PatientDetailsPage extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, "/symptoms");
+                          // Navigator.pushNamed(context, "/symptoms");
+                          Get.toNamed("/symptoms");
                         },
                         child: buildCardWithText(text: "Upper Right"),
                       ),
@@ -107,7 +110,8 @@ class PatientDetailsPage extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, "/symptoms");
+                          Get.toNamed("/symptoms");
+                          // Navigator.pushNamed(context, "/symptoms");
                         },
                         child: buildCardWithText(text: "Lower Left"),
                       ),
@@ -116,7 +120,8 @@ class PatientDetailsPage extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, "/symptoms");
+                          Get.toNamed("/symptoms");
+                          // Navigator.pushNamed(context, "/symptoms");
                         },
                         child: buildCardWithText(text: "Lower Right"),
                       ),
@@ -138,11 +143,12 @@ class PatientDetailsPage extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AdvicePage()),
-                                );
+                                Get.to(() => AdvicePage());
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) => AdvicePage()),
+                                // );
                               },
                             ),
                           ),

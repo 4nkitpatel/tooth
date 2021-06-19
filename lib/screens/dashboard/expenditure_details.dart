@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:tooth/widgets/pichart.dart';
 import 'package:tooth/widgets/widgets.dart';
@@ -157,7 +158,8 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                   text: 'Add Expense',
                   context: context,
                   cb: () {
-                    Navigator.pushNamed(context, "/patients");
+                    // Navigator.pushNamed(context, "/patients");
+                    Get.toNamed("/patients");
                   },
                 )
               ],

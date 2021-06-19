@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:tooth/colors.dart';
 import 'package:tooth/screens/dashboard/add_clinic.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -88,7 +89,8 @@ class DashboardPage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, "/schedule");
+                      // Navigator.pushNamed(context, "/schedule");
+                      Get.toNamed("/schedule");
                     },
                     child: buildCard(
                       header: "Appointment",
@@ -110,7 +112,8 @@ class DashboardPage extends StatelessWidget {
                   ),
                   InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, "/expenditureDetails");
+                        // Navigator.pushNamed(context, "/expenditureDetails");
+                        Get.toNamed("/expenditureDetails");
                       },
                       child: buildCard(
                         header: "Total Expense",
@@ -195,7 +198,8 @@ class DashboardPage extends StatelessWidget {
       borderRadius: BorderRadius.circular(5),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, "/patientDetails");
+          // Navigator.pushNamed(context, "/patientDetails");
+          Get.toNamed("/patientDetails");
         },
         child: Container(
           padding: EdgeInsets.all(10),

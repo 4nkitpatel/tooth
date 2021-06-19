@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -68,7 +69,8 @@ class AddExpenditure extends StatelessWidget {
                   text: 'Add Expense',
                   context: context,
                   cb: () {
-                    Navigator.pushNamed(context, "/patients");
+                    // Navigator.pushNamed(context, "/patients");
+                    Get.toNamed("/patients");
                   },
                 )
               ],
