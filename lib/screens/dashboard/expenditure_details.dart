@@ -1,10 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:tooth/controllers/Expenditures.dart';
 import 'package:tooth/widgets/pichart.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:get/instance_manager.dart';
 
 class ExpenditureDetailsPage extends StatefulWidget {
   @override
@@ -12,6 +15,8 @@ class ExpenditureDetailsPage extends StatefulWidget {
 }
 
 class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
+  final ExpendituresController expendituresC =
+      Get.put(ExpendituresController());
   int touchedIndex = -1;
   @override
   Widget build(BuildContext context) {
@@ -107,52 +112,71 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                 Container(
                   height: 280,
                   // color: Colors.red,
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => 10.heightBox,
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Container(
-                          color: Color(0xff1F2125),
-                          width: MediaQuery.of(context).size.width,
-                          height: 80,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Obx(() {
+                    if (expendituresC.isLoading.value)
+                      return Center(child: CircularProgressIndicator());
+                    else
+                      return ListView.separated(
+                        separatorBuilder: (context, index) => 10.heightBox,
+                        itemCount: expendituresC.expendituresList.length,
+                        itemBuilder: (context, index) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Container(
+                              color: Color(0xff1F2125),
+                              width: MediaQuery.of(context).size.width,
+                              height: 80,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  "Technolabs"
-                                      .text
-                                      .color(Color(0xff00ADB5))
-                                      .make(),
-                                  "Rs 12,500".text.size(10).white.make(),
-                                  "Cash"
-                                      .text
-                                      .size(10)
-                                      .color(Color(0xffBBBBBB))
-                                      .make(),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      expendituresC
+                                          .expendituresList[index].labName.text
+                                          .color(Color(0xff00ADB5))
+                                          .make(),
+                                      expendituresC
+                                          .expendituresList[index].price.text
+                                          .size(10)
+                                          .white
+                                          .make(),
+                                      expendituresC.expendituresList[index]
+                                          .paymentMode.text
+                                          .size(10)
+                                          .color(Color(0xffBBBBBB))
+                                          .make(),
+                                    ],
+                                  ),
+                                  Spacer(),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      expendituresC
+                                          .expendituresList[index].state.text
+                                          .color(Color(0xff00ADB5))
+                                          .make(),
+                                      expendituresC
+                                          .expendituresList[index].time.text
+                                          .size(10)
+                                          .white
+                                          .make(),
+                                      expendituresC
+                                          .expendituresList[index].date.text
+                                          .size(10)
+                                          .white
+                                          .make(),
+                                    ],
+                                  ),
                                 ],
-                              ),
-                              Spacer(),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  "Arizona"
-                                      .text
-                                      .color(Color(0xff00ADB5))
-                                      .make(),
-                                  "7:30 PM".text.size(10).white.make(),
-                                  "Jun 4".text.size(10).white.make(),
-                                ],
-                              ),
-                            ],
-                          ).p8(),
-                        ),
+                              ).p8(),
+                            ),
+                          );
+                        },
                       );
-                    },
-                  ),
+                  }),
                 ),
                 Wgt.getSecondaryBtn(
                   text: 'Add Expense',

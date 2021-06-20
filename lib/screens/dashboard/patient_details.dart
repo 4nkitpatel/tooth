@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:tooth/screens/dashboard/advice.dart';
+import 'package:tooth/screens/dashboard/medication.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class PatientDetailsPage extends StatelessWidget {
@@ -202,7 +203,9 @@ class PatientDetailsPage extends StatelessWidget {
                                 Icons.add,
                                 color: Colors.white,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.to(() => MedicationPage());
+                              },
                             ),
                           ),
                         ],

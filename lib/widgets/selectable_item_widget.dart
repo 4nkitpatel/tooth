@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:tooth/models/Patients.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class SelectableItemWidget extends StatefulWidget {
-  final String url;
+  final Patients patient;
   final bool isSelected;
 
   const SelectableItemWidget({
     Key key,
-    this.url,
+    this.patient,
     this.isSelected,
   }) : super(key: key);
 
@@ -26,10 +27,10 @@ class _SelectableItemWidgetState extends State<SelectableItemWidget>
         child: Column(
           children: <Widget>[
             Expanded(
-              child: Image.network(widget.url, fit: BoxFit.cover),
+              child: Image.network(widget.patient.imageUrl, fit: BoxFit.cover),
             ),
-            'Andreson'.text.color(Color(0xff00ADB5)).size(6).make(),
-            '12-May-21'.text.color(Color(0xff00ADB5)).size(4).make(),
+            widget.patient.name.text.color(Color(0xff00ADB5)).size(6).make(),
+            widget.patient.date.text.color(Color(0xff00ADB5)).size(4).make(),
           ],
         ),
       ),

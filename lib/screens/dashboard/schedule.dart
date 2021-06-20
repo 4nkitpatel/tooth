@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/instance_manager.dart';
+import 'package:tooth/controllers/Schedule.dart';
 import 'package:tooth/widgets/custome_date_picker.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -8,6 +11,7 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
+  final ScheduleController scheduleC = Get.put(ScheduleController());
   String selectedDate = '';
   @override
   Widget build(BuildContext context) {
@@ -104,102 +108,128 @@ class _SchedulePageState extends State<SchedulePage> {
               ),
               10.heightBox,
               Container(
-                height: MediaQuery.of(context).size.height * 0.65,
-                // color: Colors.red,
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => 10.heightBox,
-                  itemCount: 7,
-                  itemBuilder: (context, index) {
-                    return Dismissible(
-                      background: slideRightBackground(context),
-                      secondaryBackground: slideLeftBackground(),
-                      confirmDismiss: (direction) async {
-                        if (direction == DismissDirection.endToStart) {
-                          final bool res = await showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  content: Text(
-                                      "Are you sure you want to Approve item at ${index}?"),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      child: Text(
-                                        "Cancel",
-                                        style: TextStyle(color: Colors.black),
+                  height: MediaQuery.of(context).size.height * 0.65,
+                  // color: Colors.red,
+                  child: Obx(() {
+                    if (scheduleC.isLoading.value)
+                      return Center(child: CircularProgressIndicator());
+                    else
+                      return ListView.separated(
+                        separatorBuilder: (context, index) => 10.heightBox,
+                        itemCount: scheduleC.schedulesList.length,
+                        itemBuilder: (context, index) {
+                          return Dismissible(
+                            background: slideRightBackground(context),
+                            secondaryBackground: slideLeftBackground(),
+                            confirmDismiss: (direction) async {
+                              if (direction == DismissDirection.endToStart) {
+                                final bool res = await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        content: Text(
+                                            "Are you sure you want to Approve item at ${index}?"),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            child: Text(
+                                              "Cancel",
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          FlatButton(
+                                            child: Text(
+                                              "Delete",
+                                              style:
+                                                  TextStyle(color: Colors.red),
+                                            ),
+                                            onPressed: () {
+                                              // TODO: Delete the item from DB etc..
+                                              // setState(() {
+                                              //   itemsList.removeAt(index);
+                                              // });
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    });
+                                return res;
+                              } else {
+                                // TODO: Navigate to edit page;
+                              }
+                            },
+                            key: Key(index.toString()),
+                            child: InkWell(
+                              onTap: () {},
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Container(
+                                  color: Color(0xff1F2125),
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 80,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          scheduleC
+                                              .schedulesList[index].name.text
+                                              .color(Color(0xff00ADB5))
+                                              .make(),
+                                          scheduleC.schedulesList[index]
+                                              .treatment.text
+                                              .size(10)
+                                              .white
+                                              .make(),
+                                          scheduleC
+                                              .schedulesList[index].visit.text
+                                              .size(10)
+                                              .color(Color(0xffA8A3A3))
+                                              .make(),
+                                        ],
                                       ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    FlatButton(
-                                      child: Text(
-                                        "Delete",
-                                        style: TextStyle(color: Colors.red),
+                                      Spacer(),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.22,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            scheduleC
+                                                .schedulesList[index].state.text
+                                                .color(Color(0xff00ADB5))
+                                                .make(),
+                                            scheduleC
+                                                .schedulesList[index].time.text
+                                                .size(10)
+                                                .white
+                                                .make(),
+                                            scheduleC.schedulesList[index]
+                                                .insuredStatus.text
+                                                .size(10)
+                                                .white
+                                                .make(),
+                                          ],
+                                        ),
                                       ),
-                                      onPressed: () {
-                                        // TODO: Delete the item from DB etc..
-                                        // setState(() {
-                                        //   itemsList.removeAt(index);
-                                        // });
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              });
-                          return res;
-                        } else {
-                          // TODO: Navigate to edit page;
-                        }
-                      },
-                      key: Key(index.toString()),
-                      child: InkWell(
-                        onTap: () {},
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: Container(
-                            color: Color(0xff1F2125),
-                            width: MediaQuery.of(context).size.width,
-                            height: 80,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    "Andy Murray"
-                                        .text
-                                        .color(Color(0xff00ADB5))
-                                        .make(),
-                                    "Root Canal".text.size(10).white.make(),
-                                    "1st Visit"
-                                        .text
-                                        .size(10)
-                                        .color(Color(0xffA8A3A3))
-                                        .make(),
-                                  ],
+                                    ],
+                                  ).p8(),
                                 ),
-                                Spacer(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    "Arizona"
-                                        .text
-                                        .color(Color(0xff00ADB5))
-                                        .make(),
-                                    "7:30 PM".text.size(10).white.make(),
-                                    "Not Insured".text.size(10).white.make(),
-                                  ],
-                                ),
-                              ],
-                            ).p8(),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                  })),
             ],
           ),
         ),

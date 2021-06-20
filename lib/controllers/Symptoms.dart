@@ -3,8 +3,8 @@ import 'package:tooth/models/symptoms.dart';
 import 'package:tooth/services/api.service.dart';
 
 class SymptomsController extends GetxController {
-  var symptomsList = List<Symptoms>().obs;
-  var isSelected = List<bool>().obs;
+  var symptomsList = List<Symptoms>.empty().obs;
+  var isSelected = List<bool>.empty().obs;
   var isLoading = true.obs;
 
   @override

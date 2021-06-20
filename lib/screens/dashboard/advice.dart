@@ -107,7 +107,7 @@ class _AdvicePageState extends State<AdvicePage> {
                                   "30000"
                                       .text
                                       .size(10)
-                                      .color(Color(0xffEBEBF599))
+                                      .color(Color(0xff9F9FA5))
                                       .make(),
                                 ],
                               ),
