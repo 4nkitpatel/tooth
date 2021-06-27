@@ -13,7 +13,7 @@ class PieChart2State extends State {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.5,
+      aspectRatio: 2,
       child: Card(
         color: Color(0xff161819),
         child: Row(
@@ -23,7 +23,7 @@ class PieChart2State extends State {
             ),
             Expanded(
               child: AspectRatio(
-                aspectRatio: 1,
+                aspectRatio: 2,
                 child: PieChart(
                   PieChartData(
                     pieTouchData:
@@ -45,7 +45,7 @@ class PieChart2State extends State {
                       show: false,
                     ),
                     sectionsSpace: 0,
-                    centerSpaceRadius: 50,
+                    centerSpaceRadius: double.infinity,
                     sections: showingSections(),
                   ),
                 ),

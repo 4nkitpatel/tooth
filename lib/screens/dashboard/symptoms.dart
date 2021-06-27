@@ -244,7 +244,8 @@ class _SymptomsPageState extends State<SymptomsPage> {
                   context: context,
                   cb: () {
                     // Navigator.pushNamed(context, "/expenditureDetails");
-                    Get.toNamed("/expenditureDetails");
+                    // Get.toNamed("/expenditureDetails");
+                    Wgt.showDialogWithSingleInput();
                   },
                 )
               ],

@@ -38,6 +38,49 @@ class AddExpenditure extends StatelessWidget {
             ),
           ],
         ),
+        bottomNavigationBar: BottomAppBar(
+          color: Color(0xff1F2125),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () {},
+                child: ImageIcon(
+                  AssetImage('assets/nav-boy.png'),
+                  size: 40,
+                  color: Color(0xffA6A6A6),
+                ),
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () {},
+                child: ImageIcon(
+                  AssetImage('assets/nav-calendar.png'),
+                  size: 40,
+                  color: Color(0xffA6A6A6),
+                ),
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () {},
+                child: ImageIcon(
+                  AssetImage('assets/nav-laddy.png'),
+                  size: 40,
+                  color: Color(0xffA6A6A6),
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.more_horiz,
+                  size: 35,
+                  color: Color(0xffA6A6A6),
+                ),
+              )
+            ],
+          ),
+        ),
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(10),

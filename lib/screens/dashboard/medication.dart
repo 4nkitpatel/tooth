@@ -16,51 +16,51 @@ class _MedicationPageState extends State<MedicationPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xff161819),
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text.rich(
-            TextSpan(
-              text: "Mr. Andy \n",
-              style: TextStyle(
-                fontSize: 17,
-              ),
-              children: <InlineSpan>[
-                TextSpan(
-                  text: 'Medication',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                  ),
-                )
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ),
-          // "Mr. Andy".text.size(17).make(),
-          backgroundColor: Color(0xff1F2125),
-          leadingWidth: 100,
-          leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: "Cancel"
-                .text
-                .color(Color(0xff007AFF))
-                .make()
-                .pOnly(top: 18, left: 18),
-          ),
-          actions: <Widget>[
-            InkWell(
-              onTap: () {},
-              child: "Done"
-                  .text
-                  .center
-                  .color(Color(0xff007AFF))
-                  .make()
-                  .pOnly(top: 18, right: 16),
-            ),
-          ],
-        ),
+        // appBar: AppBar(
+        //   centerTitle: true,
+        //   title: Text.rich(
+        //     TextSpan(
+        //       text: "Mr. Andy \n",
+        //       style: TextStyle(
+        //         fontSize: 17,
+        //       ),
+        //       children: <InlineSpan>[
+        //         TextSpan(
+        //           text: 'Medication',
+        //           style: TextStyle(
+        //             color: Colors.white,
+        //             fontSize: 10,
+        //           ),
+        //         )
+        //       ],
+        //     ),
+        //     textAlign: TextAlign.center,
+        //   ),
+        //   // "Mr. Andy".text.size(17).make(),
+        //   backgroundColor: Color(0xff1F2125),
+        //   leadingWidth: 100,
+        //   leading: InkWell(
+        //     onTap: () {
+        //       Navigator.pop(context);
+        //     },
+        //     child: "Cancel"
+        //         .text
+        //         .color(Color(0xff007AFF))
+        //         .make()
+        //         .pOnly(top: 18, left: 18),
+        //   ),
+        //   actions: <Widget>[
+        //     InkWell(
+        //       onTap: () {},
+        //       child: "Done"
+        //           .text
+        //           .center
+        //           .color(Color(0xff007AFF))
+        //           .make()
+        //           .pOnly(top: 18, right: 16),
+        //     ),
+        //   ],
+        // ),
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(10),

@@ -37,7 +37,9 @@ class _SchedulePageState extends State<SchedulePage> {
           actions: <Widget>[
             // if (isSelected)
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed("/dashboard");
+              },
               child: "Done"
                   .text
                   .center
@@ -52,34 +54,41 @@ class _SchedulePageState extends State<SchedulePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.person,
+              InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () {},
+                child: ImageIcon(
+                  AssetImage('assets/nav-boy.png'),
+                  size: 40,
+                  color: Color(0xffA6A6A6),
+                ),
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () {},
+                child: ImageIcon(
+                  AssetImage('assets/nav-calendar.png'),
+                  size: 40,
+                  color: Color(0xffA6A6A6),
+                ),
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () {},
+                child: ImageIcon(
+                  AssetImage('assets/nav-laddy.png'),
+                  size: 40,
                   color: Color(0xffA6A6A6),
                 ),
               ),
               IconButton(
                 onPressed: () {},
                 icon: Icon(
-                  Icons.calendar_today_sharp,
+                  Icons.more_horiz,
+                  size: 35,
                   color: Color(0xffA6A6A6),
                 ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.person,
-                  color: Color(0xffA6A6A6),
-                ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.menu,
-                  color: Color(0xffA6A6A6),
-                ),
-              ),
+              )
             ],
           ),
         ),
@@ -163,66 +172,77 @@ class _SchedulePageState extends State<SchedulePage> {
                               }
                             },
                             key: Key(index.toString()),
-                            child: InkWell(
-                              onTap: () {},
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Container(
+                            child: Material(
+                              color: Colors.transparent,
+                              child: Ink(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
                                   color: Color(0xff1F2125),
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 80,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Column(
+                                ),
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.toNamed("/patientDetails");
+                                  },
+                                  child: ClipRRect(
+                                    child: Container(
+                                      // color: Color(0xff1F2125),
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 80,
+                                      child: Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            CrossAxisAlignment.center,
                                         children: [
-                                          scheduleC
-                                              .schedulesList[index].name.text
-                                              .color(Color(0xff00ADB5))
-                                              .make(),
-                                          scheduleC.schedulesList[index]
-                                              .treatment.text
-                                              .size(10)
-                                              .white
-                                              .make(),
-                                          scheduleC
-                                              .schedulesList[index].visit.text
-                                              .size(10)
-                                              .color(Color(0xffA8A3A3))
-                                              .make(),
-                                        ],
-                                      ),
-                                      Spacer(),
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              scheduleC.schedulesList[index]
+                                                  .name.text
+                                                  .color(Color(0xff00ADB5))
+                                                  .make(),
+                                              scheduleC.schedulesList[index]
+                                                  .treatment.text
+                                                  .size(10)
+                                                  .white
+                                                  .make(),
+                                              scheduleC.schedulesList[index]
+                                                  .visit.text
+                                                  .size(10)
+                                                  .color(Color(0xffA8A3A3))
+                                                  .make(),
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
                                                 0.22,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            scheduleC
-                                                .schedulesList[index].state.text
-                                                .color(Color(0xff00ADB5))
-                                                .make(),
-                                            scheduleC
-                                                .schedulesList[index].time.text
-                                                .size(10)
-                                                .white
-                                                .make(),
-                                            scheduleC.schedulesList[index]
-                                                .insuredStatus.text
-                                                .size(10)
-                                                .white
-                                                .make(),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ).p8(),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                scheduleC.schedulesList[index]
+                                                    .state.text
+                                                    .color(Color(0xff00ADB5))
+                                                    .make(),
+                                                scheduleC.schedulesList[index]
+                                                    .time.text
+                                                    .size(10)
+                                                    .white
+                                                    .make(),
+                                                scheduleC.schedulesList[index]
+                                                    .insuredStatus.text
+                                                    .size(10)
+                                                    .white
+                                                    .make(),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ).p8(),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tooth/colors.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:get/get.dart';
 
 class Wgt {
   static getTF(String placeholder) {
@@ -89,6 +90,74 @@ class Wgt {
             fit: BoxFit.contain, height: height, width: width)
         .centered()
         .py32();
+  }
+
+  static showDialog() {
+    Get.defaultDialog(
+      title: 'Custom Advice',
+      titleStyle: TextStyle(color: Colors.white),
+      backgroundColor: Color(0xff353535),
+      radius: 10,
+      content: Column(
+        children: [
+          Wgt.getTFF(text: 'Advice'),
+          10.heightBox,
+          Wgt.getTFF(text: 'Price'),
+        ],
+      ),
+      buttonColor: Color(0xff353535),
+      actions: [
+        TextButton(
+          style: ButtonStyle(
+            fixedSize: MaterialStateProperty.all(Size(120, 10)),
+          ),
+          onPressed: () {
+            Get.back();
+          },
+          child: "Cancel".text.make(),
+        ),
+        TextButton(
+          style: ButtonStyle(
+            fixedSize: MaterialStateProperty.all(Size(120, 10)),
+          ),
+          onPressed: () {},
+          child: "Action".text.make(),
+        ),
+      ],
+    );
+  }
+
+  static showDialogWithSingleInput() {
+    Get.defaultDialog(
+      title: "Doctor's O/E",
+      titleStyle: TextStyle(color: Colors.white),
+      backgroundColor: Color(0xff353535),
+      radius: 10,
+      content: Column(
+        children: [
+          Wgt.getTFF(text: 'Enter Your Examination'),
+        ],
+      ),
+      buttonColor: Color(0xff353535),
+      actions: [
+        TextButton(
+          style: ButtonStyle(
+            fixedSize: MaterialStateProperty.all(Size(120, 10)),
+          ),
+          onPressed: () {
+            Get.back();
+          },
+          child: "Cancel".text.make(),
+        ),
+        TextButton(
+          style: ButtonStyle(
+            fixedSize: MaterialStateProperty.all(Size(120, 10)),
+          ),
+          onPressed: () {},
+          child: "Action".text.make(),
+        ),
+      ],
+    );
   }
 }
 

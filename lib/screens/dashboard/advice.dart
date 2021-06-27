@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
+import 'package:tooth/controllers/AdviceList.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:get/instance_manager.dart';
 
 class AdvicePage extends StatefulWidget {
   @override
@@ -9,7 +12,12 @@ class AdvicePage extends StatefulWidget {
 }
 
 class _AdvicePageState extends State<AdvicePage> {
-  List<bool> _value = List<bool>.filled(3, false).toList();
+  List iconImagePath = [
+    'assets/rootcanal.png',
+    'assets/braces.png',
+    'assets/filling.png',
+  ];
+  final AdviceListController adviceC = Get.put(AdviceListController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -87,65 +95,76 @@ class _AdvicePageState extends State<AdvicePage> {
                 Container(
                   height: 350,
                   // color: Colors.red,
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => 10.heightBox,
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Container(
-                          color: Color(0xff2C2C2E),
-                          width: MediaQuery.of(context).size.width,
-                          height: 100,
-                          child: Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Obx(() {
+                    if (adviceC.isLoading.value)
+                      return Center(child: CircularProgressIndicator());
+                    else
+                      return ListView.separated(
+                        separatorBuilder: (context, index) => 10.heightBox,
+                        itemCount: adviceC.adviceList.length,
+                        itemBuilder: (context, index) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Container(
+                              color: Color(0xff2C2C2E),
+                              width: MediaQuery.of(context).size.width,
+                              height: 100,
+                              child: Row(
+                                // mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  "Root Canal".text.white.make(),
-                                  "Price".text.size(10).white.make(),
-                                  "30000"
-                                      .text
-                                      .size(10)
-                                      .color(Color(0xff9F9FA5))
-                                      .make(),
+                                  Image.asset(iconImagePath[index]),
+                                  10.widthBox,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      adviceC.adviceList[index].name.text.white
+                                          .make(),
+                                      "Price".text.size(10).white.make(),
+                                      adviceC.adviceList[index].price.text
+                                          .size(10)
+                                          .color(Color(0xff9F9FA5))
+                                          .make(),
+                                    ],
+                                  ),
+                                  Spacer(),
+                                  Checkbox(
+                                    shape: CircleBorder(),
+                                    fillColor: MaterialStateProperty.all(
+                                        Color(0xff0A84FF)),
+                                    value: adviceC.isSelected[index],
+                                    onChanged: (value) {
+                                      setState(() {
+                                        adviceC.isSelected[index] = value;
+                                      });
+                                    },
+                                  ),
+                                  // Radio(
+                                  //   activeColor: Colors.red,
+                                  //   fillColor:
+                                  //       MaterialStateProperty.all(Colors.white),
+                                  //   value: index,
+                                  //   groupValue: -1,
+                                  //   onChanged: (value) {
+                                  //     print(value);
+                                  //   },
+                                  // ),
                                 ],
-                              ),
-                              Spacer(),
-                              Checkbox(
-                                shape: CircleBorder(),
-                                fillColor: MaterialStateProperty.all(
-                                    Color(0xff0A84FF)),
-                                value: _value[index],
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value[index] = value;
-                                  });
-                                },
-                              ),
-                              // Radio(
-                              //   activeColor: Colors.red,
-                              //   fillColor:
-                              //       MaterialStateProperty.all(Colors.white),
-                              //   value: index,
-                              //   groupValue: -1,
-                              //   onChanged: (value) {
-                              //     print(value);
-                              //   },
-                              // ),
-                            ],
-                          ).p8(),
-                        ),
+                              ).p8(),
+                            ),
+                          );
+                        },
                       );
-                    },
-                  ),
+                  }),
                 ),
                 Wgt.getPrimaryBtn(
                   text: 'Add Custom Advice',
                   context: context,
                   cb: () {
                     // Navigator.pushNamed(context, "/symptoms");
-                    Get.toNamed("/symptoms");
+                    // Get.toNamed("/symptoms");
+                    Wgt.showDialog();
                   },
                 )
               ],

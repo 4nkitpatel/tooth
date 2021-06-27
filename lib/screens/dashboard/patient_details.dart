@@ -87,44 +87,83 @@ class PatientDetailsPage extends StatelessWidget {
                   30.heightBox,
                   Row(
                     children: [
-                      InkWell(
-                        onTap: () {
-                          // Navigator.pushNamed(context, "/symptoms");
-                          Get.toNamed("/symptoms");
-                        },
-                        child: buildCard(),
+                      Material(
+                        color: Colors.transparent,
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Color(0xff060606),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              Get.toNamed("/symptoms");
+                            },
+                            child: buildCard(),
+                          ),
+                        ),
                       ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     // Navigator.pushNamed(context, "/symptoms");
+                      //     Get.toNamed("/symptoms");
+                      //   },
+                      //   child: buildCard(),
+                      // ),
                       SizedBox(
                         width: 10,
                       ),
-                      InkWell(
-                        onTap: () {
-                          // Navigator.pushNamed(context, "/symptoms");
-                          Get.toNamed("/symptoms");
-                        },
-                        child: buildCardWithText(text: "Upper Right"),
+                      Material(
+                        color: Colors.transparent,
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Color(0xff1F2125),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              Get.toNamed("/symptoms");
+                            },
+                            child: buildCardWithText(text: "Upper Right"),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   10.heightBox,
                   Row(
                     children: [
-                      InkWell(
-                        onTap: () {
-                          Get.toNamed("/symptoms");
-                          // Navigator.pushNamed(context, "/symptoms");
-                        },
-                        child: buildCardWithText(text: "Lower Left"),
+                      Material(
+                        color: Colors.transparent,
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Color(0xff1F2125),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              Get.toNamed("/symptoms");
+                            },
+                            child: buildCardWithText(text: "Lower Left"),
+                          ),
+                        ),
                       ),
                       SizedBox(
                         width: 10,
                       ),
-                      InkWell(
-                        onTap: () {
-                          Get.toNamed("/symptoms");
-                          // Navigator.pushNamed(context, "/symptoms");
-                        },
-                        child: buildCardWithText(text: "Lower Right"),
+                      Material(
+                        color: Colors.transparent,
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Color(0xff1F2125),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              Get.toNamed("/symptoms");
+                            },
+                            child: buildCardWithText(text: "Lower Right"),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -261,40 +300,34 @@ class PatientDetailsPage extends StatelessWidget {
   }
 }
 
-ClipRRect buildCardWithText({String text}) {
-  return ClipRRect(
-    borderRadius: BorderRadius.circular(5),
-    child: Container(
-      padding: EdgeInsets.all(10),
-      child: text.text.size(20).color(Color(0xff646262)).make().centered(),
-      color: Color(0xff1F2125),
-      height: 150,
-      width: 160,
-    ),
+Container buildCardWithText({String text}) {
+  return Container(
+    padding: EdgeInsets.all(10),
+    child: text.text.size(20).color(Color(0xff646262)).make().centered(),
+    // color: Color(0xff1F2125),
+    height: 150,
+    width: 160,
   );
 }
 
-ClipRRect buildCard() {
-  return ClipRRect(
-    borderRadius: BorderRadius.circular(5),
-    child: Container(
-      padding: EdgeInsets.all(10),
-      child: Column(
-        children: [
-          "Sensitivity,Swelling,Black Patch, Slacked"
-              .text
-              .color(Color(0xff00ADB5))
-              .make(),
-          Spacer(),
-          Align(
-            alignment: Alignment.centerRight,
-            child: "4,3".text.xl5.end.color(Color(0xff646262)).make(),
-          ),
-        ],
-      ),
-      color: Color(0xff1F2125),
-      height: 150,
-      width: 160,
+Container buildCard() {
+  return Container(
+    padding: EdgeInsets.all(10),
+    child: Column(
+      children: [
+        "Sensitivity,Swelling,Black Patch, Slacked"
+            .text
+            .color(Color(0xff00ADB5))
+            .make(),
+        Spacer(),
+        Align(
+          alignment: Alignment.centerRight,
+          child: "4,3".text.xl5.end.color(Color(0xff646262)).make(),
+        ),
+      ],
     ),
+    // color: Color(0xff060606),
+    height: 150,
+    width: 160,
   );
 }

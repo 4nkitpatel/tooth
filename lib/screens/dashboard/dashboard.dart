@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:tooth/colors.dart';
 import 'package:tooth/screens/dashboard/add_clinic.dart';
+import 'package:tooth/screens/dashboard/bottom_chooser.dart';
+import 'package:tooth/screens/dashboard/medication.dart';
+import 'package:tooth/widgets/custome_date_picker.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -53,118 +56,179 @@ class DashboardPage extends StatelessWidget {
         ]),
       ),
       backgroundColor: Color(0xff161819),
+      bottomNavigationBar: BottomAppBar(
+        color: Color(0xff1F2125),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            InkWell(
+              borderRadius: BorderRadius.circular(50),
+              onTap: () {},
+              child: ImageIcon(
+                AssetImage('assets/nav-boy.png'),
+                size: 40,
+                color: Color(0xffA6A6A6),
+              ),
+            ),
+            InkWell(
+              borderRadius: BorderRadius.circular(50),
+              onTap: () {},
+              child: ImageIcon(
+                AssetImage('assets/nav-calendar.png'),
+                size: 40,
+                color: Color(0xffA6A6A6),
+              ),
+            ),
+            InkWell(
+              borderRadius: BorderRadius.circular(50),
+              onTap: () {},
+              child: ImageIcon(
+                AssetImage('assets/nav-laddy.png'),
+                size: 40,
+                color: Color(0xffA6A6A6),
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.more_horiz,
+                size: 35,
+                color: Color(0xffA6A6A6),
+              ),
+            )
+          ],
+        ),
+      ),
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  "Wed, May 31".text.color(Color(0xff0A84FF)).make(),
-                  Spacer(),
-                  "All Clinics".text.color(Color(0xff0A84FF)).make(),
-                ],
-              ),
-              10.heightBox,
-              Row(
-                children: [
-                  "Welcome Dr. Bens"
-                      .text
-                      .size(20)
-                      .color(Color(0xff00BCD4))
-                      .make(),
-                ],
-              ),
-              10.heightBox,
-              Row(
-                children: [
-                  buildCard(
-                    header: "Total Patient",
-                    price: "234",
-                    icon: Icons.people,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      // Navigator.pushNamed(context, "/schedule");
-                      Get.toNamed("/schedule");
-                    },
-                    child: buildCard(
-                      header: "Appointment",
-                      price: "234",
-                      icon: Icons.accessible_sharp,
-                    ),
-                  ),
-                ],
-              ),
-              10.heightBox,
-              Row(
-                children: [
-                  buildCard(
-                    header: "Total Income",
-                    price: "2.34K",
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  InkWell(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    InkWell(
                       onTap: () {
-                        // Navigator.pushNamed(context, "/expenditureDetails");
-                        Get.toNamed("/expenditureDetails");
+                        Get.bottomSheet(Container(
+                          height: 300,
+                          child: ChooseTime(),
+                        ));
+                      },
+                      child: "Wed, May 31".text.color(Color(0xff0A84FF)).make(),
+                    ),
+                    Spacer(),
+                    InkWell(
+                      onTap: () {
+                        Get.bottomSheet(MedicationPage());
+                      },
+                      child: "All Clinics".text.color(Color(0xff0A84FF)).make(),
+                    )
+                  ],
+                ),
+                10.heightBox,
+                Row(
+                  children: [
+                    "Welcome Dr. Bens"
+                        .text
+                        .size(20)
+                        .color(Color(0xff00BCD4))
+                        .make(),
+                  ],
+                ),
+                10.heightBox,
+                Row(
+                  children: [
+                    buildCard(
+                      header: "Total Patient",
+                      price: "234",
+                      icon: 'assets/user-friends.png',
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        // Navigator.pushNamed(context, "/schedule");
+                        Get.toNamed("/schedule");
                       },
                       child: buildCard(
-                        header: "Total Expense",
-                        price: "2.34K",
-                      )),
-                ],
-              ),
-              20.heightBox,
-              "Today's Appointment"
-                  .text
-                  .size(18)
-                  .color(Color(0xffCECECE))
-                  .make(),
-              10.heightBox,
-              buildFullWidthBox(context),
-              10.heightBox,
-              buildFullWidthBox(context),
-              10.heightBox,
-              Container(
-                color: Colors.white,
-                height: 100,
-                width: 100,
-              ).centered(),
-              10.heightBox,
-              AutoSizeText(
-                "OOPS!!! no clinic Address has been added. Please add to sync your dashboard....",
-                style: TextStyle(color: Color(0xff989696)),
-                maxLines: 1,
-                minFontSize: 5,
-                textAlign: TextAlign.center,
-              ).centered(),
-              10.heightBox,
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddClinicPage()));
-                },
-                child: "Add Clinic Address".text.size(7).make(),
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Coolors.secondaryBtn),
+                        header: "Appointment",
+                        price: "234",
+                        icon: 'assets/patient.png',
+                      ),
+                    ),
+                  ],
                 ),
-              ).wh(180, 30).centered(),
-            ],
+                10.heightBox,
+                Row(
+                  children: [
+                    buildCard(
+                      header: "Total Income",
+                      price: "2.34K",
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    InkWell(
+                        onTap: () {
+                          // Navigator.pushNamed(context, "/expenditureDetails");
+                          Get.toNamed("/expenditureDetails");
+                        },
+                        child: buildCard(
+                          header: "Total Expense",
+                          price: "2.34K",
+                        )),
+                  ],
+                ),
+                20.heightBox,
+                "Today's Appointment"
+                    .text
+                    .size(18)
+                    .color(Color(0xffCECECE))
+                    .make(),
+                10.heightBox,
+                buildFullWidthBox(context),
+                10.heightBox,
+                buildFullWidthBox(context),
+                10.heightBox,
+                Image.asset('assets/showcase.png').centered(),
+                // Container(
+                //   color: Colors.white,
+                //   height: 100,
+                //   width: 100,
+                // ).centered(),
+                10.heightBox,
+                AutoSizeText(
+                  "OOPS!!! no clinic Address has been added. Please add to sync your dashboard....",
+                  style: TextStyle(color: Color(0xff989696)),
+                  maxLines: 1,
+                  minFontSize: 5,
+                  textAlign: TextAlign.center,
+                ).centered(),
+                10.heightBox,
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddClinicPage()));
+                  },
+                  child: "Add Clinic Address".text.size(7).make(),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Coolors.secondaryBtn),
+                  ),
+                ).wh(180, 30).centered(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  ClipRRect buildCard({String header, String price, IconData icon}) {
+  ClipRRect buildCard({String header, String price, String icon = ""}) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: Container(
@@ -179,11 +243,12 @@ class DashboardPage extends StatelessWidget {
               ],
             ),
             Spacer(),
-            Icon(
-              icon,
-              size: 35,
-              color: Color(0xff6B6C70),
-            ),
+            icon.isEmpty ? Container() : Image.asset(icon)
+            // Icon(
+            //   icon,
+            //   size: 35,
+            //   color: Color(0xff6B6C70),
+            // ),
           ],
         ),
         color: Color(0xff1F2125),
@@ -215,15 +280,17 @@ class DashboardPage extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Icon(
-                    Icons.accessibility_outlined,
-                    color: Color(0xffCECECE),
-                  ),
-                  Icon(
-                    Icons.accessibility_rounded,
-                    color: Colors.white,
-                    size: 35,
-                  ),
+                  Image.asset('assets/small-teeth.png'),
+                  Image.asset('assets/big-teeth.png'),
+                  // Icon(
+                  //   Icons.accessibility_outlined,
+                  //   color: Color(0xffCECECE),
+                  // ),
+                  // Icon(
+                  //   Icons.accessibility_rounded,
+                  //   color: Colors.white,
+                  //   size: 35,
+                  // ),
                   Spacer(),
                   "7:30 PM".text.size(10).color(Color(0xffFFFFFF)).make(),
                 ],

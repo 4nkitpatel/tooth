@@ -1,5 +1,7 @@
 import 'package:http/http.dart' as http;
+import 'package:tooth/models/AdviceList.dart';
 import 'package:tooth/models/Expenditures.dart';
+import 'package:tooth/models/Materials.dart';
 import 'package:tooth/models/Medication.dart';
 import 'package:tooth/models/Patients.dart';
 import 'package:tooth/models/Schedule.dart';
@@ -59,6 +61,28 @@ class ApiServices {
       var jsonStr = res.body;
       // this will given my model may be from app.quicktype.io
       return expendituresFromJson(jsonStr);
+    } else {
+      return null; //handle it
+    }
+  }
+
+  static Future<List<Materials>> fetchMaterials() async {
+    var res = await client.get(Uri.http('127.0.0.1:3000', '/materials'));
+    if (res.statusCode == 200) {
+      var jsonStr = res.body;
+      // this will given my model may be from app.quicktype.io
+      return materialsFromJson(jsonStr);
+    } else {
+      return null; //handle it
+    }
+  }
+
+  static Future<List<AdviceList>> fetchAdviceList() async {
+    var res = await client.get(Uri.http('127.0.0.1:3000', '/advice'));
+    if (res.statusCode == 200) {
+      var jsonStr = res.body;
+      // this will given my model may be from app.quicktype.io
+      return adviceListFromJson(jsonStr);
     } else {
       return null; //handle it
     }

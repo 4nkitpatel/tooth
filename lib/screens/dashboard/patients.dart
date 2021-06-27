@@ -16,20 +16,6 @@ class PatientsPage extends StatefulWidget {
 class _PatientsPageState extends State<PatientsPage> {
   final controller = DragSelectGridViewController();
   final PatientsController patientsC = Get.put(PatientsController());
-  // final urlImages = [
-  //   'https://images.unsplash.com/photo-1554151228-14d9def656e4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=933&q=80',
-  //   'https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80',
-  //   'https://images.unsplash.com/photo-1542534759-05f6c34a9e63?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80',
-  //   'https://images.unsplash.com/photo-1528684394826-ea798614d051?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80',
-  //   'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=934&q=80',
-  //   'https://images.unsplash.com/photo-1502452213786-a5bc0a67e963?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1525&q=80',
-  //   'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80',
-  //   'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80',
-  //   'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80',
-  //   'https://images.unsplash.com/photo-1514626585111-9aa86183ac98?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80',
-  //   'https://images.unsplash.com/photo-1514846326710-096e4a8035e0?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=934&q=80',
-  //   'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80',
-  // ];
 
   @override
   void initState() {
@@ -100,34 +86,41 @@ class _PatientsPageState extends State<PatientsPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.person,
+              InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () {},
+                child: ImageIcon(
+                  AssetImage('assets/nav-boy.png'),
+                  size: 40,
+                  color: Color(0xffA6A6A6),
+                ),
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () {},
+                child: ImageIcon(
+                  AssetImage('assets/nav-calendar.png'),
+                  size: 40,
+                  color: Color(0xffA6A6A6),
+                ),
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () {},
+                child: ImageIcon(
+                  AssetImage('assets/nav-laddy.png'),
+                  size: 40,
                   color: Color(0xffA6A6A6),
                 ),
               ),
               IconButton(
                 onPressed: () {},
                 icon: Icon(
-                  Icons.calendar_today_sharp,
+                  Icons.more_horiz,
+                  size: 35,
                   color: Color(0xffA6A6A6),
                 ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.person,
-                  color: Color(0xffA6A6A6),
-                ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.menu,
-                  color: Color(0xffA6A6A6),
-                ),
-              ),
+              )
             ],
           ),
         ),

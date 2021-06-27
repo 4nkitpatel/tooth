@@ -28,7 +28,10 @@ class MyApp extends StatelessWidget {
       defaultTransition: Transition.downToUp,
       transitionDuration: Duration(milliseconds: 500),
       theme: ThemeData(
-          primaryColor: Coolors.bgColorT, accentColor: Coolors.appBar),
+        primaryColor: Coolors.bgColorT,
+        accentColor: Coolors.appBar,
+        unselectedWidgetColor: Colors.white,
+      ),
       home: WelcomePage(),
       // initialRoute: '/',
       getPages: [
