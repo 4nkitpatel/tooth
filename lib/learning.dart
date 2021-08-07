@@ -62,7 +62,7 @@ class Learning extends StatelessWidget {
                   // * used column for username and password as a grp also checked signature to get that  InputDecoration()
                   TextFormField(
                     decoration: InputDecoration(
-                        hintText: "Enter Username", labelText: "Username"),
+                        hintText: "Enter Phonenumber", labelText: "Username"),
                   ),
                   TextFormField(
                     decoration: InputDecoration(

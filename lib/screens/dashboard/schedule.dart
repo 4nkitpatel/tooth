@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:tooth/controllers/Schedule.dart';
+import 'package:tooth/screens/dashboard/bottom_chooser.dart';
+import 'package:tooth/screens/dashboard/medication.dart';
 import 'package:tooth/widgets/custome_date_picker.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -56,7 +58,9 @@ class _SchedulePageState extends State<SchedulePage> {
             children: <Widget>[
               InkWell(
                 borderRadius: BorderRadius.circular(50),
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed("/dashboard");
+                },
                 child: ImageIcon(
                   AssetImage('assets/nav-boy.png'),
                   size: 40,
@@ -65,7 +69,9 @@ class _SchedulePageState extends State<SchedulePage> {
               ),
               InkWell(
                 borderRadius: BorderRadius.circular(50),
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed("/schedule");
+                },
                 child: ImageIcon(
                   AssetImage('assets/nav-calendar.png'),
                   size: 40,
@@ -74,7 +80,9 @@ class _SchedulePageState extends State<SchedulePage> {
               ),
               InkWell(
                 borderRadius: BorderRadius.circular(50),
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed("/patients");
+                },
                 child: ImageIcon(
                   AssetImage('assets/nav-laddy.png'),
                   size: 40,
@@ -108,11 +116,24 @@ class _SchedulePageState extends State<SchedulePage> {
               20.heightBox,
               Row(
                 children: [
-                  selectedDate == ''
-                      ? "Select a date".text.white.make()
-                      : selectedDate.text.white.make(),
+                  InkWell(
+                    onTap: () {
+                      Get.bottomSheet(Container(
+                        height: 300,
+                        child: ChooseTime(),
+                      ));
+                    },
+                    child: selectedDate == ''
+                        ? "Select a date".text.white.make()
+                        : selectedDate.text.white.make(),
+                  ),
                   Spacer(),
-                  "All Clinics".text.color(Color(0xff0A84FF)).make(),
+                  InkWell(
+                    onTap: () {
+                      Get.bottomSheet(MedicationPage());
+                    },
+                    child: "All Clinics".text.color(Color(0xff0A84FF)).make(),
+                  )
                 ],
               ),
               10.heightBox,

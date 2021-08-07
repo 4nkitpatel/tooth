@@ -5,7 +5,7 @@ import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class WelcomePage extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -17,19 +17,14 @@ class WelcomePage extends StatelessWidget {
             child: Column(
               children: [
                 AutoSizeText(
-                  "Your Guide \nto Adventure",
+                  "Login",
                   style: TextStyle(fontSize: 40, color: Colors.white),
                   maxLines: 2,
                   textAlign: TextAlign.center,
-                ).centered().pOnly(top: 75),
-                SizedBox(
-                  height: 20,
-                ),
-                "The best way to navigate your world and discover your capabilities!!!"
-                    .text
-                    .center
-                    .color(Colors.white)
-                    .make(),
+                ).centered().pOnly(top: 30),
+                // SizedBox(
+                //   height: 20,
+                // ),
                 SizedBox(
                   height: 40,
                 ),
@@ -41,19 +36,15 @@ class WelcomePage extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                Wgt.getPrimaryBtn(
-                    text: "SIGN IN",
-                    context: context,
-                    cb: () {
-                      Get.toNamed('/login');
-                    }),
-                Wgt.getSecondaryBtn(
-                    text: "SIGN UP",
-                    context: context,
-                    cb: () {
-                      // Navigator.pushNamed(context, "/signup");
-                      Get.toNamed('/signup');
-                    })
+                Wgt.getTFF(text: "Phone number"),
+                SizedBox(
+                  height: 20,
+                ),
+                Wgt.getTFF(text: "Enter password"),
+                SizedBox(
+                  height: 20,
+                ),
+                Wgt.getPrimaryBtn(text: "LOG IN", context: context, cb: () {}),
               ],
             ),
           ),

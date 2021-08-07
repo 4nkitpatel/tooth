@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:tooth/controllers/Symptoms.dart';
+import 'package:tooth/models/symptoms.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:get/instance_manager.dart';
@@ -18,6 +19,17 @@ class _SymptomsPageState extends State<SymptomsPage> {
   // ? may be this both will go to contoller
   double sliderValue = 0;
   List<bool> isTeethSelected = List.generate(8, (i) => false).toList();
+  List<Symptoms> _searchResult = [];
+  List<Symptoms> _symptomsDetails;
+  // TODO may be see that seleected redio button is perfect or not or may be this varible will go to controller
+  // TODO also to lower case issue may be
+  @override
+  void initState() {
+    super.initState();
+    _symptomsDetails =
+        symptomsController.symptomsList; // await ApiServices.fetchSymptoms();
+    print("-----> $_symptomsDetails");
+  }
 
   // int _value = 0;
   @override
@@ -90,6 +102,8 @@ class _SymptomsPageState extends State<SymptomsPage> {
                     contentPadding: EdgeInsets.only(left: 20),
                     fillColor: Color(0xff393E46),
                   ),
+                  //onSearchTextChanged
+                  onChanged: onSearchTextChanged,
                 ),
                 20.heightBox,
                 "Upper Left Maxila".text.headline6(context).white.make(),
@@ -104,62 +118,11 @@ class _SymptomsPageState extends State<SymptomsPage> {
                       if (symptomsController.isLoading.value)
                         return Center(child: CircularProgressIndicator());
                       else
-                        return ListView.separated(
-                          separatorBuilder: (context, index) => 10.heightBox,
-                          itemCount: symptomsController.symptomsList.length,
-                          itemBuilder: (context, index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: Container(
-                                color: Color(0xff2C2C2E),
-                                width: MediaQuery.of(context).size.width,
-                                height: 100,
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.7,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          symptomsController.symptomsList[index]
-                                              .name.text.white
-                                              .make(),
-                                          AutoSizeText(
-                                            symptomsController
-                                                .symptomsList[index].desc,
-                                            style: TextStyle(
-                                              fontSize: 10.0,
-                                              color: Color(0xff616165),
-                                            ),
-                                            maxLines: 4,
-                                            minFontSize: 8,
-                                            // maxFontSize: 10,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Checkbox(
-                                      shape: CircleBorder(),
-                                      fillColor: MaterialStateProperty.all(
-                                          Color(0xff0A84FF)),
-                                      value:
-                                          symptomsController.isSelected[index],
-                                      onChanged: (value) {
-                                        setState(() {
-                                          symptomsController.isSelected[index] =
-                                              value;
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ).p8(),
-                              ),
-                            );
-                          },
-                        );
+                        return _searchResult.length != 0
+                            ? listViewData(_searchResult)
+                            : listViewData(
+                                symptomsController.symptomsList,
+                              );
                     },
                   ),
                 ),
@@ -254,5 +217,71 @@ class _SymptomsPageState extends State<SymptomsPage> {
         ),
       ),
     );
+  }
+
+  ListView listViewData(List data) {
+    return ListView.separated(
+      separatorBuilder: (context, index) => 10.heightBox,
+      itemCount: data.length, //symptomsController.symptomsList.length,
+      itemBuilder: (context, index) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(5),
+          child: Container(
+            color: Color(0xff2C2C2E),
+            width: MediaQuery.of(context).size.width,
+            height: 100,
+            child: Row(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(data[index].name,
+                          style: TextStyle(color: Colors.white)),
+                      // data[index].name.text.white.make(),
+                      AutoSizeText(
+                        data[index].desc,
+                        style: TextStyle(
+                          fontSize: 10.0,
+                          color: Color(0xff616165),
+                        ),
+                        maxLines: 4,
+                        minFontSize: 8,
+                        // maxFontSize: 10,
+                      ),
+                    ],
+                  ),
+                ),
+                Spacer(),
+                Checkbox(
+                  shape: CircleBorder(),
+                  fillColor: MaterialStateProperty.all(Color(0xff0A84FF)),
+                  value: symptomsController.isSelected[index],
+                  onChanged: (value) {
+                    setState(() {
+                      symptomsController.isSelected[index] = value;
+                    });
+                  },
+                ),
+              ],
+            ).p8(),
+          ),
+        );
+      },
+    );
+  }
+
+  onSearchTextChanged(String text) async {
+    _searchResult.clear();
+    if (text.isEmpty) {
+      setState(() {});
+      return;
+    }
+    _symptomsDetails.forEach((symptomsDetail) {
+      if (symptomsDetail.name.toLowerCase().contains(text.toLowerCase()))
+        _searchResult.add(symptomsDetail);
+    });
+    setState(() {});
   }
 }

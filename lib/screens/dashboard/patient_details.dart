@@ -1,10 +1,44 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:tooth/controllers/AdviceList.dart';
+import 'package:tooth/models/AdviceList.dart';
 import 'package:tooth/screens/dashboard/advice.dart';
 import 'package:tooth/screens/dashboard/medication.dart';
+import 'package:tooth/services/api.service.dart';
+import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:get/get.dart';
 
-class PatientDetailsPage extends StatelessWidget {
+class PatientDetailsPage extends StatefulWidget {
+  @override
+  _PatientDetailsPageState createState() => _PatientDetailsPageState();
+}
+
+class _PatientDetailsPageState extends State<PatientDetailsPage> {
+  final AdviceListController adviceC = Get.put(AdviceListController());
+  int _current = 0;
+  final CarouselController _controller = CarouselController();
+  DateTime date;
+  String getDateText() {
+    if (date == null) {
+      return "Select Date";
+    } else {
+      return '${date.month}/${date.day}/${date.year}';
+    }
+  }
+
+  Future pickDate(BuildContext context) async {
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime(DateTime.now().year - 18),
+      firstDate: DateTime(DateTime.now().year - 50),
+      lastDate: DateTime(DateTime.now().year - 2),
+    );
+    if (newDate == null) return;
+    setState(() => date = newDate);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,7 +71,7 @@ class PatientDetailsPage extends StatelessWidget {
               ),
             ],
           ),
-          body: SafeArea(
+          body: SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.all(14),
               child: Column(
@@ -75,7 +109,13 @@ class PatientDetailsPage extends StatelessWidget {
                         ],
                       ),
                       Spacer(),
-                      Image.asset('assets/calendar.png'),
+                      InkWell(
+                        onTap: () {
+                          print("asdasd");
+                          pickDate(context);
+                        },
+                        child: Image.asset('assets/calendar.png'),
+                      ),
                       10.widthBox,
                       Image.asset('assets/file-prescription.png'),
                       10.widthBox,
@@ -195,32 +235,28 @@ class PatientDetailsPage extends StatelessWidget {
                         ],
                       ),
                       // 10.heightBox,
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        color: Color(0xff1F2125),
-                        height: 26,
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          children: [
-                            "Root Canal".text.color(Color(0xff00ADB5)).make(),
-                            Spacer(),
-                            "1000 INR".text.color(Colors.white).make(),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        color: Color(0xff39393A),
-                        height: 26,
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          children: [
-                            "Filling".text.color(Color(0xff00ADB5)).make(),
-                            Spacer(),
-                            "1000 INR".text.color(Colors.white).make(),
-                          ],
-                        ),
-                      ),
+                      Obx(() {
+                        if (adviceC.isLoading.value)
+                          return Center(child: CircularProgressIndicator());
+                        else
+                          return CarouselSlider(
+                            items: generateSlider(adviceC.adviceList),
+                            carouselController: _controller,
+                            options: CarouselOptions(
+                              autoPlay: false,
+                              height: 60,
+                              viewportFraction: 1,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _current = index;
+                                });
+                              },
+                            ),
+                          );
+                      }),
+                      Obx(() {
+                        return generateIndicators(context);
+                      })
                     ],
                   ),
                   20.heightBox,
@@ -297,6 +333,74 @@ class PatientDetailsPage extends StatelessWidget {
             ),
           )),
     );
+  }
+
+  Row generateIndicators(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: adviceC.adviceList.asMap().entries.map((entry) {
+        return (entry.key < (adviceC.adviceList.length / 2).round())
+            ? GestureDetector(
+                onTap: () => _controller.animateToPage(entry.key),
+                child: Container(
+                  width: 6.0,
+                  height: 6.0,
+                  margin: EdgeInsets.symmetric(horizontal: 4.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (Theme.of(context).brightness == Brightness.light
+                            ? Colors.white
+                            : Color(0xff5C5E5E))
+                        .withOpacity(_current == entry.key ? 1 : 0.4),
+                  ),
+                ),
+              )
+            : Container();
+      }).toList(),
+    );
+  }
+
+  List<Widget> generateSlider(List<AdviceList> _adviceList) {
+    List<Widget> list = [];
+    for (var i = 0; i < _adviceList.length; i = i + 2) {
+      list.add(Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(5),
+            color: Color(0xff1F2125),
+            height: 26,
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              children: [
+                _adviceList[i].name.text.color(Color(0xff00ADB5)).make(),
+                Spacer(),
+                _adviceList[i].price.text.color(Colors.white).make(),
+              ],
+            ),
+          ),
+          (i + 1) < _adviceList.length
+              ? Container(
+                  padding: EdgeInsets.all(5),
+                  color: Color(0xff39393A),
+                  height: 26,
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    children: [
+                      _adviceList[i + 1]
+                          .name
+                          .text
+                          .color(Color(0xff00ADB5))
+                          .make(),
+                      Spacer(),
+                      _adviceList[i + 1].price.text.color(Colors.white).make(),
+                    ],
+                  ),
+                )
+              : Container()
+        ],
+      ));
+    }
+    return list;
   }
 }
 

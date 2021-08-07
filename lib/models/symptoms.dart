@@ -17,6 +17,10 @@ class Symptoms {
   String name;
   String desc;
 
+  // we use this to make our instance accessable nai to its is instance of obj evu aavse
+  // @override
+  // toString() => name;
+
   factory Symptoms.fromJson(Map<String, dynamic> json) => Symptoms(
         id: json["id"],
         name: json["name"],

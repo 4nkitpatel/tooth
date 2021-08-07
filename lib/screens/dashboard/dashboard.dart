@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:tooth/colors.dart';
 import 'package:tooth/screens/dashboard/add_clinic.dart';
+import 'package:tooth/screens/dashboard/address_list.dart';
 import 'package:tooth/screens/dashboard/bottom_chooser.dart';
-import 'package:tooth/screens/dashboard/medication.dart';
-import 'package:tooth/widgets/custome_date_picker.dart';
+// import 'package:tooth/screens/dashboard/medication.dart';
+// import 'package:tooth/widgets/custome_date_picker.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -63,7 +64,9 @@ class DashboardPage extends StatelessWidget {
           children: <Widget>[
             InkWell(
               borderRadius: BorderRadius.circular(50),
-              onTap: () {},
+              onTap: () {
+                Get.toNamed("/dashboard");
+              },
               child: ImageIcon(
                 AssetImage('assets/nav-boy.png'),
                 size: 40,
@@ -72,7 +75,9 @@ class DashboardPage extends StatelessWidget {
             ),
             InkWell(
               borderRadius: BorderRadius.circular(50),
-              onTap: () {},
+              onTap: () {
+                Get.toNamed("/schedule");
+              },
               child: ImageIcon(
                 AssetImage('assets/nav-calendar.png'),
                 size: 40,
@@ -81,7 +86,9 @@ class DashboardPage extends StatelessWidget {
             ),
             InkWell(
               borderRadius: BorderRadius.circular(50),
-              onTap: () {},
+              onTap: () {
+                Get.toNamed("/patients");
+              },
               child: ImageIcon(
                 AssetImage('assets/nav-laddy.png'),
                 size: 40,
@@ -120,7 +127,7 @@ class DashboardPage extends StatelessWidget {
                     Spacer(),
                     InkWell(
                       onTap: () {
-                        Get.bottomSheet(MedicationPage());
+                        Get.bottomSheet(AddressListPage());
                       },
                       child: "All Clinics".text.color(Color(0xff0A84FF)).make(),
                     )

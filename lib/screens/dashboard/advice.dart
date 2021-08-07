@@ -12,10 +12,13 @@ class AdvicePage extends StatefulWidget {
 }
 
 class _AdvicePageState extends State<AdvicePage> {
+  // TODO may be image should also come from BE
   List iconImagePath = [
     'assets/rootcanal.png',
     'assets/braces.png',
     'assets/filling.png',
+    'assets/rootcanal.png',
+    'assets/braces.png'
   ];
   final AdviceListController adviceC = Get.put(AdviceListController());
   @override
@@ -88,6 +91,9 @@ class _AdvicePageState extends State<AdvicePage> {
                     contentPadding: EdgeInsets.only(left: 20),
                     fillColor: Color(0xff393E46),
                   ),
+                  onChanged: (String text) {
+                    print(text);
+                  },
                 ),
                 20.heightBox,
                 "Advice List".text.color(Color(0xffCECECE)).make(),

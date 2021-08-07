@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:tooth/colors.dart';
-import 'package:tooth/login/login_page.dart';
 import 'package:tooth/pages/expenditure.dart';
 import 'package:tooth/pages/first_visit.dart';
+import 'package:tooth/screens/Welcome/login.dart';
 import 'package:tooth/screens/Welcome/welcome.dart';
 import 'package:tooth/screens/dashboard/advice.dart';
 import 'package:tooth/screens/dashboard/dashboard.dart';
@@ -47,7 +47,12 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: '/expenditureDetails', page: () => ExpenditureDetailsPage()),
         GetPage(name: '/patients', page: () => PatientsPage()),
-        GetPage(name: '/schedule', page: () => SchedulePage()),
+        GetPage(
+          name: '/schedule',
+          page: () => SchedulePage(),
+          transitionDuration: Duration(milliseconds: 500),
+          transition: Transition.rightToLeft,
+        )
       ],
       // routes: {
       //   '/signup': (context) => SignUpPage(),

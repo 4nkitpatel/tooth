@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tooth/controllers/Medication.dart';
+import 'package:tooth/controllers/AddressList.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:get/instance_manager.dart';
 
-class MedicationPage extends StatefulWidget {
+class AddressListPage extends StatefulWidget {
   @override
-  _MedicationPageState createState() => _MedicationPageState();
+  _AddressListPageState createState() => _AddressListPageState();
 }
 
-class _MedicationPageState extends State<MedicationPage> {
-  final MedicationController medicationC = Get.put(MedicationController());
+class _AddressListPageState extends State<AddressListPage> {
+  final AddressListController addressC = Get.put(AddressListController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,12 +45,12 @@ class _MedicationPageState extends State<MedicationPage> {
                   // color: Colors.red,
                   child: Obx(
                     () {
-                      if (medicationC.isLoading.value)
+                      if (addressC.isLoading.value)
                         return Center(child: CircularProgressIndicator());
                       else
                         return ListView.separated(
                           separatorBuilder: (context, index) => 10.heightBox,
-                          itemCount: medicationC.medicationsList.length,
+                          itemCount: addressC.addressList.length,
                           itemBuilder: (context, index) {
                             return ClipRRect(
                               borderRadius: BorderRadius.circular(5),
@@ -64,18 +64,13 @@ class _MedicationPageState extends State<MedicationPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        medicationC.medicationsList[index].name
-                                            .text.white
-                                            .make(),
-                                        medicationC.medicationsList[index]
-                                            .composition.text
-                                            .size(10)
+                                        addressC.addressList[index].address.text
                                             .white
                                             .make(),
-                                        medicationC.medicationsList[index]
-                                            .rantinine.text
+                                        addressC
+                                            .addressList[index].addressName.text
                                             .size(10)
-                                            .color(Color(0xff9F9FA5))
+                                            .white
                                             .make(),
                                       ],
                                     ),
@@ -84,10 +79,10 @@ class _MedicationPageState extends State<MedicationPage> {
                                       shape: CircleBorder(),
                                       fillColor: MaterialStateProperty.all(
                                           Color(0xff0A84FF)),
-                                      value: medicationC.isSelected[index],
+                                      value: addressC.isSelected[index],
                                       onChanged: (value) {
                                         setState(() {
-                                          medicationC.isSelected[index] = value;
+                                          addressC.isSelected[index] = value;
                                         });
                                       },
                                     ),

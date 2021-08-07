@@ -4,7 +4,7 @@ import 'package:tooth/colors.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPageDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

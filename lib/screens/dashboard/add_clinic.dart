@@ -11,11 +11,11 @@ class AddClinicPage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: "Add Clinic".text.size(15).color(Colors.white).center.make(),
-        backgroundColor: Coolors.appBar,
+        backgroundColor: Color(0xff1F1F1F),
         centerTitle: true,
         foregroundColor: Colors.white,
       ),
-      backgroundColor: Color(0xff2A2E43),
+      backgroundColor: Color(0xff222830),
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.all(14),

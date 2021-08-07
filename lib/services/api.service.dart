@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:tooth/models/AddressList.dart';
 import 'package:tooth/models/AdviceList.dart';
 import 'package:tooth/models/Expenditures.dart';
 import 'package:tooth/models/Materials.dart';
@@ -15,7 +16,6 @@ class ApiServices {
     var res = await client.get(Uri.http('127.0.0.1:3000', '/Symptoms'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
-      // this will given my model may be from app.quicktype.io
       return symptomsFromJson(jsonStr);
     } else {
       return null; //handle it
@@ -28,6 +28,17 @@ class ApiServices {
       var jsonStr = res.body;
       // this will given my model may be from app.quicktype.io
       return medicationFromJson(jsonStr);
+    } else {
+      return null; //handle it
+    }
+  }
+
+  static Future<List<Address>> fetchAddressList() async {
+    var res = await client.get(Uri.http('127.0.0.1:3000', '/address'));
+    if (res.statusCode == 200) {
+      var jsonStr = res.body;
+      // this will given my model may be from app.quicktype.io
+      return addressFromJson(jsonStr);
     } else {
       return null; //handle it
     }

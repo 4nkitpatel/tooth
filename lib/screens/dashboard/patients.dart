@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:tooth/controllers/Patients.dart';
+import 'package:tooth/screens/dashboard/bottom_chooser.dart';
+import 'package:tooth/screens/dashboard/medication.dart';
 import 'package:tooth/widgets/selectable_item_widget.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:get/instance_manager.dart';
@@ -97,7 +99,9 @@ class _PatientsPageState extends State<PatientsPage> {
               ),
               InkWell(
                 borderRadius: BorderRadius.circular(50),
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed("/schedule");
+                },
                 child: ImageIcon(
                   AssetImage('assets/nav-calendar.png'),
                   size: 40,
@@ -106,7 +110,9 @@ class _PatientsPageState extends State<PatientsPage> {
               ),
               InkWell(
                 borderRadius: BorderRadius.circular(50),
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed("/patients");
+                },
                 child: ImageIcon(
                   AssetImage('assets/nav-laddy.png'),
                   size: 40,
@@ -148,9 +154,22 @@ class _PatientsPageState extends State<PatientsPage> {
               20.heightBox,
               Row(
                 children: [
-                  "Wed, May 31".text.color(Color(0xff0A84FF)).make(),
+                  InkWell(
+                    onTap: () {
+                      Get.bottomSheet(Container(
+                        height: 300,
+                        child: ChooseTime(),
+                      ));
+                    },
+                    child: "Wed, May 31".text.color(Color(0xff0A84FF)).make(),
+                  ),
                   Spacer(),
-                  "All Clinics".text.color(Color(0xff0A84FF)).make(),
+                  InkWell(
+                    onTap: () {
+                      Get.bottomSheet(MedicationPage());
+                    },
+                    child: "All Clinics".text.color(Color(0xff0A84FF)).make(),
+                  )
                 ],
               ),
               10.heightBox,

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:tooth/controllers/Expenditures.dart';
+import 'package:tooth/screens/dashboard/bottom_chooser.dart';
+import 'package:tooth/screens/dashboard/medication.dart';
 import 'package:tooth/widgets/pichart.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -62,7 +64,9 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
             children: <Widget>[
               InkWell(
                 borderRadius: BorderRadius.circular(50),
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed("/dashboard");
+                },
                 child: ImageIcon(
                   AssetImage('assets/nav-boy.png'),
                   size: 40,
@@ -71,7 +75,9 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
               ),
               InkWell(
                 borderRadius: BorderRadius.circular(50),
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed("/schedule");
+                },
                 child: ImageIcon(
                   AssetImage('assets/nav-calendar.png'),
                   size: 40,
@@ -80,7 +86,9 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
               ),
               InkWell(
                 borderRadius: BorderRadius.circular(50),
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed("/patients");
+                },
                 child: ImageIcon(
                   AssetImage('assets/nav-laddy.png'),
                   size: 40,
@@ -106,9 +114,22 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
               children: [
                 Row(
                   children: [
-                    "Wed, May 31".text.color(Color(0xff0A84FF)).make(),
+                    InkWell(
+                      onTap: () {
+                        Get.bottomSheet(Container(
+                          height: 300,
+                          child: ChooseTime(),
+                        ));
+                      },
+                      child: "Wed, May 31".text.color(Color(0xff0A84FF)).make(),
+                    ),
                     Spacer(),
-                    "All Clinics".text.color(Color(0xff0A84FF)).make(),
+                    InkWell(
+                      onTap: () {
+                        Get.bottomSheet(MedicationPage());
+                      },
+                      child: "All Clinics".text.color(Color(0xff0A84FF)).make(),
+                    )
                   ],
                 ),
                 Stack(clipBehavior: Clip.none, children: [
