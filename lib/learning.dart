@@ -232,6 +232,9 @@ class MessageFromBottom extends StatelessWidget {
   }
 }
 
+// TODO change the size of any FIXED SIZED widget
+// ? Transform.scale( scale: 0.9, child: Checkbox())
+
 // ! u can use in icon button or floating button .badge() provided by vx so that use too give that message count effect that we have in WA
 // ! like in whatsapp if we get messagae little red dot appearse in WA icon
 // TODO ? we can use sliver that take chilfren and many many more things

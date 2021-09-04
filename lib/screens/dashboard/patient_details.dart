@@ -238,6 +238,11 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                       Obx(() {
                         if (adviceC.isLoading.value)
                           return Center(child: CircularProgressIndicator());
+                        else if (adviceC.adviceList.length == 0)
+                          return "No advice available"
+                              .text
+                              .color(Color(0xff646262))
+                              .make();
                         else
                           return CarouselSlider(
                             items: generateSlider(adviceC.adviceList),

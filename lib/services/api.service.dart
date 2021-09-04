@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:tooth/models/AddressList.dart';
 import 'package:tooth/models/AdviceList.dart';
@@ -8,92 +10,123 @@ import 'package:tooth/models/Patients.dart';
 import 'package:tooth/models/Schedule.dart';
 import 'package:tooth/models/symptoms.dart';
 
+// TODO id is string and we gave as number and also check model
 class ApiServices {
   static var client =
       http.Client(); // dont want chnage and open connection adain and again
 
   static Future<List<Symptoms>> fetchSymptoms() async {
-    var res = await client.get(Uri.http('127.0.0.1:3000', '/Symptoms'));
+    // var res = await client.get(Uri.http('127.0.0.1:3000', '/Symptoms'));
+    var res =
+        await client.get(Uri.http('3.23.102.140:7000', '/api/v1/Symptoms'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
-      return symptomsFromJson(jsonStr);
+      print(jsonDecode(jsonStr)['data']);
+      var data = jsonEncode(jsonDecode(jsonStr)['data']);
+      // return symptomsFromJson(jsonStr);
+      return symptomsFromJson(data);
     } else {
       return null; //handle it
     }
   }
 
   static Future<List<Medication>> fetchMedications() async {
-    var res = await client.get(Uri.http('127.0.0.1:3000', '/medication'));
+    var res =
+        await client.get(Uri.http('3.23.102.140:7000', '/api/v1/medication'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
+      print(jsonDecode(jsonStr)['data']);
+      var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      return medicationFromJson(jsonStr);
+      // return medicationFromJson(jsonStr);
+      return medicationFromJson(data);
     } else {
       return null; //handle it
     }
   }
 
   static Future<List<Address>> fetchAddressList() async {
-    var res = await client.get(Uri.http('127.0.0.1:3000', '/address'));
+    var res =
+        await client.get(Uri.http('3.23.102.140:7000', '/api/v1/address'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
+      print(jsonDecode(jsonStr)['data']);
+      var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      return addressFromJson(jsonStr);
+      // return addressFromJson(jsonStr);
+      return addressFromJson(data);
     } else {
       return null; //handle it
     }
   }
 
   static Future<List<Schedule>> fetchSchedules() async {
-    var res = await client.get(Uri.http('127.0.0.1:3000', '/schedule'));
+    var res =
+        await client.get(Uri.http('3.23.102.140:7000', '/api/v1/schedule'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
+      print(jsonDecode(jsonStr)['data']);
+      var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      return scheduleFromJson(jsonStr);
+      // return scheduleFromJson(jsonStr);
+      return scheduleFromJson(data);
     } else {
       return null; //handle it
     }
   }
 
   static Future<List<Patients>> fetchPatients() async {
-    var res = await client.get(Uri.http('127.0.0.1:3000', '/patients'));
+    var res =
+        await client.get(Uri.http('3.23.102.140:7000', '/api/v1/patients'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
+      print(jsonDecode(jsonStr)['data']);
+      var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      return patientsFromJson(jsonStr);
+      return patientsFromJson(data);
     } else {
       return null; //handle it
     }
   }
 
   static Future<List<Expenditures>> fetchExpenditures() async {
-    var res = await client.get(Uri.http('127.0.0.1:3000', '/expenditures'));
+    var res =
+        await client.get(Uri.http('3.23.102.140:7000', '/api/v1/expenditures'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
+      print(jsonDecode(jsonStr)['data']);
+      var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      return expendituresFromJson(jsonStr);
+      return expendituresFromJson(data);
     } else {
       return null; //handle it
     }
   }
 
   static Future<List<Materials>> fetchMaterials() async {
-    var res = await client.get(Uri.http('127.0.0.1:3000', '/materials'));
+    var res =
+        await client.get(Uri.http('3.23.102.140:7000', '/api/v1/materials'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
+      print(jsonDecode(jsonStr)['data']);
+      var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      return materialsFromJson(jsonStr);
+      return materialsFromJson(data);
     } else {
       return null; //handle it
     }
   }
 
   static Future<List<AdviceList>> fetchAdviceList() async {
-    var res = await client.get(Uri.http('127.0.0.1:3000', '/advice'));
+    var res = await client.get(Uri.http('3.23.102.140:7000', '/api/v1/advice'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
+
+      print(jsonDecode(jsonStr)['data']);
+      var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      return adviceListFromJson(jsonStr);
+      // return adviceListFromJson(jsonStr);
+      return adviceListFromJson(data);
     } else {
       return null; //handle it
     }

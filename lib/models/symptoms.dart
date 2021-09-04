@@ -10,12 +10,12 @@ class Symptoms {
   Symptoms({
     this.id,
     this.name,
-    this.desc,
+    this.description,
   });
 
-  int id;
+  String id;
   String name;
-  String desc;
+  String description;
 
   // we use this to make our instance accessable nai to its is instance of obj evu aavse
   // @override
@@ -23,13 +23,13 @@ class Symptoms {
 
   factory Symptoms.fromJson(Map<String, dynamic> json) => Symptoms(
         id: json["id"],
-        name: json["name"],
-        desc: json["desc"],
+        name: json["name"] ?? "",
+        description: json["description"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "desc": desc,
+        "description": description,
       };
 }

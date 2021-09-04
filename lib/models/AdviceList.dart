@@ -13,14 +13,14 @@ class AdviceList {
     this.price,
   });
 
-  int id;
+  String id;
   String name;
   String price;
 
   factory AdviceList.fromJson(Map<String, dynamic> json) => AdviceList(
         id: json["id"],
-        name: json["name"],
-        price: json["price"],
+        name: json["name"] ?? "",
+        price: json["price"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

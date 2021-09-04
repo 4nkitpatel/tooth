@@ -241,7 +241,7 @@ class _SymptomsPageState extends State<SymptomsPage> {
                           style: TextStyle(color: Colors.white)),
                       // data[index].name.text.white.make(),
                       AutoSizeText(
-                        data[index].desc,
+                        data[index].description,
                         style: TextStyle(
                           fontSize: 10.0,
                           color: Color(0xff616165),

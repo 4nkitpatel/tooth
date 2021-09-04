@@ -17,7 +17,7 @@ class Expenditures {
     this.date,
   });
 
-  int id;
+  String id;
   String labName;
   String price;
   String paymentMode;
@@ -27,12 +27,12 @@ class Expenditures {
 
   factory Expenditures.fromJson(Map<String, dynamic> json) => Expenditures(
         id: json["id"],
-        labName: json["labName"],
-        price: json["price"],
-        paymentMode: json["paymentMode"],
-        state: json["state"],
-        time: json["time"],
-        date: json["date"],
+        labName: json["labName"] ?? "",
+        price: json["price"] ?? "",
+        paymentMode: json["paymentMode"] ?? "",
+        state: json["state"] ?? "",
+        time: json["time"] ?? "",
+        date: json["date"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

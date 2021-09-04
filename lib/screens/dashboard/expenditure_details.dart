@@ -302,14 +302,15 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        expendituresC.materialList[index].materialName.text
+                        expendituresC.materialList[index].materialname.text
                             .color(Color(0xff00ADB5))
                             .make(),
-                        expendituresC.materialList[index].price.text
+                        ("Rs ${expendituresC.materialList[index].price}")
+                            .text
                             .size(10)
                             .white
                             .make(),
-                        expendituresC.materialList[index].paymentMode.text
+                        expendituresC.materialList[index].paymentmode.text
                             .size(10)
                             .color(Color(0xffBBBBBB))
                             .make(),

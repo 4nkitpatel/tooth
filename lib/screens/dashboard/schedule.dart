@@ -143,6 +143,11 @@ class _SchedulePageState extends State<SchedulePage> {
                   child: Obx(() {
                     if (scheduleC.isLoading.value)
                       return Center(child: CircularProgressIndicator());
+                    else if (scheduleC.schedulesList.length == 0)
+                      return "No data available"
+                          .text
+                          .color(Color(0xff646262))
+                          .make();
                     else
                       return ListView.separated(
                         separatorBuilder: (context, index) => 10.heightBox,
@@ -190,6 +195,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                 return res;
                               } else {
                                 // TODO: Navigate to edit page;
+                                return null;
                               }
                             },
                             key: Key(index.toString()),

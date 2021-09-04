@@ -18,16 +18,16 @@ class Medication {
     this.rantinine,
   });
 
-  int id;
+  String id;
   String name;
   String composition;
   String rantinine;
 
   factory Medication.fromJson(Map<String, dynamic> json) => Medication(
         id: json["id"],
-        name: json["name"],
-        composition: json["composition"],
-        rantinine: json["rantinine"],
+        name: json["name"] ?? "",
+        composition: json["composition"] ?? "",
+        rantinine: json["rantinine"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

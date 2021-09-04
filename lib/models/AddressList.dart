@@ -15,7 +15,7 @@ class Address {
     this.long,
   });
 
-  int id;
+  String id;
   String address;
   String addressName;
   int lat;
@@ -23,10 +23,10 @@ class Address {
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
         id: json["id"],
-        address: json["address"],
-        addressName: json["addressName"],
-        lat: json["lat"],
-        long: json["long"],
+        address: json["address"] ?? "",
+        addressName: json["addressName"] ?? "",
+        lat: json["lat"] ?? "",
+        long: json["long"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

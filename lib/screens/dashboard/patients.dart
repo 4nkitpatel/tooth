@@ -179,6 +179,11 @@ class _PatientsPageState extends State<PatientsPage> {
                   () {
                     if (patientsC.isLoading.value)
                       return Center(child: CircularProgressIndicator());
+                    else if (patientsC.patientsList.length == 0)
+                      return "No data available"
+                          .text
+                          .color(Color(0xff646262))
+                          .make();
                     else
                       return DragSelectGridView(
                         triggerSelectionOnTap: true,

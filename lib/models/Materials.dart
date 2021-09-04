@@ -9,34 +9,34 @@ String materialsToJson(List<Materials> data) =>
 class Materials {
   Materials({
     this.id,
-    this.materialName,
+    this.materialname,
     this.price,
-    this.paymentMode,
+    this.paymentmode,
     this.state,
     this.time,
   });
 
-  int id;
-  String materialName;
-  String price;
-  String paymentMode;
+  String id;
+  String materialname;
+  int price;
+  String paymentmode;
   String state;
   String time;
 
   factory Materials.fromJson(Map<String, dynamic> json) => Materials(
         id: json["id"],
-        materialName: json["materialName"],
-        price: json["price"],
-        paymentMode: json["paymentMode"],
-        state: json["state"],
-        time: json["time"],
+        materialname: json["materialname"] ?? "",
+        price: json["price"] ?? "",
+        paymentmode: json["paymentmode"] ?? "",
+        state: json["state"] ?? "",
+        time: json["time"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "materialName": materialName,
+        "materialname": materialname,
         "price": price,
-        "paymentMode": paymentMode,
+        "paymentmode": paymentmode,
         "state": state,
         "time": time,
       };

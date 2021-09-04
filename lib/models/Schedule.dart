@@ -17,7 +17,7 @@ class Schedule {
     this.insuredStatus,
   });
 
-  int id;
+  String id;
   String name;
   String treatment;
   String visit;
@@ -27,12 +27,12 @@ class Schedule {
 
   factory Schedule.fromJson(Map<String, dynamic> json) => Schedule(
         id: json["id"],
-        name: json["name"],
-        treatment: json["treatment"],
-        visit: json["visit"],
-        state: json["state"],
-        time: json["time"],
-        insuredStatus: json["insuredStatus"],
+        name: json["name"] ?? "",
+        treatment: json["treatment"] ?? "",
+        visit: json["visit"] ?? "",
+        state: json["state"] ?? "",
+        time: json["time"] ?? "",
+        insuredStatus: json["insuredStatus"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

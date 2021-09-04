@@ -14,16 +14,16 @@ class Patients {
     this.name,
   });
 
-  int id;
+  String id;
   String imageUrl;
   String date;
   String name;
 
   factory Patients.fromJson(Map<String, dynamic> json) => Patients(
         id: json["id"],
-        imageUrl: json["imageUrl"],
-        date: json["date"],
-        name: json["name"],
+        imageUrl: json["imageUrl"] ?? "",
+        date: json["date"] ?? "",
+        name: json["name"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

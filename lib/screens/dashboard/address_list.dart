@@ -42,7 +42,7 @@ class _AddressListPageState extends State<AddressListPage> {
                 10.heightBox,
                 Container(
                   height: 350,
-                  // color: Colors.red,
+                  // color: Color(0xff2C2C2E),
                   child: Obx(
                     () {
                       if (addressC.isLoading.value)
@@ -55,6 +55,7 @@ class _AddressListPageState extends State<AddressListPage> {
                             return ClipRRect(
                               borderRadius: BorderRadius.circular(5),
                               child: Container(
+                                // color: Color(0xff003049),
                                 color: Color(0xff2C2C2E),
                                 width: MediaQuery.of(context).size.width,
                                 height: 100,
