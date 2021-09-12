@@ -14,10 +14,11 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: "Dashboard".text.size(17).make(),
+        title: "Dashboard".text.size(media.height * 0.02 - 5).make(),
         backgroundColor: Color(0xff1F2125),
         leading: Builder(
           builder: (context) => IconButton(
@@ -109,7 +110,7 @@ class DashboardPage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(14),
+            padding: EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -122,14 +123,22 @@ class DashboardPage extends StatelessWidget {
                           child: ChooseTime(),
                         ));
                       },
-                      child: "Wed, May 31".text.color(Color(0xff0A84FF)).make(),
+                      child: "Wed, May 31"
+                          .text
+                          .size(media.height * 0.02 - 5)
+                          .color(Color(0xff0A84FF))
+                          .make(),
                     ),
                     Spacer(),
                     InkWell(
                       onTap: () {
                         Get.bottomSheet(AddressListPage());
                       },
-                      child: "All Clinics".text.color(Color(0xff0A84FF)).make(),
+                      child: "All Clinics"
+                          .text
+                          .size(media.height * 0.02 - 5)
+                          .color(Color(0xff0A84FF))
+                          .make(),
                     )
                   ],
                 ),
@@ -138,7 +147,7 @@ class DashboardPage extends StatelessWidget {
                   children: [
                     "Welcome Dr. Bens"
                         .text
-                        .size(20)
+                        .size(media.height * 0.025 - 5)
                         .color(Color(0xff00BCD4))
                         .make(),
                   ],
@@ -147,6 +156,7 @@ class DashboardPage extends StatelessWidget {
                 Row(
                   children: [
                     buildCard(
+                      context: context,
                       header: "Total Patient",
                       price: "234",
                       icon: 'assets/user-friends.png',
@@ -160,6 +170,7 @@ class DashboardPage extends StatelessWidget {
                         Get.toNamed("/schedule");
                       },
                       child: buildCard(
+                        context: context,
                         header: "Appointment",
                         price: "234",
                         icon: 'assets/patient.png',
@@ -171,6 +182,7 @@ class DashboardPage extends StatelessWidget {
                 Row(
                   children: [
                     buildCard(
+                      context: context,
                       header: "Total Income",
                       price: "2.34K",
                     ),
@@ -183,6 +195,7 @@ class DashboardPage extends StatelessWidget {
                           Get.toNamed("/expenditureDetails");
                         },
                         child: buildCard(
+                          context: context,
                           header: "Total Expense",
                           price: "2.34K",
                         )),
@@ -199,20 +212,30 @@ class DashboardPage extends StatelessWidget {
                 10.heightBox,
                 buildFullWidthBox(context),
                 10.heightBox,
-                Image.asset('assets/showcase.png').centered(),
+                Image.asset(
+                  'assets/showcase.png',
+                  height: media.height * 0.15 - 5,
+                  fit: BoxFit.contain,
+                ).centered(),
                 // Container(
                 //   color: Colors.white,
                 //   height: 100,
                 //   width: 100,
                 // ).centered(),
                 10.heightBox,
-                AutoSizeText(
-                  "OOPS!!! no clinic Address has been added. Please add to sync your dashboard....",
-                  style: TextStyle(color: Color(0xff989696)),
-                  maxLines: 1,
-                  minFontSize: 5,
-                  textAlign: TextAlign.center,
-                ).centered(),
+                "OOPS!!! no clinic Address has been added. Please add to sync your dashboard...."
+                    .text
+                    .size(media.height * 0.02 - 5)
+                    .center
+                    .color(Color(0xff989696))
+                    .make(),
+                // AutoSizeText(
+                //   "OOPS!!! no clinic Address has been added. Please add to sync your dashboard....",
+                //   style: TextStyle(color: Color(0xff989696)),
+                //   maxLines: 1,
+                //   minFontSize: (media.height * 0.03),
+                //   textAlign: TextAlign.center,
+                // ).centered(),
                 10.heightBox,
                 ElevatedButton(
                   onPressed: () {
@@ -221,12 +244,15 @@ class DashboardPage extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => AddClinicPage()));
                   },
-                  child: "Add Clinic Address".text.size(7).make(),
+                  child: "Add Clinic Address"
+                      .text
+                      .size(media.height * 0.02 - 5)
+                      .make(),
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Coolors.secondaryBtn),
                   ),
-                ).wh(180, 30).centered(),
+                ).wh(media.width * 0.5 - 5, media.height * 0.05 - 5).centered(),
               ],
             ),
           ),
@@ -235,37 +261,58 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  ClipRRect buildCard({String header, String price, String icon = ""}) {
+  ClipRRect buildCard(
+      {BuildContext context, String header, String price, String icon = ""}) {
+    final media = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: Container(
-        padding: EdgeInsets.all(10),
-        child: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                header.text.size(5).color(Color(0xff00ADB5)).make(),
-                price.text.xl3.color(Colors.white).make()
-              ],
-            ),
-            Spacer(),
-            icon.isEmpty ? Container() : Image.asset(icon)
-            // Icon(
-            //   icon,
-            //   size: 35,
-            //   color: Color(0xff6B6C70),
-            // ),
-          ],
-        ),
-        color: Color(0xff1F2125),
-        height: 80,
-        width: 160,
-      ),
+          padding: EdgeInsets.all(10),
+          child: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  header.text
+                      .size(media.height * 0.02 - 5)
+                      .color(Color(0xff00ADB5))
+                      .make(),
+                  FittedBox(
+                    fit: BoxFit.contain,
+                    child: price.text
+                        .size(media.height * 0.055 - 10 - 5)
+                        .color(Colors.white)
+                        .make(),
+                  )
+                ],
+              ),
+              Spacer(),
+              icon.isEmpty
+                  ? Container()
+                  : Expanded(
+                      child: Image.asset(
+                        icon,
+                        height: media.height * 0.05 - 5,
+                        fit: BoxFit.contain,
+                        // width: media.width * 0.02,
+                      ),
+                    )
+              // Icon(
+              //   icon,
+              //   size: 35,
+              //   color: Color(0xff6B6C70),
+              // ),
+            ],
+          ),
+          color: Color(0xff1F2125),
+          height: media.height * 0.11 - 5, //80,
+          width: media.width * 0.5 - 10 - 5 // 160,
+          ),
     );
   }
 
   ClipRRect buildFullWidthBox(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: InkWell(
@@ -274,38 +321,60 @@ class DashboardPage extends StatelessWidget {
           Get.toNamed("/patientDetails");
         },
         child: Container(
-          padding: EdgeInsets.all(10),
-          color: Color(0xff1F2125),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  "Andy Murray".text.color(Color(0xff00ADB5)).make(),
-                  Spacer(),
-                  "Arizona".text.color(Color(0xff00ADB5)).make(),
-                ],
-              ),
-              Row(
-                children: [
-                  Image.asset('assets/small-teeth.png'),
-                  Image.asset('assets/big-teeth.png'),
-                  // Icon(
-                  //   Icons.accessibility_outlined,
-                  //   color: Color(0xffCECECE),
-                  // ),
-                  // Icon(
-                  //   Icons.accessibility_rounded,
-                  //   color: Colors.white,
-                  //   size: 35,
-                  // ),
-                  Spacer(),
-                  "7:30 PM".text.size(10).color(Color(0xffFFFFFF)).make(),
-                ],
-              ),
-            ],
-          ),
-          height: 80,
-        ).wFull(context),
+                padding: EdgeInsets.all(10),
+                color: Color(0xff1F2125),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        "Andy Murray"
+                            .text
+                            .size(media.height * 0.025 - 5)
+                            .color(Color(0xff00ADB5))
+                            .make(),
+                        Spacer(),
+                        "Arizona"
+                            .text
+                            .size(media.height * 0.025 - 5)
+                            .color(Color(0xff00ADB5))
+                            .make(),
+                      ],
+                    ),
+                    5.heightBox,
+                    Row(
+                      children: [
+                        Image.asset(
+                          'assets/small-teeth.png',
+                          height: media.height * 0.05 - 5,
+                          fit: BoxFit.contain,
+                        ),
+                        Image.asset(
+                          'assets/big-teeth.png',
+                          height: media.height * 0.05 - 5,
+                          fit: BoxFit.contain,
+                        ),
+                        // Icon(
+                        //   Icons.accessibility_outlined,
+                        //   color: Color(0xffCECECE),
+                        // ),
+                        // Icon(
+                        //   Icons.accessibility_rounded,
+                        //   color: Colors.white,
+                        //   size: 35,
+                        // ),
+                        Spacer(),
+                        "7:30 PM"
+                            .text
+                            .size(media.height * 0.02 - 5)
+                            .color(Color(0xffFFFFFF))
+                            .make(),
+                      ],
+                    ),
+                  ],
+                ),
+                height: media.height * 0.11 + 10 - 5 //80,
+                )
+            .wFull(context),
       ),
     );
   }

@@ -1,5 +1,8 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tooth/colors.dart';
 import 'package:tooth/pages/expenditure.dart';
 import 'package:tooth/pages/first_visit.dart';
@@ -15,7 +18,15 @@ import 'package:tooth/screens/dashboard/symptoms.dart';
 import 'package:tooth/screens/signup/signup_page.dart';
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => MyApp(), // Wrap your app
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -32,6 +43,8 @@ class MyApp extends StatelessWidget {
         accentColor: Coolors.appBar,
         unselectedWidgetColor: Colors.white,
       ),
+      locale: DevicePreview.locale(context), // Add the locale here
+      builder: DevicePreview.appBuilder, // Add the builder here
       home: WelcomePage(),
       // initialRoute: '/',
       getPages: [

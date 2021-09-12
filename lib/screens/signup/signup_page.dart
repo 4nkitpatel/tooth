@@ -8,6 +8,7 @@ import 'package:velocity_x/velocity_x.dart';
 class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -23,12 +24,12 @@ class SignUpPage extends StatelessWidget {
             child: SingleChildScrollView(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height * 0.7),
+                    maxHeight: MediaQuery.of(context).size.height * 0.75),
                 child: Column(
                   children: [
                     "You Are \n1/2 Away"
                         .text
-                        .xl5
+                        .size(media.height * 0.06 - 5)
                         .center
                         .color(Colors.white)
                         .make()
@@ -42,16 +43,19 @@ class SignUpPage extends StatelessWidget {
                     17.heightBox,
                     Wgt.getTFF(text: "Qualification"),
                     17.heightBox,
+                    // Spacer(),
                     Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: EdgeInsets.only(left: 16, right: 16, top: 16),
                       child: Wgt.getSecondaryBtn(
                         text: "NEXT",
                         context: context,
                         cb: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LastPage()));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LastPage(),
+                            ),
+                          );
                         },
                       ),
                     ),
