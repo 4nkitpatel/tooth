@@ -17,6 +17,7 @@ class _SchedulePageState extends State<SchedulePage> {
   String selectedDate = '';
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xff161819),
@@ -124,7 +125,11 @@ class _SchedulePageState extends State<SchedulePage> {
                       ));
                     },
                     child: selectedDate == ''
-                        ? "Select a date".text.white.make()
+                        ? "Select a date"
+                            .text
+                            .size(media.height * 0.02 - 5)
+                            .white
+                            .make()
                         : selectedDate.text.white.make(),
                   ),
                   Spacer(),
@@ -132,13 +137,17 @@ class _SchedulePageState extends State<SchedulePage> {
                     onTap: () {
                       Get.bottomSheet(MedicationPage());
                     },
-                    child: "All Clinics".text.color(Color(0xff0A84FF)).make(),
+                    child: "All Clinics"
+                        .text
+                        .size(media.height * 0.02 - 5)
+                        .color(Color(0xff0A84FF))
+                        .make(),
                   )
                 ],
               ),
               10.heightBox,
               Container(
-                  height: MediaQuery.of(context).size.height * 0.65,
+                  height: MediaQuery.of(context).size.height * 0.58,
                   // color: Colors.red,
                   child: Obx(() {
                     if (scheduleC.isLoading.value)
@@ -214,7 +223,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                     child: Container(
                                       // color: Color(0xff1F2125),
                                       width: MediaQuery.of(context).size.width,
-                                      height: 80,
+                                      height: media.height * 0.11,
                                       child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
@@ -225,16 +234,18 @@ class _SchedulePageState extends State<SchedulePage> {
                                             children: [
                                               scheduleC.schedulesList[index]
                                                   .name.text
+                                                  .size(
+                                                      media.height * 0.024 - 5)
                                                   .color(Color(0xff00ADB5))
                                                   .make(),
                                               scheduleC.schedulesList[index]
                                                   .treatment.text
-                                                  .size(10)
+                                                  .size(media.height * 0.02 - 5)
                                                   .white
                                                   .make(),
                                               scheduleC.schedulesList[index]
                                                   .visit.text
-                                                  .size(10)
+                                                  .size(media.height * 0.02 - 5)
                                                   .color(Color(0xffA8A3A3))
                                                   .make(),
                                             ],
@@ -244,23 +255,27 @@ class _SchedulePageState extends State<SchedulePage> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.22,
+                                                0.30,
                                             child: Column(
                                               crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.end,
                                               children: [
                                                 scheduleC.schedulesList[index]
                                                     .state.text
+                                                    .size(media.height * 0.024 -
+                                                        5)
                                                     .color(Color(0xff00ADB5))
                                                     .make(),
                                                 scheduleC.schedulesList[index]
                                                     .time.text
-                                                    .size(10)
+                                                    .size(
+                                                        media.height * 0.02 - 5)
                                                     .white
                                                     .make(),
                                                 scheduleC.schedulesList[index]
                                                     .insuredStatus.text
-                                                    .size(10)
+                                                    .size(
+                                                        media.height * 0.02 - 5)
                                                     .white
                                                     .make(),
                                               ],
@@ -294,8 +309,8 @@ class _SchedulePageState extends State<SchedulePage> {
             Text(
               " Approve",
               style: TextStyle(
-                color: Colors.white,
-              ),
+                  color: Colors.white,
+                  fontSize: MediaQuery.of(context).size.height * 0.025 - 5),
               textAlign: TextAlign.center,
             ),
             SizedBox(
@@ -321,14 +336,15 @@ class _SchedulePageState extends State<SchedulePage> {
             Icon(
               Icons.calendar_today_rounded,
               color: Colors.white,
+              size: MediaQuery.of(context).size.height * 0.03 - 5,
             ),
             SizedBox(
               width: 15,
             ),
             Container(
               // color: Colors.white,
-              width: MediaQuery.of(context).size.width * 0.6,
-              height: 35,
+              width: MediaQuery.of(context).size.width * 0.6 - 5,
+              height: MediaQuery.of(context).size.height * 0.04 - 5,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 separatorBuilder: (context, index) => 10.widthBox,
@@ -337,7 +353,8 @@ class _SchedulePageState extends State<SchedulePage> {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(5),
                     child: Container(
-                      width: 33,
+                      // width: MediaQuery.of(context).size.height * 0.033,
+                      height: MediaQuery.of(context).size.height * 0.033 - 5,
                       child: Image.network(
                         'https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80',
                         fit: BoxFit.cover,

@@ -34,14 +34,15 @@ class _PatientsPageState extends State<PatientsPage> {
   void rebuild() => setState(() {});
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     final isSelected = controller.value.isSelecting;
     final text = isSelected
         ? '${controller.value.amount} Images Selected'
             .text
-            .size(15)
+            .size(media.height * 0.021)
             .white
             .make()
-        : "Patients".text.size(15).white.make();
+        : "Patients".text.size(media.height * 0.021).white.make();
 
     return SafeArea(
       child: Scaffold(
@@ -132,7 +133,7 @@ class _PatientsPageState extends State<PatientsPage> {
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 5),
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -161,48 +162,60 @@ class _PatientsPageState extends State<PatientsPage> {
                         child: ChooseTime(),
                       ));
                     },
-                    child: "Wed, May 31".text.color(Color(0xff0A84FF)).make(),
+                    child: "Wed, May 31"
+                        .text
+                        .size(media.height * 0.023 - 5)
+                        .color(Color(0xff0A84FF))
+                        .make(),
                   ),
                   Spacer(),
                   InkWell(
                     onTap: () {
                       Get.bottomSheet(MedicationPage());
                     },
-                    child: "All Clinics".text.color(Color(0xff0A84FF)).make(),
+                    child: "All Clinics"
+                        .text
+                        .size(media.height * 0.023 - 5)
+                        .color(Color(0xff0A84FF))
+                        .make(),
                   )
                 ],
               ),
               10.heightBox,
-              Container(
-                height: MediaQuery.of(context).size.height * 0.6,
-                child: Obx(
-                  () {
-                    if (patientsC.isLoading.value)
-                      return Center(child: CircularProgressIndicator());
-                    else if (patientsC.patientsList.length == 0)
-                      return "No data available"
-                          .text
-                          .color(Color(0xff646262))
-                          .make();
-                    else
-                      return DragSelectGridView(
-                        triggerSelectionOnTap: true,
-                        gridController: controller,
-                        padding: EdgeInsets.all(8),
-                        itemCount: patientsC.patientsList.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.7,
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                        ),
-                        itemBuilder: (context, index, isSelected) =>
-                            SelectableItemWidget(
-                          patient: patientsC.patientsList[index],
-                          isSelected: isSelected,
-                        ),
-                      );
-                  },
+              Expanded(
+                child: Container(
+                  // color: Colors.red,
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: Obx(
+                    () {
+                      if (patientsC.isLoading.value)
+                        return Center(child: CircularProgressIndicator());
+                      else if (patientsC.patientsList.length == 0)
+                        return "No data available"
+                            .text
+                            .color(Color(0xff646262))
+                            .make();
+                      else
+                        return DragSelectGridView(
+                          triggerSelectionOnTap: true,
+                          gridController: controller,
+                          padding: EdgeInsets.all(8),
+                          itemCount: patientsC.patientsList.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 0.7,
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                          ),
+                          itemBuilder: (context, index, isSelected) =>
+                              SelectableItemWidget(
+                            patient: patientsC.patientsList[index],
+                            isSelected: isSelected,
+                          ),
+                        );
+                    },
+                  ),
                 ),
               ),
               Wgt.getSecondaryBtn(

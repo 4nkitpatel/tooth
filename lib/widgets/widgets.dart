@@ -60,9 +60,11 @@ class Wgt {
   static getSecondaryBtn({String text, BuildContext context, cb}) {
     return ElevatedButton(
       onPressed: cb,
-      child: text.text.make(),
+      child:
+          text.text.size(MediaQuery.of(context).size.height * 0.02 - 5).make(),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Coolors.secondaryBtn),
+        padding: MaterialStateProperty.all(EdgeInsets.all(10)),
       ),
     ).wFull(context);
   }

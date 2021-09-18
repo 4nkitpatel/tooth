@@ -63,6 +63,7 @@ class ApiServices {
   static Future<List<Schedule>> fetchSchedules() async {
     var res =
         await client.get(Uri.http('3.23.102.140:7000', '/api/v1/schedule'));
+    // await client.get(Uri.http('localhost:3000', '/schedule'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
       print(jsonDecode(jsonStr)['data']);
@@ -78,12 +79,14 @@ class ApiServices {
   static Future<List<Patients>> fetchPatients() async {
     var res =
         await client.get(Uri.http('3.23.102.140:7000', '/api/v1/patients'));
+    // var res = await client.get(Uri.http('localhost:3000', '/patients'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
       print(jsonDecode(jsonStr)['data']);
       var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
       return patientsFromJson(data);
+      // return patientsFromJson(jsonStr);
     } else {
       return null; //handle it
     }

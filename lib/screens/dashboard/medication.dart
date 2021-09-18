@@ -13,6 +13,7 @@ class _MedicationPageState extends State<MedicationPage> {
   final MedicationController medicationC = Get.put(MedicationController());
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xff161819),
@@ -38,11 +39,14 @@ class _MedicationPageState extends State<MedicationPage> {
                   ),
                 ),
                 20.heightBox,
-                "Suggested Searches".text.color(Color(0xffCECECE)).make(),
+                "Suggested Searches"
+                    .text
+                    .size(media.height * 0.025 - 5)
+                    .color(Color(0xffCECECE))
+                    .make(),
                 10.heightBox,
                 Container(
-                  height: 350,
-                  // color: Colors.red,
+                  height: media.height * 0.4,
                   child: Obx(
                     () {
                       if (medicationC.isLoading.value)
@@ -62,7 +66,7 @@ class _MedicationPageState extends State<MedicationPage> {
                               child: Container(
                                 color: Color(0xff2C2C2E),
                                 width: MediaQuery.of(context).size.width,
-                                height: 100,
+                                height: media.height * 0.12,
                                 child: Row(
                                   children: [
                                     Column(
@@ -71,15 +75,18 @@ class _MedicationPageState extends State<MedicationPage> {
                                       children: [
                                         medicationC.medicationsList[index].name
                                             .text.white
+                                            .size(media.height * 0.024 - 5)
                                             .make(),
                                         medicationC.medicationsList[index]
                                             .composition.text
-                                            .size(10)
+                                            // .size(10)
+                                            .size(media.height * 0.02 - 5)
                                             .white
                                             .make(),
                                         medicationC.medicationsList[index]
                                             .rantinine.text
-                                            .size(10)
+                                            // .size(10)
+                                            .size(media.height * 0.02 - 5)
                                             .color(Color(0xff9F9FA5))
                                             .make(),
                                       ],

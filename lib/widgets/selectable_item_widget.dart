@@ -20,6 +20,7 @@ class _SelectableItemWidgetState extends State<SelectableItemWidget>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return Stack(alignment: AlignmentDirectional.center, children: [
       Container(
         width: double.infinity,
@@ -29,8 +30,14 @@ class _SelectableItemWidgetState extends State<SelectableItemWidget>
             Expanded(
               child: Image.network(widget.patient.imageUrl, fit: BoxFit.cover),
             ),
-            widget.patient.name.text.color(Color(0xff00ADB5)).size(6).make(),
-            widget.patient.date.text.color(Color(0xff00ADB5)).size(4).make(),
+            widget.patient.name.text
+                .color(Color(0xff00ADB5))
+                .size(media.height * 0.018 - 3)
+                .make(),
+            widget.patient.date.text
+                .color(Color(0xff00ADB5))
+                .size(media.height * 0.018 - 3)
+                .make(),
           ],
         ),
       ),
@@ -41,6 +48,7 @@ class _SelectableItemWidgetState extends State<SelectableItemWidget>
             ? Icon(
                 Icons.verified,
                 color: Color(0xff0A84FF),
+                size: media.height * 0.03 - 3,
               )
             : Container(),
       ),

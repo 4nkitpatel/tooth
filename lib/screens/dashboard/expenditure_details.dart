@@ -24,6 +24,7 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
   int initialIndex = 0;
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xff161819),
@@ -106,122 +107,132 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
             ],
           ),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Get.bottomSheet(Container(
-                          height: 300,
-                          child: ChooseTime(),
-                        ));
-                      },
-                      child: "Wed, May 31".text.color(Color(0xff0A84FF)).make(),
-                    ),
-                    Spacer(),
-                    InkWell(
-                      onTap: () {
-                        Get.bottomSheet(MedicationPage());
-                      },
-                      child: "All Clinics".text.color(Color(0xff0A84FF)).make(),
-                    )
-                  ],
-                ),
-                Stack(clipBehavior: Clip.none, children: [
-                  PieChartSample2(),
-                  Positioned(
-                    top: 21,
-                    left: 105,
-                    child: Container(
-                      height: 130,
-                      width: 130,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            // style: BorderStyle.solid,
-                            // width: 20,
-                            // color: Colors.red[500],
-                            ),
-                        color: Color(0xff161819),
-                        shape: BoxShape.circle,
-                      ),
-                      child: "34,890"
-                          .text
-                          .headline6(context)
-                          .color(Color(0xff1F78B4))
-                          .make()
-                          .centered(),
-                    ),
-                  ),
-                ]),
-                20.heightBox,
-                Container(
-                  color: Color(0xff1F2125),
-                  height: 40,
-                  width: MediaQuery.of(context).size.width,
-                  child: ToggleSwitch(
-                    minHeight: 30,
-                    minWidth: MediaQuery.of(context).size.width,
-                    initialLabelIndex: initialIndex,
-                    inactiveBgColor: Color(0xff34353B),
-                    activeBgColor: Color(0xff636366),
-                    inactiveFgColor: Colors.white,
-                    labels: ['Labdetails', 'Materials', 'Misc'],
-                    onToggle: (index) {
-                      print('switched to: $index');
-                      if (index == 1) {
-                        expendituresC.fetchMaterials();
-                        setState(() {
-                          builderFor = 'materail';
-                          initialIndex = index;
-                        });
-                      } else if (index == 2) {
-                        // call api
-                        setState(() {
-                          builderFor = 'expenditure';
-                          initialIndex = index;
-                        });
-                      } else {
-                        setState(() {
-                          builderFor = 'expenditure';
-                          initialIndex = index;
-                        });
-                      }
+        body: Container(
+          padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 5),
+          height: media.height,
+          // color: Colors.red,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Get.bottomSheet(Container(
+                        height: 300,
+                        child: ChooseTime(),
+                      ));
                     },
-                  ).centered(),
-                ),
-                20.heightBox,
-                Container(
-                    height: 280,
+                    child: "Wed, May 31"
+                        .text
+                        .size(media.height * 0.023 - 5)
+                        .color(Color(0xff0A84FF))
+                        .make(),
+                  ),
+                  Spacer(),
+                  InkWell(
+                    onTap: () {
+                      Get.bottomSheet(MedicationPage());
+                    },
+                    child: "All Clinics"
+                        .text
+                        .size(media.height * 0.023 - 5)
+                        .color(Color(0xff0A84FF))
+                        .make(),
+                  )
+                ],
+              ),
+              Stack(clipBehavior: Clip.none, children: [
+                PieChartSample2(),
+                // Positioned(
+                //   top: 21,
+                //   left: 105,
+                //   child: Container(
+                //     height: 130,
+                //     width: 130,
+                //     decoration: BoxDecoration(
+                //       border: Border.all(
+                //           // style: BorderStyle.solid,
+                //           // width: 20,
+                //           // color: Colors.red[500],
+                //           ),
+                //       color: Color(0xff161819),
+                //       shape: BoxShape.circle,
+                //     ),
+                //     child: "34,890"
+                //         .text
+                //         .headline6(context)
+                //         .color(Color(0xff1F78B4))
+                //         .make()
+                //         .centered(),
+                //   ),
+                // ),
+              ]),
+              20.heightBox,
+              Container(
+                color: Color(0xff1F2125),
+                height: media.height * 0.05,
+                width: MediaQuery.of(context).size.width,
+                child: ToggleSwitch(
+                  minHeight: media.height * 0.04,
+                  minWidth: MediaQuery.of(context).size.width,
+                  initialLabelIndex: initialIndex,
+                  inactiveBgColor: Color(0xff34353B),
+                  activeBgColor: Color(0xff636366),
+                  inactiveFgColor: Colors.white,
+                  labels: ['Labdetails', 'Materials', 'Misc'],
+                  onToggle: (index) {
+                    print('switched to: $index');
+                    if (index == 1) {
+                      expendituresC.fetchMaterials();
+                      setState(() {
+                        builderFor = 'materail';
+                        initialIndex = index;
+                      });
+                    } else if (index == 2) {
+                      // call api
+                      setState(() {
+                        builderFor = 'expenditure';
+                        initialIndex = index;
+                      });
+                    } else {
+                      setState(() {
+                        builderFor = 'expenditure';
+                        initialIndex = index;
+                      });
+                    }
+                  },
+                ).centered(),
+              ),
+              10.heightBox,
+              Expanded(
+                child: Container(
+                    height: media.height * 0.29 - 3,
                     // color: Colors.red,
                     child: (() {
                       if (builderFor == 'expenditure')
-                        return buildObxForExpenditures();
+                        return buildObxForExpenditures(context);
                       else
-                        return buildObxForMaterials();
+                        return buildObxForMaterials(context);
                     }())),
-                10.heightBox,
-                Wgt.getSecondaryBtn(
-                  text: 'Add Expense',
-                  context: context,
-                  cb: () {
-                    // Navigator.pushNamed(context, "/patients");
-                    Get.toNamed("/patients");
-                  },
-                )
-              ],
-            ),
+              ),
+              5.heightBox,
+              Wgt.getSecondaryBtn(
+                text: 'Add Expense',
+                context: context,
+                cb: () {
+                  // Navigator.pushNamed(context, "/patients");
+                  Get.toNamed("/patients");
+                },
+              )
+            ],
           ),
         ),
       ),
     );
   }
 
-  Obx buildObxForExpenditures() {
+  Obx buildObxForExpenditures(BuildContext context) {
     return Obx(() {
       if (expendituresC.isLoading.value)
         return Center(child: CircularProgressIndicator());
@@ -235,7 +246,7 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
               child: Container(
                 color: Color(0xff1F2125),
                 width: MediaQuery.of(context).size.width,
-                height: 80,
+                height: MediaQuery.of(context).size.height * 0.12,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -243,14 +254,18 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         expendituresC.expendituresList[index].labName.text
+                            .size(
+                                MediaQuery.of(context).size.height * 0.024 - 5)
                             .color(Color(0xff00ADB5))
                             .make(),
                         expendituresC.expendituresList[index].price.text
-                            .size(10)
+                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
+                            // .size(10)
                             .white
                             .make(),
                         expendituresC.expendituresList[index].paymentMode.text
-                            .size(10)
+                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
+                            // .size(10)
                             .color(Color(0xffBBBBBB))
                             .make(),
                       ],
@@ -260,14 +275,18 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         expendituresC.expendituresList[index].state.text
+                            .size(
+                                MediaQuery.of(context).size.height * 0.024 - 5)
                             .color(Color(0xff00ADB5))
                             .make(),
                         expendituresC.expendituresList[index].time.text
-                            .size(10)
+                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
+                            // .size(10)
                             .white
                             .make(),
                         expendituresC.expendituresList[index].date.text
-                            .size(10)
+                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
+                            // .size(10)
                             .white
                             .make(),
                       ],
@@ -281,7 +300,7 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
     });
   }
 
-  Obx buildObxForMaterials() {
+  Obx buildObxForMaterials(BuildContext context) {
     return Obx(() {
       if (expendituresC.isLoading.value)
         return Center(child: CircularProgressIndicator());
@@ -295,7 +314,7 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
               child: Container(
                 color: Color(0xff1F2125),
                 width: MediaQuery.of(context).size.width,
-                height: 80,
+                height: MediaQuery.of(context).size.height * 0.1 + 3,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -303,15 +322,19 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         expendituresC.materialList[index].materialname.text
+                            .size(
+                                MediaQuery.of(context).size.height * 0.024 - 5)
                             .color(Color(0xff00ADB5))
                             .make(),
                         ("Rs ${expendituresC.materialList[index].price}")
                             .text
-                            .size(10)
+                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
+                            // .size(10)
                             .white
                             .make(),
                         expendituresC.materialList[index].paymentmode.text
-                            .size(10)
+                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
+                            // .size(10)
                             .color(Color(0xffBBBBBB))
                             .make(),
                       ],
@@ -321,10 +344,13 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         expendituresC.materialList[index].state.text
+                            .size(
+                                MediaQuery.of(context).size.height * 0.024 - 5)
                             .color(Color(0xff00ADB5))
                             .make(),
                         expendituresC.materialList[index].time.text
-                            .size(10)
+                            // .size(10)
+                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
                             .white
                             .make()
                       ],

@@ -34,14 +34,15 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return Column(
       children: [
         Container(
-          height: 45,
+          height: media.height * 0.055, // 45,
           child: Container(
             child: ListView.separated(
               separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(width: 10);
+                return SizedBox(width: media.height * 0.015);
               },
               itemCount: 365,
               controller: scrollController,
@@ -60,8 +61,8 @@ class _CalendarState extends State<Calendar> {
                     });
                   },
                   child: Container(
-                    height: 40,
-                    width: 40,
+                    height: media.height * 0.05,
+                    width: media.width * 0.08,
                     // alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
@@ -79,7 +80,9 @@ class _CalendarState extends State<Calendar> {
                                       .weekday -
                                   1]
                               .toString(),
-                          style: TextStyle(fontSize: 10, color: Colors.white),
+                          style: TextStyle(
+                              fontSize: media.height * 0.015,
+                              color: Colors.white),
                         ),
                         SizedBox(
                           height: 2,
@@ -89,7 +92,9 @@ class _CalendarState extends State<Calendar> {
                               .add(Duration(days: index))
                               .day
                               .toString(),
-                          style: TextStyle(fontSize: 10, color: Colors.white),
+                          style: TextStyle(
+                              fontSize: media.height * 0.015,
+                              color: Colors.white),
                         ),
                       ],
                     ),
