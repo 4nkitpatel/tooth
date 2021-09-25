@@ -23,6 +23,7 @@ class _AdvicePageState extends State<AdvicePage> {
   final AdviceListController adviceC = Get.put(AdviceListController());
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xff161819),
@@ -32,14 +33,14 @@ class _AdvicePageState extends State<AdvicePage> {
             TextSpan(
               text: "Mr. Andy \n",
               style: TextStyle(
-                fontSize: 17,
+                fontSize: media.height * 0.02,
               ),
               children: <InlineSpan>[
                 TextSpan(
                   text: 'Advice',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 10,
+                    fontSize: media.height * 0.015,
                   ),
                 )
               ],
@@ -55,6 +56,7 @@ class _AdvicePageState extends State<AdvicePage> {
             },
             child: "Cancel"
                 .text
+                .size(media.height * 0.02 - 5)
                 .color(Color(0xff007AFF))
                 .make()
                 .pOnly(top: 18, left: 18),
@@ -65,6 +67,7 @@ class _AdvicePageState extends State<AdvicePage> {
               child: "Done"
                   .text
                   .center
+                  .size(media.height * 0.02 - 5)
                   .color(Color(0xff007AFF))
                   .make()
                   .pOnly(top: 18, right: 16),
@@ -96,14 +99,24 @@ class _AdvicePageState extends State<AdvicePage> {
                   },
                 ),
                 20.heightBox,
-                "Advice List".text.color(Color(0xffCECECE)).make(),
+                "Advice List"
+                    .text
+                    .size(media.height * 0.024 - 5)
+                    .color(Color(0xffCECECE))
+                    .make(),
                 10.heightBox,
                 Container(
-                  height: 350,
+                  height: media.height * 0.55, // 350,
                   // color: Colors.red,
                   child: Obx(() {
                     if (adviceC.isLoading.value)
                       return Center(child: CircularProgressIndicator());
+                    else if (adviceC.adviceList.length == 0)
+                      return "No data available"
+                          .text
+                          .color(Color(0xff646262))
+                          .make()
+                          .centered();
                     else
                       return ListView.separated(
                         separatorBuilder: (context, index) => 10.heightBox,
@@ -125,11 +138,17 @@ class _AdvicePageState extends State<AdvicePage> {
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      adviceC.adviceList[index].name.text.white
+                                      adviceC.adviceList[index].name.text
+                                          .size(media.height * 0.023 - 5)
+                                          .white
                                           .make(),
-                                      "Price".text.size(10).white.make(),
+                                      "Price"
+                                          .text
+                                          .size(media.height * 0.02 - 5)
+                                          .white
+                                          .make(),
                                       adviceC.adviceList[index].price.text
-                                          .size(10)
+                                          .size(media.height * 0.02 - 5)
                                           .color(Color(0xff9F9FA5))
                                           .make(),
                                     ],
@@ -164,13 +183,19 @@ class _AdvicePageState extends State<AdvicePage> {
                       );
                   }),
                 ),
+                10.heightBox,
                 Wgt.getPrimaryBtn(
                   text: 'Add Custom Advice',
                   context: context,
                   cb: () {
                     // Navigator.pushNamed(context, "/symptoms");
                     // Get.toNamed("/symptoms");
-                    Wgt.showDialog();
+                    // TODO dialogBox issue in big screen
+                    Container(
+                        // height: media.height * 0.3,
+                        // width: media.width * 0.2,
+                        // color: Colors.red,
+                        child: Wgt.showDialog(context));
                   },
                 )
               ],

@@ -94,7 +94,8 @@ class Wgt {
         .py32();
   }
 
-  static showDialog() {
+  static showDialog(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     Get.defaultDialog(
       title: 'Custom Advice',
       titleStyle: TextStyle(color: Colors.white),
@@ -111,7 +112,8 @@ class Wgt {
       actions: [
         TextButton(
           style: ButtonStyle(
-            fixedSize: MaterialStateProperty.all(Size(120, 10)),
+            fixedSize: MaterialStateProperty.all(
+                Size(media.width * 0.25, media.height * 0.011)),
           ),
           onPressed: () {
             Get.back();
@@ -120,7 +122,8 @@ class Wgt {
         ),
         TextButton(
           style: ButtonStyle(
-            fixedSize: MaterialStateProperty.all(Size(120, 10)),
+            fixedSize: MaterialStateProperty.all(
+                Size(media.width * 0.25, media.height * 0.011)),
           ),
           onPressed: () {},
           child: "Action".text.make(),
@@ -129,7 +132,8 @@ class Wgt {
     );
   }
 
-  static showDialogWithSingleInput() {
+  static showDialogWithSingleInput(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     Get.defaultDialog(
       title: "Doctor's O/E",
       titleStyle: TextStyle(color: Colors.white),
@@ -144,7 +148,8 @@ class Wgt {
       actions: [
         TextButton(
           style: ButtonStyle(
-            fixedSize: MaterialStateProperty.all(Size(120, 10)),
+            fixedSize: MaterialStateProperty.all(
+                Size(media.width * 0.25, media.height * 0.011)),
           ),
           onPressed: () {
             Get.back();
@@ -153,7 +158,8 @@ class Wgt {
         ),
         TextButton(
           style: ButtonStyle(
-            fixedSize: MaterialStateProperty.all(Size(120, 10)),
+            fixedSize: MaterialStateProperty.all(
+                Size(media.width * 0.25, media.height * 0.011)),
           ),
           onPressed: () {},
           child: "Action".text.make(),

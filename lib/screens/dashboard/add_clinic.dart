@@ -7,10 +7,16 @@ import 'package:velocity_x/velocity_x.dart';
 class AddClinicPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: "Add Clinic".text.size(15).color(Colors.white).center.make(),
+        title: "Add Clinic"
+            .text
+            .size(media.height * 0.023 - 5)
+            .color(Colors.white)
+            .center
+            .make(),
         backgroundColor: Color(0xff1F1F1F),
         centerTitle: true,
         foregroundColor: Colors.white,
@@ -18,7 +24,7 @@ class AddClinicPage extends StatelessWidget {
       backgroundColor: Color(0xff222830),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.all(14),
+          padding: EdgeInsets.all(10),
           child: SingleChildScrollView(
             child: ConstrainedBox(
               constraints:
@@ -27,7 +33,7 @@ class AddClinicPage extends StatelessWidget {
                 children: [
                   "Clinic 1"
                       .text
-                      .xl5
+                      .size(media.height * 0.05)
                       .center
                       .color(Colors.white)
                       .make()

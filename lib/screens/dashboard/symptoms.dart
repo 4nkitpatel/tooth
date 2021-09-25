@@ -34,6 +34,7 @@ class _SymptomsPageState extends State<SymptomsPage> {
   // int _value = 0;
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xff161819),
@@ -106,13 +107,21 @@ class _SymptomsPageState extends State<SymptomsPage> {
                   onChanged: onSearchTextChanged,
                 ),
                 20.heightBox,
-                "Upper Left Maxila".text.headline6(context).white.make(),
+                "Upper Left Maxila"
+                    .text
+                    .size(media.height * 0.025)
+                    .white
+                    .make(),
                 10.heightBox,
-                "Advice List".text.color(Color(0xffCECECE)).make(),
+                "Advice List"
+                    .text
+                    .size(media.height * 0.019)
+                    .color(Color(0xffCECECE))
+                    .make(),
                 10.heightBox,
                 Container(
-                  height: 350,
-                  // color: Colors.red,
+                  height: media.height * 0.37, // 350,
+                  color: Colors.red,
                   child: Obx(
                     () {
                       if (symptomsController.isLoading.value)
@@ -127,15 +136,20 @@ class _SymptomsPageState extends State<SymptomsPage> {
                   ),
                 ),
                 10.heightBox,
-                "Teeth Number".text.color(Color(0xffCECECE)).make(),
+                "Teeth Number"
+                    .text
+                    .size(media.height * 0.019)
+                    .color(Color(0xffCECECE))
+                    .make(),
                 5.heightBox,
                 Container(
                   // color: Colors.red,
                   width: MediaQuery.of(context).size.width,
-                  height: 35,
+                  height: media.height * 0.05,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    separatorBuilder: (context, index) => 10.widthBox,
+                    separatorBuilder: (context, index) =>
+                        (media.width * 0.02).widthBox,
                     itemCount: 8,
                     itemBuilder: (context, index) {
                       return Align(
@@ -146,14 +160,14 @@ class _SymptomsPageState extends State<SymptomsPage> {
                                 ? Color(0xff0A84FF)
                                 : Colors.white,
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15),
+                              topLeft: Radius.circular(media.height * 0.03),
+                              topRight: Radius.circular(media.height * 0.03),
                             ),
                           ),
                           // alignment: Alignment.center,
                           // color: Colors.green,
-                          width: 33,
-                          height: 35,
+                          width: media.width * 0.1, // 33,
+                          height: media.height * 0.05,
                           // color: Colors.white,
                           child: ListTile(
                             contentPadding: EdgeInsets.all(0),
@@ -166,7 +180,8 @@ class _SymptomsPageState extends State<SymptomsPage> {
                                 style: TextStyle(
                                     color: isTeethSelected[index]
                                         ? Colors.white
-                                        : Colors.black),
+                                        : Colors.black,
+                                    fontSize: media.height * 0.02),
                               ),
                             ),
                             onTap: () {
@@ -182,7 +197,11 @@ class _SymptomsPageState extends State<SymptomsPage> {
                   ),
                 ),
                 10.heightBox,
-                "Severity".text.color(Color(0xffCECECE)).make(),
+                "Severity"
+                    .text
+                    .size(media.height * 0.019)
+                    .color(Color(0xffCECECE))
+                    .make(),
                 10.heightBox,
                 SliderTheme(
                   data: SliderThemeData(
@@ -208,7 +227,7 @@ class _SymptomsPageState extends State<SymptomsPage> {
                   cb: () {
                     // Navigator.pushNamed(context, "/expenditureDetails");
                     // Get.toNamed("/expenditureDetails");
-                    Wgt.showDialogWithSingleInput();
+                    Wgt.showDialogWithSingleInput(context);
                   },
                 )
               ],
@@ -224,30 +243,33 @@ class _SymptomsPageState extends State<SymptomsPage> {
       separatorBuilder: (context, index) => 10.heightBox,
       itemCount: data.length, //symptomsController.symptomsList.length,
       itemBuilder: (context, index) {
+        final media = MediaQuery.of(context).size;
         return ClipRRect(
           borderRadius: BorderRadius.circular(5),
           child: Container(
             color: Color(0xff2C2C2E),
             width: MediaQuery.of(context).size.width,
-            height: 100,
+            height: media.height * 0.13,
             child: Row(
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.7,
+                  width: MediaQuery.of(context).size.width * 0.75,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(data[index].name,
-                          style: TextStyle(color: Colors.white)),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: media.height * 0.02)),
                       // data[index].name.text.white.make(),
                       AutoSizeText(
                         data[index].description,
                         style: TextStyle(
-                          fontSize: 10.0,
+                          fontSize: media.height * 0.015,
                           color: Color(0xff616165),
                         ),
                         maxLines: 4,
-                        minFontSize: 8,
+                        // minFontSize: 8,
                         // maxFontSize: 10,
                       ),
                     ],

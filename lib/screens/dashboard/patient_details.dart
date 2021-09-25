@@ -41,6 +41,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
           backgroundColor: Color(0xff161819),
@@ -80,17 +81,20 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                   Row(
                     children: [
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text.rich(
                             TextSpan(
                                 text: 'Attended By: ',
                                 style: TextStyle(
-                                    fontSize: 13, color: Color(0xff00BCD4)),
+                                    fontSize: media.height * 0.02 - 3,
+                                    color: Color(0xff00BCD4)),
                                 children: <InlineSpan>[
                                   TextSpan(
                                     text: 'Dr. Andrew',
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: media.height * 0.02 - 3),
                                   )
                                 ]),
                           ),
@@ -98,11 +102,14 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                             TextSpan(
                                 text: 'Last Visit: ',
                                 style: TextStyle(
-                                    fontSize: 13, color: Color(0xff00BCD4)),
+                                    fontSize: media.height * 0.02 - 3,
+                                    color: Color(0xff00BCD4)),
                                 children: <InlineSpan>[
                                   TextSpan(
                                     text: '12-May-21',
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: media.height * 0.02 - 3),
                                   )
                                 ]),
                           ),
@@ -114,17 +121,37 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                           print("asdasd");
                           pickDate(context);
                         },
-                        child: Image.asset('assets/calendar.png'),
+                        child: Image.asset(
+                          'assets/calendar.png',
+                          height: media.height * 0.055 - 5,
+                          // width: media.height * 0.055 - 5,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                       10.widthBox,
-                      Image.asset('assets/file-prescription.png'),
+                      Image.asset(
+                        'assets/file-prescription.png',
+                        height: media.height * 0.055 - 5,
+                        // width: media.height * 0.055 - 5,
+                        fit: BoxFit.contain,
+                      ),
                       10.widthBox,
-                      Image.asset('assets/file-medical.png'),
+                      Image.asset(
+                        'assets/file-medical.png',
+                        height: media.height * 0.055 - 5,
+                        // width: media.height * 0.055 - 5,
+                        fit: BoxFit.contain,
+                      ),
                       10.widthBox,
-                      Image.asset('assets/file-invoice.png'),
+                      Image.asset(
+                        'assets/file-invoice.png',
+                        height: media.height * 0.055 - 5,
+                        // width: media.height * 0.06,
+                        fit: BoxFit.contain,
+                      ),
                     ],
                   ),
-                  30.heightBox,
+                  20.heightBox,
                   Row(
                     children: [
                       Material(
@@ -138,7 +165,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                             onTap: () {
                               Get.toNamed("/symptoms");
                             },
-                            child: buildCard(),
+                            child: buildCard(context),
                           ),
                         ),
                       ),
@@ -163,7 +190,8 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                             onTap: () {
                               Get.toNamed("/symptoms");
                             },
-                            child: buildCardWithText(text: "Upper Right"),
+                            child: buildCardWithText(
+                                text: "Upper Right", context: context),
                           ),
                         ),
                       ),
@@ -180,11 +208,11 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                             color: Color(0xff1F2125),
                           ),
                           child: InkWell(
-                            onTap: () {
-                              Get.toNamed("/symptoms");
-                            },
-                            child: buildCardWithText(text: "Lower Left"),
-                          ),
+                              onTap: () {
+                                Get.toNamed("/symptoms");
+                              },
+                              child: buildCardWithText(
+                                  text: "Lower Left", context: context)),
                         ),
                       ),
                       SizedBox(
@@ -201,26 +229,37 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                             onTap: () {
                               Get.toNamed("/symptoms");
                             },
-                            child: buildCardWithText(text: "Lower Right"),
+                            child: buildCardWithText(
+                                context: context, text: "Lower Right"),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  20.heightBox,
+                  10.heightBox,
                   Column(
                     children: [
                       Row(
                         children: [
-                          Image.asset('assets/medical report.png'),
+                          Image.asset(
+                            'assets/medical report.png',
+                            height: media.height * 0.045 - 5,
+                            // width: media.height * 0.055 - 5,
+                            fit: BoxFit.contain,
+                          ),
                           10.widthBox,
-                          "Advice".text.xl3.color(Color(0xffCECECE)).make(),
+                          "Advice"
+                              .text
+                              .size(media.height * 0.025)
+                              .color(Color(0xffCECECE))
+                              .make(),
                           Spacer(),
                           Container(
                             child: IconButton(
                               icon: Icon(
                                 Icons.add,
                                 color: Colors.white,
+                                size: media.height * 0.03,
                               ),
                               onPressed: () {
                                 Get.to(() => AdvicePage());
@@ -245,11 +284,11 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                               .make();
                         else
                           return CarouselSlider(
-                            items: generateSlider(adviceC.adviceList),
+                            items: generateSlider(adviceC.adviceList, context),
                             carouselController: _controller,
                             options: CarouselOptions(
                               autoPlay: false,
-                              height: 60,
+                              height: media.height * 0.09, //60,
                               viewportFraction: 1,
                               onPageChanged: (index, reason) {
                                 setState(() {
@@ -264,7 +303,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                       })
                     ],
                   ),
-                  20.heightBox,
+                  // 20.heightBox,
                   Column(
                     children: [
                       Row(
@@ -272,10 +311,14 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                           Icon(
                             Icons.medical_services,
                             color: Color(0xff646464),
-                            size: 30,
+                            size: media.height * 0.045 - 5,
                           ),
                           10.widthBox,
-                          "Medication".text.xl3.color(Color(0xffCECECE)).make(),
+                          "Medication"
+                              .text
+                              .size(media.height * 0.025)
+                              .color(Color(0xffCECECE))
+                              .make(),
                           Spacer(),
                           Container(
                             child: IconButton(
@@ -294,40 +337,58 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                       Container(
                         padding: EdgeInsets.all(5),
                         color: Color(0xff1F2125),
-                        height: 26,
+                        height: media.height * 0.041, //26,
                         width: MediaQuery.of(context).size.width,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              width: 120,
+                              width: media.width * 0.4, // 120,
                               child: "Orindazole 100mg"
                                   .text
+                                  .size(media.height * 0.018)
                                   .color(Color(0xff00ADB5))
                                   .make(),
                             ),
-                            "1Tab-TDS-BF".text.white.make(),
-                            "15 Days".text.color(Colors.white).make(),
+                            "1Tab-TDS-BF"
+                                .text
+                                .size(media.height * 0.018)
+                                .white
+                                .make(),
+                            "15 Days"
+                                .text
+                                .size(media.height * 0.018)
+                                .color(Colors.white)
+                                .make(),
                           ],
                         ),
                       ),
                       Container(
                         padding: EdgeInsets.all(5),
                         color: Color(0xff39393A),
-                        height: 26,
+                        height: media.height * 0.041, //26,
                         width: MediaQuery.of(context).size.width,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              width: 120,
+                              width: media.width * 0.4,
                               child: "Rantine 200mg"
                                   .text
+                                  .size(media.height * 0.018)
                                   .color(Color(0xff00ADB5))
                                   .make(),
                             ),
-                            "1Tab-TDS-BF".text.white.make(),
-                            "15 Days".text.color(Colors.white).make(),
+                            "1Tab-TDS-BF"
+                                .text
+                                .size(media.height * 0.018)
+                                .white
+                                .make(),
+                            "15 Days"
+                                .text
+                                .size(media.height * 0.018)
+                                .color(Colors.white)
+                                .make(),
                           ],
                         ),
                       ),
@@ -341,6 +402,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
   }
 
   Row generateIndicators(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: adviceC.adviceList.asMap().entries.map((entry) {
@@ -348,9 +410,9 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
             ? GestureDetector(
                 onTap: () => _controller.animateToPage(entry.key),
                 child: Container(
-                  width: 6.0,
-                  height: 6.0,
-                  margin: EdgeInsets.symmetric(horizontal: 4.0),
+                  width: media.height * 0.01 - 2, //6.0,
+                  height: media.height * 0.01 - 2, //6.0,
+                  margin: EdgeInsets.symmetric(horizontal: media.width * 0.01),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: (Theme.of(context).brightness == Brightness.light
@@ -365,7 +427,9 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
     );
   }
 
-  List<Widget> generateSlider(List<AdviceList> _adviceList) {
+  List<Widget> generateSlider(
+      List<AdviceList> _adviceList, BuildContext context) {
+    final media = MediaQuery.of(context).size;
     List<Widget> list = [];
     for (var i = 0; i < _adviceList.length; i = i + 2) {
       list.add(Column(
@@ -373,13 +437,23 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
           Container(
             padding: EdgeInsets.all(5),
             color: Color(0xff1F2125),
-            height: 26,
+            height: media.height * 0.041, //26,
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
-                _adviceList[i].name.text.color(Color(0xff00ADB5)).make(),
+                _adviceList[i]
+                    .name
+                    .text
+                    .size(media.height * 0.018)
+                    .color(Color(0xff00ADB5))
+                    .make(),
                 Spacer(),
-                _adviceList[i].price.text.color(Colors.white).make(),
+                _adviceList[i]
+                    .price
+                    .text
+                    .size(media.height * 0.018)
+                    .color(Colors.white)
+                    .make(),
               ],
             ),
           ),
@@ -387,17 +461,23 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
               ? Container(
                   padding: EdgeInsets.all(5),
                   color: Color(0xff39393A),
-                  height: 26,
+                  height: media.height * 0.041,
                   width: MediaQuery.of(context).size.width,
                   child: Row(
                     children: [
                       _adviceList[i + 1]
                           .name
                           .text
+                          .size(media.height * 0.018)
                           .color(Color(0xff00ADB5))
                           .make(),
                       Spacer(),
-                      _adviceList[i + 1].price.text.color(Colors.white).make(),
+                      _adviceList[i + 1]
+                          .price
+                          .text
+                          .size(media.height * 0.018)
+                          .color(Colors.white)
+                          .make(),
                     ],
                   ),
                 )
@@ -409,34 +489,46 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
   }
 }
 
-Container buildCardWithText({String text}) {
+Container buildCardWithText({BuildContext context, String text}) {
+  final media = MediaQuery.of(context).size;
   return Container(
-    padding: EdgeInsets.all(10),
-    child: text.text.size(20).color(Color(0xff646262)).make().centered(),
-    // color: Color(0xff1F2125),
-    height: 150,
-    width: 160,
-  );
+      padding: EdgeInsets.all(10),
+      child: text.text
+          .size(media.height * 0.025)
+          .color(Color(0xff646262))
+          .make()
+          .centered(),
+      // color: Color(0xff1F2125),
+      height: media.height * 0.21, //150,
+      width: media.width * 0.5 - 15 - 5 // 160,
+      );
 }
 
-Container buildCard() {
+Container buildCard(BuildContext context) {
+  final media = MediaQuery.of(context).size;
   return Container(
-    padding: EdgeInsets.all(10),
-    child: Column(
-      children: [
-        "Sensitivity,Swelling,Black Patch, Slacked"
-            .text
-            .color(Color(0xff00ADB5))
-            .make(),
-        Spacer(),
-        Align(
-          alignment: Alignment.centerRight,
-          child: "4,3".text.xl5.end.color(Color(0xff646262)).make(),
-        ),
-      ],
-    ),
-    // color: Color(0xff060606),
-    height: 150,
-    width: 160,
-  );
+      padding: EdgeInsets.all(10),
+      child: Column(
+        children: [
+          "Sensitivity,Swelling,Black Patch, Slacked"
+              .text
+              .size(media.height * 0.025 - 5)
+              .color(Color(0xff00ADB5))
+              .make(),
+          Spacer(),
+          Align(
+            alignment: Alignment.centerRight,
+            child: "4,3"
+                .text
+                .size(media.height * 0.05)
+                .end
+                .color(Color(0xff646262))
+                .make(),
+          ),
+        ],
+      ),
+      // color: Color(0xff060606),
+      height: media.height * 0.21, //150,
+      width: media.width * 0.5 - 15 - 5 // 160,
+      );
 }
