@@ -121,7 +121,7 @@ class _SymptomsPageState extends State<SymptomsPage> {
                 10.heightBox,
                 Container(
                   height: media.height * 0.37, // 350,
-                  color: Colors.red,
+                  // color: Colors.red,
                   child: Obx(
                     () {
                       if (symptomsController.isLoading.value)

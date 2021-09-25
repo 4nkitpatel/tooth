@@ -22,12 +22,20 @@ void main() {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => MyApp(), // Wrap your app
-    ),
+    MyApp(), // Wrap your app
   );
 }
+// void main() {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   SystemChrome.setPreferredOrientations(
+//       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+//   runApp(
+//     DevicePreview(
+//       enabled: !kReleaseMode,
+//       builder: (context) => MyApp(), // Wrap your app
+//     ),
+//   );
+// }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -43,8 +51,8 @@ class MyApp extends StatelessWidget {
         accentColor: Coolors.appBar,
         unselectedWidgetColor: Colors.white,
       ),
-      locale: DevicePreview.locale(context), // Add the locale here
-      builder: DevicePreview.appBuilder, // Add the builder here
+      // locale: DevicePreview.locale(context), // Add the locale here
+      // builder: DevicePreview.appBuilder, // Add the builder here
       home: WelcomePage(),
       // initialRoute: '/',
       getPages: [

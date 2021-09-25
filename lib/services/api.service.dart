@@ -121,16 +121,16 @@ class ApiServices {
   }
 
   static Future<List<AdviceList>> fetchAdviceList() async {
-    // var res = await client.get(Uri.http('3.23.102.140:7000', '/api/v1/advice'));
-    var res = await client.get(Uri.http('localhost:3000', '/advice'));
+    var res = await client.get(Uri.http('3.23.102.140:7000', '/api/v1/advice'));
+    // var res = await client.get(Uri.http('localhost:3000', '/advice'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
 
-      // print(jsonDecode(jsonStr)['data']);
-      // var data = jsonEncode(jsonDecode(jsonStr)['data']);
+      print(jsonDecode(jsonStr)['data']);
+      var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      return adviceListFromJson(jsonStr);
-      // return adviceListFromJson(data);
+      // return adviceListFromJson(jsonStr);
+      return adviceListFromJson(data);
     } else {
       return null; //handle it
     }
