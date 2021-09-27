@@ -20,12 +20,13 @@ class DashboardPage extends StatelessWidget {
         centerTitle: true,
         title: "Dashboard".text.size(media.height * 0.02 - 5).make(),
         backgroundColor: Color(0xff1F2125),
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.menu_rounded),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
-        ),
+        automaticallyImplyLeading: false,
+        // leading: Builder(
+        //   builder: (context) => IconButton(
+        //     icon: Icon(Icons.menu_rounded),
+        //     onPressed: () => Scaffold.of(context).openDrawer(),
+        //   ),
+        // ),
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -38,25 +39,25 @@ class DashboardPage extends StatelessWidget {
               )),
         ],
       ),
-      drawer: Drawer(
-        child: Column(children: <Widget>[
-          SizedBox(
-            height: 30,
-          ),
-          DrawerHeader(
-            child: Container(
-                color: Coolors.bgColorT,
-                height: 142,
-                width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  "assets/doctors_1x.png",
-                )),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-            ),
-          ),
-        ]),
-      ),
+      // drawer: Drawer(
+      //   child: Column(children: <Widget>[
+      //     SizedBox(
+      //       height: 30,
+      //     ),
+      //     DrawerHeader(
+      //       child: Container(
+      //           color: Coolors.bgColorT,
+      //           height: 142,
+      //           width: MediaQuery.of(context).size.width,
+      //           child: Image.asset(
+      //             "assets/doctors_1x.png",
+      //           )),
+      //       decoration: BoxDecoration(
+      //         color: Colors.transparent,
+      //       ),
+      //     ),
+      //   ]),
+      // ),
       backgroundColor: Color(0xff161819),
       bottomNavigationBar: BottomAppBar(
         color: Color(0xff1F2125),
@@ -100,7 +101,7 @@ class DashboardPage extends StatelessWidget {
               onPressed: () {},
               icon: Icon(
                 Icons.more_horiz,
-                size: 35,
+                size: 30,
                 color: Color(0xffA6A6A6),
               ),
             )

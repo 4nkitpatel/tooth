@@ -124,7 +124,7 @@ class _PatientsPageState extends State<PatientsPage> {
                 onPressed: () {},
                 icon: Icon(
                   Icons.more_horiz,
-                  size: 35,
+                  size: 30,
                   color: Color(0xffA6A6A6),
                 ),
               )

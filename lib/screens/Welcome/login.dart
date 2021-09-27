@@ -60,7 +60,12 @@ class LoginPage extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                Wgt.getPrimaryBtn(text: "LOG IN", context: context, cb: () {}),
+                Wgt.getPrimaryBtn(
+                    text: "LOG IN",
+                    context: context,
+                    cb: () {
+                      Get.toNamed("/dashboard");
+                    }),
               ],
             ),
           ),
