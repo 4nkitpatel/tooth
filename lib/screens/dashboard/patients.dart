@@ -74,6 +74,8 @@ class _PatientsPageState extends State<PatientsPage> {
                         (index) => patientsC.patientsList[index].imageUrl)
                     .toList();
                 // HERE WE willl get selectd image
+                // Now redirecting to main page as antar said
+                Get.toNamed("/dashboard");
               },
               child: "Done"
                   .text
@@ -91,7 +93,9 @@ class _PatientsPageState extends State<PatientsPage> {
             children: <Widget>[
               InkWell(
                 borderRadius: BorderRadius.circular(50),
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed("/dashboard");
+                },
                 child: ImageIcon(
                   AssetImage('assets/nav-boy.png'),
                   size: 40,

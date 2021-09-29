@@ -62,7 +62,9 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
             ),
             actions: <Widget>[
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed("/dashboard");
+                },
                 child: "Done"
                     .text
                     .center

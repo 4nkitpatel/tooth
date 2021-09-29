@@ -156,11 +156,17 @@ class DashboardPage extends StatelessWidget {
                 10.heightBox,
                 Row(
                   children: [
-                    buildCard(
-                      context: context,
-                      header: "Total Patient",
-                      price: "234",
-                      icon: 'assets/user-friends.png',
+                    InkWell(
+                      onTap: () {
+                        // Navigator.pushNamed(context, "/schedule");
+                        Get.toNamed("/patients");
+                      },
+                      child: buildCard(
+                        context: context,
+                        header: "Total Patient",
+                        price: "234",
+                        icon: 'assets/user-friends.png',
+                      ),
                     ),
                     SizedBox(
                       width: 10,
@@ -182,10 +188,16 @@ class DashboardPage extends StatelessWidget {
                 10.heightBox,
                 Row(
                   children: [
-                    buildCard(
-                      context: context,
-                      header: "Total Income",
-                      price: "2.34K",
+                    InkWell(
+                      onTap: () {
+                        // Navigator.pushNamed(context, "/schedule");
+                        Get.toNamed("/incomeDetails");
+                      },
+                      child: buildCard(
+                        context: context,
+                        header: "Total Income",
+                        price: "2.34K",
+                      ),
                     ),
                     SizedBox(
                       width: 10,

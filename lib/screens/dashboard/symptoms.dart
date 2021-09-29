@@ -73,7 +73,9 @@ class _SymptomsPageState extends State<SymptomsPage> {
           ),
           actions: <Widget>[
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed("/dashboard");
+              },
               child: "Done"
                   .text
                   .center

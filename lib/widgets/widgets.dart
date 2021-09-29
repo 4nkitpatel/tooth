@@ -132,6 +132,46 @@ class Wgt {
     );
   }
 
+  static addExpenseDialog(BuildContext context) {
+    final media = MediaQuery.of(context).size;
+    Get.defaultDialog(
+      title: 'Add Expense',
+      titleStyle: TextStyle(color: Colors.white),
+      backgroundColor: Color(0xff353535),
+      radius: 10,
+      content: Column(
+        children: [
+          Wgt.getTFF(text: 'Clinic name'),
+          10.heightBox,
+          Wgt.getTFF(text: 'Amount'),
+          10.heightBox,
+          Wgt.getTFF(text: 'Payment mode'),
+        ],
+      ),
+      buttonColor: Color(0xff353535),
+      actions: [
+        TextButton(
+          style: ButtonStyle(
+            fixedSize: MaterialStateProperty.all(
+                Size(media.width * 0.25, media.height * 0.011)),
+          ),
+          onPressed: () {
+            Get.back();
+          },
+          child: "Cancel".text.make(),
+        ),
+        TextButton(
+          style: ButtonStyle(
+            fixedSize: MaterialStateProperty.all(
+                Size(media.width * 0.25, media.height * 0.011)),
+          ),
+          onPressed: () {},
+          child: "Add".text.make(),
+        ),
+      ],
+    );
+  }
+
   static showDialogWithSingleInput(BuildContext context) {
     final media = MediaQuery.of(context).size;
     Get.defaultDialog(

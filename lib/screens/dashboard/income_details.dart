@@ -11,16 +11,16 @@ import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:get/instance_manager.dart';
 
-class ExpenditureDetailsPage extends StatefulWidget {
+class IncomeDetailsPage extends StatefulWidget {
   @override
-  _ExpenditureDetailsPageState createState() => _ExpenditureDetailsPageState();
+  _IncomeDetailsPageState createState() => _IncomeDetailsPageState();
 }
 
-class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
-  final ExpendituresController expendituresC =
-      Get.put(ExpendituresController());
+class _IncomeDetailsPageState extends State<IncomeDetailsPage> {
+  // TODO API make and model and controller
+  // final IncomesController incomesC = Get.put(IncomesController());
   int touchedIndex = -1;
-  String builderFor = 'expenditure';
+  String builderFor = 'full';
   int initialIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
         backgroundColor: Color(0xff161819),
         appBar: AppBar(
           centerTitle: true,
-          title: "Expenditure Details".text.size(15).white.make(),
+          title: "Incomes Details".text.size(15).white.make(),
           // "Mr. Andy".text.size(17).make(),
           backgroundColor: Color(0xff1F2125),
           leadingWidth: 100,
@@ -180,24 +180,26 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                   inactiveBgColor: Color(0xff34353B),
                   activeBgColor: Color(0xff636366),
                   inactiveFgColor: Colors.white,
-                  labels: ['Labdetails', 'Materials', 'Misc'],
+                  labels: ['Full', 'Partial', 'Unpaid'],
                   onToggle: (index) {
                     print('switched to: $index');
                     if (index == 1) {
-                      expendituresC.fetchMaterials();
+                      // incomeC.fetchFullPayments();
                       setState(() {
-                        builderFor = 'materail';
+                        builderFor = 'full';
                         initialIndex = index;
                       });
                     } else if (index == 2) {
                       // call api
+                      // incomeC.fetchPartialPayments();
                       setState(() {
-                        builderFor = 'expenditure';
+                        builderFor = 'partial';
                         initialIndex = index;
                       });
                     } else {
+                      // incomeC.fetchUnpaids();
                       setState(() {
-                        builderFor = 'expenditure';
+                        builderFor = 'unpaid';
                         initialIndex = index;
                       });
                     }
@@ -210,22 +212,27 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                     height: media.height * 0.29 - 3,
                     // color: Colors.red,
                     child: (() {
-                      if (builderFor == 'expenditure')
-                        return buildObxForExpenditures(context);
+                      if (builderFor == 'full')
+                        // return buildObxForFull(context);
+                        return Container();
+                      else if (builderFor == 'partial')
+                        // return buildObxForPartial(context);
+                        return Container();
                       else
-                        return buildObxForMaterials(context);
+                        // return buildObxForUnpaid(context);
+                        return Container();
                     }())),
               ),
-              5.heightBox,
-              Wgt.getSecondaryBtn(
-                text: 'Add Expense',
-                context: context,
-                cb: () {
-                  // Navigator.pushNamed(context, "/patients");
-                  // Get.toNamed("/patients");
-                  Wgt.addExpenseDialog(context);
-                },
-              )
+              // 5.heightBox,
+              // Wgt.getSecondaryBtn(
+              //   text: 'Add Expense',
+              //   context: context,
+              //   cb: () {
+              //     // Navigator.pushNamed(context, "/patients");
+              //     // Get.toNamed("/patients");
+              //     Wgt.addExpenseDialog(context);
+              //   },
+              // )
             ],
           ),
         ),
@@ -233,14 +240,14 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
     );
   }
 
-  Obx buildObxForExpenditures(BuildContext context) {
+  /*Obx buildObxForExpenditures(BuildContext context) {
     return Obx(() {
-      if (expendituresC.isLoading.value)
+      if (incomeC.isLoading.value)
         return Center(child: CircularProgressIndicator());
       else
         return ListView.separated(
           separatorBuilder: (context, index) => 10.heightBox,
-          itemCount: expendituresC.expendituresList.length,
+          itemCount: incomeC.expendituresList.length,
           itemBuilder: (context, index) {
             return ClipRRect(
               borderRadius: BorderRadius.circular(5),
@@ -254,17 +261,17 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        expendituresC.expendituresList[index].labName.text
+                        incomeC.expendituresList[index].labName.text
                             .size(
                                 MediaQuery.of(context).size.height * 0.024 - 5)
                             .color(Color(0xff00ADB5))
                             .make(),
-                        expendituresC.expendituresList[index].price.text
+                        incomeC.expendituresList[index].price.text
                             .size(MediaQuery.of(context).size.height * 0.02 - 5)
                             // .size(10)
                             .white
                             .make(),
-                        expendituresC.expendituresList[index].paymentMode.text
+                        incomeC.expendituresList[index].paymentMode.text
                             .size(MediaQuery.of(context).size.height * 0.02 - 5)
                             // .size(10)
                             .color(Color(0xffBBBBBB))
@@ -275,17 +282,17 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        expendituresC.expendituresList[index].state.text
+                        incomeC.expendituresList[index].state.text
                             .size(
                                 MediaQuery.of(context).size.height * 0.024 - 5)
                             .color(Color(0xff00ADB5))
                             .make(),
-                        expendituresC.expendituresList[index].time.text
+                        incomeC.expendituresList[index].time.text
                             .size(MediaQuery.of(context).size.height * 0.02 - 5)
                             // .size(10)
                             .white
                             .make(),
-                        expendituresC.expendituresList[index].date.text
+                        incomeC.expendituresList[index].date.text
                             .size(MediaQuery.of(context).size.height * 0.02 - 5)
                             // .size(10)
                             .white
@@ -303,12 +310,12 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
 
   Obx buildObxForMaterials(BuildContext context) {
     return Obx(() {
-      if (expendituresC.isLoading.value)
+      if (incomeC.isLoading.value)
         return Center(child: CircularProgressIndicator());
       else
         return ListView.separated(
           separatorBuilder: (context, index) => 10.heightBox,
-          itemCount: expendituresC.materialList.length,
+          itemCount: incomeC.materialList.length,
           itemBuilder: (context, index) {
             return ClipRRect(
               borderRadius: BorderRadius.circular(5),
@@ -322,18 +329,18 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        expendituresC.materialList[index].materialname.text
+                        incomeC.materialList[index].materialname.text
                             .size(
                                 MediaQuery.of(context).size.height * 0.024 - 5)
                             .color(Color(0xff00ADB5))
                             .make(),
-                        ("Rs ${expendituresC.materialList[index].price}")
+                        ("Rs ${incomeC.materialList[index].price}")
                             .text
                             .size(MediaQuery.of(context).size.height * 0.02 - 5)
                             // .size(10)
                             .white
                             .make(),
-                        expendituresC.materialList[index].paymentmode.text
+                        incomeC.materialList[index].paymentmode.text
                             .size(MediaQuery.of(context).size.height * 0.02 - 5)
                             // .size(10)
                             .color(Color(0xffBBBBBB))
@@ -344,12 +351,12 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        expendituresC.materialList[index].state.text
+                        incomeC.materialList[index].state.text
                             .size(
                                 MediaQuery.of(context).size.height * 0.024 - 5)
                             .color(Color(0xff00ADB5))
                             .make(),
-                        readableDate(expendituresC.materialList[index].time)
+                        readableDate(incomeC.materialList[index].time)
                             .text
                             // .size(10)
                             .size(MediaQuery.of(context).size.height * 0.02 - 5)
@@ -365,7 +372,7 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
         );
     });
   }
-
+*/
   String readableDate(String inputDate) {
     var a = DateTime.parse(inputDate).toLocal();
     print("${a.day}/${a.month}/${a.year} ${a.hour}:${a.minute}");

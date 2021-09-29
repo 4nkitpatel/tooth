@@ -30,7 +30,9 @@ class AddExpenditure extends StatelessWidget {
           ),
           actions: <Widget>[
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed("/dashboard");
+              },
               child: "Done"
                   .text
                   .center

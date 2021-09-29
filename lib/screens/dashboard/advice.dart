@@ -63,7 +63,9 @@ class _AdvicePageState extends State<AdvicePage> {
           ),
           actions: <Widget>[
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed("/dashboard");
+              },
               child: "Done"
                   .text
                   .center
