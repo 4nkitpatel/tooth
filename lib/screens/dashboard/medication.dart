@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tooth/controllers/Medication.dart';
+import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:get/instance_manager.dart';
 
@@ -16,6 +17,55 @@ class _MedicationPageState extends State<MedicationPage> {
     final media = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text.rich(
+            TextSpan(
+              text: "Mr. Andy \n",
+              style: TextStyle(
+                fontSize: media.height * 0.02,
+              ),
+              children: <InlineSpan>[
+                TextSpan(
+                  text: 'Medication',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: media.height * 0.015,
+                  ),
+                )
+              ],
+            ),
+            textAlign: TextAlign.center,
+          ),
+          // "Mr. Andy".text.size(17).make(),
+          backgroundColor: Color(0xff1F2125),
+          leadingWidth: 100,
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: "Cancel"
+                .text
+                .size(media.height * 0.02 - 5)
+                .color(Color(0xff007AFF))
+                .make()
+                .pOnly(top: 18, left: 18),
+          ),
+          actions: <Widget>[
+            InkWell(
+              onTap: () {
+                Get.toNamed("/dashboard");
+              },
+              child: "Done"
+                  .text
+                  .center
+                  .size(media.height * 0.02 - 5)
+                  .color(Color(0xff007AFF))
+                  .make()
+                  .pOnly(top: 18, right: 16),
+            ),
+          ],
+        ),
         backgroundColor: Color(0xff161819),
         body: SingleChildScrollView(
           child: Container(
@@ -98,6 +148,13 @@ class _MedicationPageState extends State<MedicationPage> {
                                           Color(0xff0A84FF)),
                                       value: medicationC.isSelected[index],
                                       onChanged: (value) {
+                                        if (value)
+                                          Wgt.addMedicationDialog(context,
+                                              (json) async {
+                                            var data = await medicationC
+                                                .onMedication(json);
+                                            print(data); // message
+                                          });
                                         setState(() {
                                           medicationC.isSelected[index] = value;
                                         });

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:tooth/controllers/Symptoms.dart';
@@ -15,7 +16,7 @@ class SymptomsPage extends StatefulWidget {
 
 class _SymptomsPageState extends State<SymptomsPage> {
   final SymptomsController symptomsController = Get.put(SymptomsController());
-
+  dynamic args = Get.arguments;
   // ? may be this both will go to contoller
   double sliderValue = 0;
   List<bool> isTeethSelected = List.generate(8, (i) => false).toList();
@@ -28,7 +29,27 @@ class _SymptomsPageState extends State<SymptomsPage> {
     super.initState();
     _symptomsDetails =
         symptomsController.symptomsList; // await ApiServices.fetchSymptoms();
-    print("-----> $_symptomsDetails");
+    print(args.length > 1);
+    if (args.length > 1) {
+      sliderValue = double.parse(args[1]["serverity"]);
+      print(args[1]["symptoms"]);
+      for (var i = 0; i < args[1]["selectedTeeth"].length; i++) {
+        print("${isTeethSelected[i]} $i");
+        isTeethSelected[(args[1]["selectedTeeth"][i]) - 1] = true;
+        isTeethSelected[(args[1]["selectedTeeth"][i]) - 1] = true;
+      }
+    }
+  }
+
+  void doStuff() {
+    if (args.length > 1) {
+      print(symptomsController.isSelected);
+      symptomsController.symptomsList.asMap().forEach((i, symptomsDetail) {
+        if (args[1]["symptoms"].contains(symptomsDetail.name.toLowerCase()))
+          symptomsController.isSelected[i] = true;
+      });
+      print(symptomsController.isSelected);
+    }
   }
 
   // int _value = 0;
@@ -109,11 +130,7 @@ class _SymptomsPageState extends State<SymptomsPage> {
                   onChanged: onSearchTextChanged,
                 ),
                 20.heightBox,
-                "Upper Left Maxila"
-                    .text
-                    .size(media.height * 0.025)
-                    .white
-                    .make(),
+                args[0].toString().text.size(media.height * 0.025).white.make(),
                 10.heightBox,
                 "Advice List"
                     .text
@@ -128,12 +145,14 @@ class _SymptomsPageState extends State<SymptomsPage> {
                     () {
                       if (symptomsController.isLoading.value)
                         return Center(child: CircularProgressIndicator());
-                      else
-                        return _searchResult.length != 0
-                            ? listViewData(_searchResult)
-                            : listViewData(
-                                symptomsController.symptomsList,
-                              );
+                      else if (_searchResult.length != 0)
+                        return listViewData(_searchResult);
+                      else {
+                        doStuff();
+                        return listViewData(
+                          symptomsController.symptomsList,
+                        );
+                      }
                     },
                   ),
                 ),

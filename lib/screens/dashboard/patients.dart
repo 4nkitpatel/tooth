@@ -227,7 +227,7 @@ class _PatientsPageState extends State<PatientsPage> {
                 context: context,
                 cb: () {
                   // Navigator.pushNamed(context, '/schedule');
-                  Get.toNamed("/schedule");
+                  // Get.toNamed("/schedule");
                 },
               ),
             ],

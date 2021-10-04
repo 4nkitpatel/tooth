@@ -18,7 +18,9 @@ class _AdvicePageState extends State<AdvicePage> {
     'assets/braces.png',
     'assets/filling.png',
     'assets/rootcanal.png',
-    'assets/braces.png'
+    'assets/braces.png',
+    'assets/braces.png',
+    'assets/braces.png',
   ];
   final AdviceListController adviceC = Get.put(AdviceListController());
   @override
@@ -133,7 +135,9 @@ class _AdvicePageState extends State<AdvicePage> {
                               child: Row(
                                 // mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.asset(iconImagePath[index]),
+                                  iconImagePath.length - 1 >= index
+                                      ? Image.asset(iconImagePath[index])
+                                      : Container(height: 100, width: 70),
                                   10.widthBox,
                                   Column(
                                     crossAxisAlignment:
@@ -194,10 +198,18 @@ class _AdvicePageState extends State<AdvicePage> {
                     // Get.toNamed("/symptoms");
                     // TODO dialogBox issue in big screen
                     Container(
-                        // height: media.height * 0.3,
-                        // width: media.width * 0.2,
-                        // color: Colors.red,
-                        child: Wgt.showDialog(context));
+                      // height: media.height * 0.3,
+                      // width: media.width * 0.2,
+                      // color: Colors.red,
+                      child: Wgt.showDialog(
+                        context,
+                        (json) async {
+                          var data = await adviceC.onAdvice(json);
+                          print(data); // message
+                          adviceC.fetchAdviceList();
+                        },
+                      ),
+                    );
                   },
                 )
               ],

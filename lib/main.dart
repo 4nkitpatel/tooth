@@ -12,6 +12,7 @@ import 'package:tooth/screens/dashboard/advice.dart';
 import 'package:tooth/screens/dashboard/dashboard.dart';
 import 'package:tooth/screens/dashboard/expenditure_details.dart';
 import 'package:tooth/screens/dashboard/income_details.dart';
+import 'package:tooth/screens/dashboard/medication.dart';
 import 'package:tooth/screens/dashboard/patient_details.dart';
 import 'package:tooth/screens/dashboard/patients.dart';
 import 'package:tooth/screens/dashboard/schedule.dart';
@@ -64,6 +65,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/expenditure', page: () => ExpenditurePage()),
         GetPage(name: '/dashboard', page: () => DashboardPage()),
         GetPage(name: '/advice', page: () => AdvicePage()),
+        GetPage(name: '/medication', page: () => MedicationPage()),
         GetPage(name: '/patientDetails', page: () => PatientDetailsPage()),
         GetPage(name: '/symptoms', page: () => SymptomsPage()),
         GetPage(

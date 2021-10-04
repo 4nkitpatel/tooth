@@ -25,4 +25,16 @@ class AdviceListController extends GetxController {
       isLoading(false);
     }
   }
+
+  Future<dynamic> onAdvice(json) async {
+    // '{"tab": "2Tab","when": "BF","days": "15"}'
+    var response = await ApiServices.onAdvice(json);
+    print("data $response");
+    if (response.statusCode == 201) {
+      // return response.body; //"Successfully added";
+      return "Successfully added";
+    } else {
+      return "Something went wrong";
+    }
+  }
 }

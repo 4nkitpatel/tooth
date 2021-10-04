@@ -7,6 +7,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:get/get.dart';
 
 class Wgt {
+  String inputValue = '';
   static getTF(String placeholder) {
     return TextField(
       decoration: InputDecoration(
@@ -69,7 +70,7 @@ class Wgt {
     ).wFull(context);
   }
 
-  static getTFF({String text}) {
+  static getTFF({String text, onChange}) {
     return TextFormField(
       style: TextStyle(color: Color(0xff00ADB5)),
       decoration: InputDecoration(
@@ -84,6 +85,7 @@ class Wgt {
         contentPadding: EdgeInsets.all(10),
         fillColor: Color(0xff393E46),
       ),
+      onChanged: onChange,
     ).pOnly(left: 16, right: 16);
   }
 
@@ -94,8 +96,10 @@ class Wgt {
         .py32();
   }
 
-  static showDialog(BuildContext context) {
+  static showDialog(BuildContext context, cb) {
     final media = MediaQuery.of(context).size;
+    String advice;
+    String price;
     Get.defaultDialog(
       title: 'Custom Advice',
       titleStyle: TextStyle(color: Colors.white),
@@ -103,9 +107,9 @@ class Wgt {
       radius: 10,
       content: Column(
         children: [
-          Wgt.getTFF(text: 'Advice'),
+          Wgt.getTFF(text: 'Advice', onChange: (value) => advice = value),
           10.heightBox,
-          Wgt.getTFF(text: 'Price'),
+          Wgt.getTFF(text: 'Price', onChange: (value) => price = value),
         ],
       ),
       buttonColor: Color(0xff353535),
@@ -125,10 +129,80 @@ class Wgt {
             fixedSize: MaterialStateProperty.all(
                 Size(media.width * 0.25, media.height * 0.011)),
           ),
-          onPressed: () {},
-          child: "Action".text.make(),
+          onPressed: () {
+            Map<String, dynamic> json = {
+              "name": advice,
+              "price": price,
+            };
+            cb(json);
+            Get.back();
+          },
+          child: "Add".text.make(),
         ),
       ],
+    );
+  }
+
+  // TODO to make it resp u have to use may be Layoutbuiler wrapped with container of some hieght and then decide aval height
+  static addMedicationDialog(BuildContext context, cb) {
+    String tab;
+    String tds;
+    String when;
+    String days;
+    final media = MediaQuery.of(context).size;
+    Get.defaultDialog(
+      title: 'Add Medications',
+      titleStyle: TextStyle(color: Colors.white),
+      backgroundColor: Color(0xff353535),
+      radius: 10,
+      content: ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: media.height * 0.3),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Wgt.getTFF(text: 'Tab', onChange: (value) => tab = value),
+              10.heightBox,
+              Wgt.getTFF(text: 'TDS', onChange: (value) => tds = value),
+              10.heightBox,
+              Wgt.getTFF(text: 'When', onChange: (value) => when = value),
+              10.heightBox,
+              Wgt.getTFF(text: 'Days', onChange: (value) => days = value),
+              10.heightBox,
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                TextButton(
+                  style: ButtonStyle(
+                    fixedSize: MaterialStateProperty.all(
+                        Size(media.width * 0.25, media.height * 0.011)),
+                  ),
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: "Cancel".text.make(),
+                ),
+                TextButton(
+                  style: ButtonStyle(
+                    fixedSize: MaterialStateProperty.all(
+                        Size(media.width * 0.25, media.height * 0.011)),
+                  ),
+                  onPressed: () {
+                    Map<String, dynamic> json = {
+                      "tab": tab,
+                      "tds": tds,
+                      "when": when,
+                      "days": days
+                    };
+                    cb(json);
+                    Get.back();
+                  },
+                  child: "Add".text.make(),
+                ),
+              ])
+            ],
+          ),
+        ),
+      ),
+      buttonColor: Color(0xff353535),
     );
   }
 

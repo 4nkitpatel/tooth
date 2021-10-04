@@ -293,7 +293,7 @@ class DashboardPage extends StatelessWidget {
                   FittedBox(
                     fit: BoxFit.contain,
                     child: price.text
-                        .size(media.height * 0.055 - 10 - 5)
+                        .size(media.height * 0.029)
                         .color(Colors.white)
                         .make(),
                   )
@@ -331,7 +331,7 @@ class DashboardPage extends StatelessWidget {
       child: InkWell(
         onTap: () {
           // Navigator.pushNamed(context, "/patientDetails");
-          Get.toNamed("/patientDetails");
+          Get.toNamed("/patientDetails", arguments: "Andy Murray");
         },
         child: Container(
                 padding: EdgeInsets.all(10),

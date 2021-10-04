@@ -242,58 +242,67 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
           separatorBuilder: (context, index) => 10.heightBox,
           itemCount: expendituresC.expendituresList.length,
           itemBuilder: (context, index) {
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Container(
-                color: Color(0xff1F2125),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.12,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        expendituresC.expendituresList[index].labName.text
-                            .size(
-                                MediaQuery.of(context).size.height * 0.024 - 5)
-                            .color(Color(0xff00ADB5))
-                            .make(),
-                        expendituresC.expendituresList[index].price.text
-                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
-                            // .size(10)
-                            .white
-                            .make(),
-                        expendituresC.expendituresList[index].paymentMode.text
-                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
-                            // .size(10)
-                            .color(Color(0xffBBBBBB))
-                            .make(),
-                      ],
-                    ),
-                    Spacer(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        expendituresC.expendituresList[index].state.text
-                            .size(
-                                MediaQuery.of(context).size.height * 0.024 - 5)
-                            .color(Color(0xff00ADB5))
-                            .make(),
-                        expendituresC.expendituresList[index].time.text
-                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
-                            // .size(10)
-                            .white
-                            .make(),
-                        expendituresC.expendituresList[index].date.text
-                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
-                            // .size(10)
-                            .white
-                            .make(),
-                      ],
-                    ),
-                  ],
-                ).p8(),
+            return InkWell(
+              onTap: () {
+                Get.toNamed("/patientDetails");
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: Container(
+                  color: Color(0xff1F2125),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.12,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          expendituresC.expendituresList[index].labName.text
+                              .size(MediaQuery.of(context).size.height * 0.024 -
+                                  5)
+                              .color(Color(0xff00ADB5))
+                              .make(),
+                          expendituresC.expendituresList[index].price.text
+                              .size(
+                                  MediaQuery.of(context).size.height * 0.02 - 5)
+                              // .size(10)
+                              .white
+                              .make(),
+                          expendituresC.expendituresList[index].paymentMode.text
+                              .size(
+                                  MediaQuery.of(context).size.height * 0.02 - 5)
+                              // .size(10)
+                              .color(Color(0xffBBBBBB))
+                              .make(),
+                        ],
+                      ),
+                      Spacer(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          expendituresC.expendituresList[index].state.text
+                              .size(MediaQuery.of(context).size.height * 0.024 -
+                                  5)
+                              .color(Color(0xff00ADB5))
+                              .make(),
+                          expendituresC.expendituresList[index].time.text
+                              .size(
+                                  MediaQuery.of(context).size.height * 0.02 - 5)
+                              // .size(10)
+                              .white
+                              .make(),
+                          expendituresC.expendituresList[index].date.text
+                              .size(
+                                  MediaQuery.of(context).size.height * 0.02 - 5)
+                              // .size(10)
+                              .white
+                              .make(),
+                        ],
+                      ),
+                    ],
+                  ).p8(),
+                ),
               ),
             );
           },
@@ -310,55 +319,63 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
           separatorBuilder: (context, index) => 10.heightBox,
           itemCount: expendituresC.materialList.length,
           itemBuilder: (context, index) {
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Container(
-                color: Color(0xff1F2125),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.1 + 3,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        expendituresC.materialList[index].materialname.text
-                            .size(
-                                MediaQuery.of(context).size.height * 0.024 - 5)
-                            .color(Color(0xff00ADB5))
-                            .make(),
-                        ("Rs ${expendituresC.materialList[index].price}")
-                            .text
-                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
-                            // .size(10)
-                            .white
-                            .make(),
-                        expendituresC.materialList[index].paymentmode.text
-                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
-                            // .size(10)
-                            .color(Color(0xffBBBBBB))
-                            .make(),
-                      ],
-                    ),
-                    Spacer(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        expendituresC.materialList[index].state.text
-                            .size(
-                                MediaQuery.of(context).size.height * 0.024 - 5)
-                            .color(Color(0xff00ADB5))
-                            .make(),
-                        readableDate(expendituresC.materialList[index].time)
-                            .text
-                            // .size(10)
-                            .size(MediaQuery.of(context).size.height * 0.02 - 5)
-                            .white
-                            .make()
-                      ],
-                    ),
-                  ],
-                ).p8(),
+            return InkWell(
+              onTap: () {
+                Get.toNamed("/patientDetails");
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: Container(
+                  color: Color(0xff1F2125),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.1 + 3,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          expendituresC.materialList[index].materialname.text
+                              .size(MediaQuery.of(context).size.height * 0.024 -
+                                  5)
+                              .color(Color(0xff00ADB5))
+                              .make(),
+                          ("Rs ${expendituresC.materialList[index].price}")
+                              .text
+                              .size(
+                                  MediaQuery.of(context).size.height * 0.02 - 5)
+                              // .size(10)
+                              .white
+                              .make(),
+                          expendituresC.materialList[index].paymentmode.text
+                              .size(
+                                  MediaQuery.of(context).size.height * 0.02 - 5)
+                              // .size(10)
+                              .color(Color(0xffBBBBBB))
+                              .make(),
+                        ],
+                      ),
+                      Spacer(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          expendituresC.materialList[index].state.text
+                              .size(MediaQuery.of(context).size.height * 0.024 -
+                                  5)
+                              .color(Color(0xff00ADB5))
+                              .make(),
+                          readableDate(expendituresC.materialList[index].time)
+                              .text
+                              // .size(10)
+                              .size(
+                                  MediaQuery.of(context).size.height * 0.02 - 5)
+                              .white
+                              .make()
+                        ],
+                      ),
+                    ],
+                  ).p8(),
+                ),
               ),
             );
           },

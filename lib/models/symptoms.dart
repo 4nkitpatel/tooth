@@ -22,9 +22,9 @@ class Symptoms {
   // toString() => name;
 
   factory Symptoms.fromJson(Map<String, dynamic> json) => Symptoms(
-        id: json["id"],
-        name: json["name"] ?? "",
-        description: json["description"] ?? "",
+        id: json["id"].toLowerCase(),
+        name: json["name"].toLowerCase() ?? "",
+        description: json["description"].toLowerCase() ?? "",
       );
 
   Map<String, dynamic> toJson() => {

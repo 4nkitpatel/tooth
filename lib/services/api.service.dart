@@ -45,6 +45,21 @@ class ApiServices {
     }
   }
 
+  static Future<List> fetchTeethStatus() async {
+    var res = await client.get(Uri.http('localhost:3000', '/teethStatus'));
+    if (res.statusCode == 200) {
+      var jsonStr = res.body;
+      print("=================> $jsonStr");
+      print(jsonDecode(jsonStr));
+      // var data = jsonEncode(jsonDecode(jsonStr)['data']);
+      // this will given my model may be from app.quicktype.io
+      return jsonDecode(jsonStr);
+      // return medicationFromJson(data);
+    } else {
+      return null; //handle it
+    }
+  }
+
   static Future<List<Address>> fetchAddressList() async {
     var res =
         await client.get(Uri.http('3.23.102.140:7000', '/api/v1/address'));
@@ -133,6 +148,33 @@ class ApiServices {
       return adviceListFromJson(data);
     } else {
       return null; //handle it
+    }
+  }
+
+  // POST calls
+  static Future<http.Response> onMedication(json) async {
+    final url = Uri.parse('http://localhost:3000/medicationData');
+    final headers = {"Content-type": "application/json"};
+    final res =
+        await client.post(url, headers: headers, body: jsonEncode(json));
+    if (res.statusCode == 201) {
+      print('Body: ${res.body}');
+      return res;
+    } else {
+      return null;
+    }
+  }
+
+  static Future<http.Response> onAdvice(json) async {
+    final url = Uri.parse('http://localhost:3000/advice');
+    final headers = {"Content-type": "application/json"};
+    final res =
+        await client.post(url, headers: headers, body: jsonEncode(json));
+    if (res.statusCode == 201) {
+      print('Body: ${res.body}');
+      return res;
+    } else {
+      return null;
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:tooth/controllers/AdviceList.dart';
+import 'package:tooth/controllers/patient.dart';
 import 'package:tooth/models/AdviceList.dart';
 import 'package:tooth/screens/dashboard/advice.dart';
 import 'package:tooth/screens/dashboard/medication.dart';
@@ -17,6 +18,8 @@ class PatientDetailsPage extends StatefulWidget {
 
 class _PatientDetailsPageState extends State<PatientDetailsPage> {
   final AdviceListController adviceC = Get.put(AdviceListController());
+  final PatientController patientC = Get.put(PatientController());
+  final name = Get.arguments;
   int _current = 0;
   final CarouselController _controller = CarouselController();
   DateTime date;
@@ -47,7 +50,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
           backgroundColor: Color(0xff161819),
           appBar: AppBar(
             centerTitle: true,
-            title: "Mr. Andy".text.size(17).make(),
+            title: name.toString().text.size(17).make(),
             backgroundColor: Color(0xff1F2125),
             leading: InkWell(
               onTap: () {
@@ -158,44 +161,85 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                     children: [
                       Material(
                         color: Colors.transparent,
-                        child: Ink(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Color(0xff060606),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              Get.toNamed("/symptoms");
-                            },
-                            child: buildCard(context),
-                          ),
-                        ),
+                        child: Obx(() {
+                          if (patientC.isLoading.value)
+                            return Center(child: CircularProgressIndicator());
+                          else
+                            return Ink(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: patientC
+                                              .teethStatus[0]["upperleft"]
+                                                  ["symptoms"]
+                                              .length >
+                                          0
+                                      ? Color(0xff060606)
+                                      : Color(0xff1F2125),
+                                ),
+                                child: InkWell(
+                                  splashFactory: InkRipple.splashFactory,
+                                  // highlightColor: Colors.red,
+                                  onTap: () {
+                                    Get.toNamed("/symptoms", arguments: [
+                                      "Upper Left",
+                                      patientC.teethStatus[0]["upperleft"]
+                                    ]);
+                                  },
+                                  child: patientC.teethStatus.length == 0 ||
+                                          patientC
+                                                  .teethStatus[0]["upperleft"]
+                                                      ["symptoms"]
+                                                  .length ==
+                                              0
+                                      ? buildCardWithText(
+                                          context: context, text: "Upper Left")
+                                      : buildCard(context,
+                                          patientC.teethStatus[0]["upperleft"]),
+                                ));
+                        }),
                       ),
-                      // InkWell(
-                      //   onTap: () {
-                      //     // Navigator.pushNamed(context, "/symptoms");
-                      //     Get.toNamed("/symptoms");
-                      //   },
-                      //   child: buildCard(),
-                      // ),
                       SizedBox(
                         width: 10,
                       ),
                       Material(
                         color: Colors.transparent,
-                        child: Ink(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Color(0xff1F2125),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              Get.toNamed("/symptoms");
-                            },
-                            child: buildCardWithText(
-                                text: "Upper Right", context: context),
-                          ),
-                        ),
+                        child: Obx(() {
+                          if (patientC.isLoading.value)
+                            return Center(child: CircularProgressIndicator());
+                          else
+                            return Ink(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: patientC
+                                              .teethStatus[0]["upperright"]
+                                                  ["symptoms"]
+                                              .length >
+                                          0
+                                      ? Color(0xff060606)
+                                      : Color(0xff1F2125),
+                                ),
+                                child: InkWell(
+                                  splashFactory: InkRipple.splashFactory,
+                                  onTap: () {
+                                    Get.toNamed("/symptoms", arguments: [
+                                      "Upper Right",
+                                      patientC.teethStatus[0]["upperright"]
+                                    ]);
+                                  },
+                                  child: patientC.teethStatus.length == 0 ||
+                                          patientC
+                                                  .teethStatus[0]["upperright"]
+                                                      ["symptoms"]
+                                                  .length ==
+                                              0
+                                      ? buildCardWithText(
+                                          context: context, text: "Upper Right")
+                                      : buildCard(
+                                          context,
+                                          patientC.teethStatus[0]
+                                              ["upperright"]),
+                                ));
+                        }),
                       ),
                     ],
                   ),
@@ -204,37 +248,84 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                     children: [
                       Material(
                         color: Colors.transparent,
-                        child: Ink(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Color(0xff1F2125),
-                          ),
-                          child: InkWell(
-                              onTap: () {
-                                Get.toNamed("/symptoms");
-                              },
-                              child: buildCardWithText(
-                                  text: "Lower Left", context: context)),
-                        ),
+                        child: Obx(() {
+                          if (patientC.isLoading.value)
+                            return Center(child: CircularProgressIndicator());
+                          else
+                            return Ink(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: patientC
+                                              .teethStatus[0]["lowerleft"]
+                                                  ["symptoms"]
+                                              .length >
+                                          0
+                                      ? Color(0xff060606)
+                                      : Color(0xff1F2125),
+                                ),
+                                child: InkWell(
+                                  splashFactory: InkRipple.splashFactory,
+                                  onTap: () {
+                                    Get.toNamed("/symptoms", arguments: [
+                                      "Lower Left",
+                                      patientC.teethStatus[0]["lowerleft"]
+                                    ]);
+                                  },
+                                  child: patientC.teethStatus.length == 0 ||
+                                          patientC
+                                                  .teethStatus[0]["lowerleft"]
+                                                      ["symptoms"]
+                                                  .length ==
+                                              0
+                                      ? buildCardWithText(
+                                          context: context, text: "Lower Left")
+                                      : buildCard(context,
+                                          patientC.teethStatus[0]["lowerleft"]),
+                                ));
+                        }),
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Material(
                         color: Colors.transparent,
-                        child: Ink(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Color(0xff1F2125),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              Get.toNamed("/symptoms");
-                            },
-                            child: buildCardWithText(
-                                context: context, text: "Lower Right"),
-                          ),
-                        ),
+                        child: Obx(() {
+                          if (patientC.isLoading.value)
+                            return Center(child: CircularProgressIndicator());
+                          else
+                            return Ink(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: patientC
+                                              .teethStatus[0]["lowerright"]
+                                                  ["symptoms"]
+                                              .length >
+                                          0
+                                      ? Color(0xff060606)
+                                      : Color(0xff1F2125),
+                                ),
+                                child: InkWell(
+                                  splashFactory: InkRipple.splashFactory,
+                                  onTap: () {
+                                    Get.toNamed("/symptoms", arguments: [
+                                      "Lower Right",
+                                      patientC.teethStatus[0]["lowerright"]
+                                    ]);
+                                  },
+                                  child: patientC.teethStatus.length == 0 ||
+                                          patientC
+                                                  .teethStatus[0]["lowerright"]
+                                                      ["symptoms"]
+                                                  .length ==
+                                              0
+                                      ? buildCardWithText(
+                                          context: context, text: "Lower Right")
+                                      : buildCard(
+                                          context,
+                                          patientC.teethStatus[0]
+                                              ["lowerright"]),
+                                ));
+                        }),
                       ),
                     ],
                   ),
@@ -329,7 +420,8 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                 color: Colors.white,
                               ),
                               onPressed: () {
-                                Get.to(() => MedicationPage());
+                                Get.toNamed("/medication");
+                                // Get.to(() => MedicationPage());
                               },
                             ),
                           ),
@@ -506,21 +598,26 @@ Container buildCardWithText({BuildContext context, String text}) {
       );
 }
 
-Container buildCard(BuildContext context) {
+Container buildCard(BuildContext context, dynamic data) {
   final media = MediaQuery.of(context).size;
   return Container(
       padding: EdgeInsets.all(10),
       child: Column(
         children: [
-          "Sensitivity,Swelling,Black Patch, Slacked"
+          data["symptoms"]
+              .join(", ")
+              .toString()
               .text
+              // .overflow(TextOverflow.ellipsis)
               .size(media.height * 0.025 - 5)
               .color(Color(0xff00ADB5))
               .make(),
           Spacer(),
           Align(
             alignment: Alignment.centerRight,
-            child: "4,3"
+            child: data["selectedTeeth"]
+                .join(", ")
+                .toString()
                 .text
                 .size(media.height * 0.05)
                 .end
