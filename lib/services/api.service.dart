@@ -9,8 +9,8 @@ import 'package:tooth/models/Medication.dart';
 import 'package:tooth/models/Patients.dart';
 import 'package:tooth/models/Schedule.dart';
 import 'package:tooth/models/symptoms.dart';
+import 'package:tooth/models/todaysApp.dart';
 
-// TODO id is string and we gave as number and also check model
 class ApiServices {
   static var client =
       http.Client(); // dont want chnage and open connection adain and again
@@ -25,6 +25,38 @@ class ApiServices {
       var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // return symptomsFromJson(jsonStr);
       return symptomsFromJson(data);
+    } else {
+      return null; //handle it
+    }
+  }
+
+  static Future<List<TodaysApp>> fetchTodaysApp() async {
+    var res = await client.get(Uri.http('127.0.0.1:3000', '/todaysApp'));
+    // var res =
+    //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/Symptoms'));
+    if (res.statusCode == 200) {
+      var jsonStr = res.body;
+      // print(jsonDecode(jsonStr)['data']);
+      // var data = jsonEncode(jsonDecode(jsonStr)['data']);
+      return todaysAppFromJson(jsonStr);
+      // return todaysAppFromJson(data);
+    } else {
+      return null; //handle it
+    }
+  }
+
+  static Future<Map<String, dynamic>> fetchUserStats() async {
+    var res = await client.get(Uri.http('127.0.0.1:3000', '/userStats'));
+    // var res =
+    //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/Symptoms'));
+    if (res.statusCode == 200) {
+      var jsonStr = res.body;
+      print("=================> $jsonStr");
+      print(jsonDecode(jsonStr));
+      // print(jsonDecode(jsonStr)['data']);
+      // var data = jsonEncode(jsonDecode(jsonStr)['data']);
+      return jsonDecode(jsonStr);
+      // return symptomsFromJson(data);
     } else {
       return null; //handle it
     }
@@ -175,6 +207,27 @@ class ApiServices {
       return res;
     } else {
       return null;
+    }
+  }
+
+  static Future<Map<dynamic, dynamic>> onSignUp(json) async {
+    final url = Uri.parse('http://localhost:3000/signup');
+    final headers = {"Content-type": "application/json"};
+    final res =
+        await client.post(url, headers: headers, body: jsonEncode(json));
+    if (res.statusCode == 201) {
+      print('Body: ${res.body}');
+      return {
+        "data": res.body,
+        "message": "SignUp successfully",
+        "status": res.statusCode
+      };
+    } else {
+      return {
+        "data": res.body,
+        "message": "Something went wrong",
+        "status": res.statusCode
+      };
     }
   }
 }

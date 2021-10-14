@@ -1,20 +1,33 @@
-import 'package:auto_size_text/auto_size_text.dart';
+// import 'package:auto_size_text/auto_size_text.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:tooth/colors.dart';
+import 'package:tooth/controllers/dashboard.dart';
+import 'package:tooth/models/todaysApp.dart';
 import 'package:tooth/screens/dashboard/add_clinic.dart';
 import 'package:tooth/screens/dashboard/address_list.dart';
 import 'package:tooth/screens/dashboard/bottom_chooser.dart';
+import 'package:get/get.dart';
 // import 'package:tooth/screens/dashboard/medication.dart';
 // import 'package:tooth/widgets/custome_date_picker.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class DashboardPage extends StatelessWidget {
-  const DashboardPage({Key key}) : super(key: key);
+class DashboardPage extends StatefulWidget {
+  @override
+  _DashboardPageState createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  final DashboardController dashboardC = Get.put(DashboardController());
+  final CarouselController _controller = CarouselController();
+  int _current = 0;
+  DateTime lastPressed;
 
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -108,165 +121,225 @@ class DashboardPage extends StatelessWidget {
           ],
         ),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Get.bottomSheet(Container(
-                          height: 300,
-                          child: ChooseTime(),
-                        ));
-                      },
-                      child: "Wed, May 31"
-                          .text
-                          .size(media.height * 0.02 - 5)
-                          .color(Color(0xff0A84FF))
-                          .make(),
-                    ),
-                    Spacer(),
-                    InkWell(
-                      onTap: () {
-                        Get.bottomSheet(AddressListPage());
-                      },
-                      child: "All Clinics"
-                          .text
-                          .size(media.height * 0.02 - 5)
-                          .color(Color(0xff0A84FF))
-                          .make(),
-                    )
-                  ],
-                ),
-                10.heightBox,
-                Row(
-                  children: [
-                    "Welcome Dr. Bens"
-                        .text
-                        .size(media.height * 0.025 - 5)
-                        .color(Color(0xff00BCD4))
-                        .make(),
-                  ],
-                ),
-                10.heightBox,
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        // Navigator.pushNamed(context, "/schedule");
-                        Get.toNamed("/patients");
-                      },
-                      child: buildCard(
-                        context: context,
-                        header: "Total Patient",
-                        price: "234",
-                        icon: 'assets/user-friends.png',
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        // Navigator.pushNamed(context, "/schedule");
-                        Get.toNamed("/schedule");
-                      },
-                      child: buildCard(
-                        context: context,
-                        header: "Appointment",
-                        price: "234",
-                        icon: 'assets/patient.png',
-                      ),
-                    ),
-                  ],
-                ),
-                10.heightBox,
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        // Navigator.pushNamed(context, "/schedule");
-                        Get.toNamed("/incomeDetails");
-                      },
-                      child: buildCard(
-                        context: context,
-                        header: "Total Income",
-                        price: "2.34K",
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    InkWell(
+      body: WillPopScope(
+        onWillPop: () async {
+          final now = DateTime.now();
+          final maxDuration = Duration(seconds: 2);
+          final isWarning =
+              lastPressed == null || now.difference(lastPressed) > maxDuration;
+
+          if (isWarning) {
+            lastPressed = DateTime.now();
+
+            final snackBar = SnackBar(
+              content: Text('Press Back Again To Close App'),
+              duration: maxDuration,
+            );
+
+            ScaffoldMessenger.of(context)
+              ..removeCurrentSnackBar()
+              ..showSnackBar(snackBar);
+
+            return false;
+          } else {
+            return true;
+          }
+        },
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      InkWell(
                         onTap: () {
-                          // Navigator.pushNamed(context, "/expenditureDetails");
-                          Get.toNamed("/expenditureDetails");
+                          Get.bottomSheet(Container(
+                            height: 300,
+                            child: ChooseTime(),
+                          ));
+                        },
+                        child: "Wed, May 31"
+                            .text
+                            .size(media.height * 0.02 - 5)
+                            .color(Color(0xff0A84FF))
+                            .make(),
+                      ),
+                      Spacer(),
+                      InkWell(
+                        onTap: () {
+                          Get.bottomSheet(AddressListPage());
+                        },
+                        child: "All Clinics"
+                            .text
+                            .size(media.height * 0.02 - 5)
+                            .color(Color(0xff0A84FF))
+                            .make(),
+                      )
+                    ],
+                  ),
+                  10.heightBox,
+                  Row(
+                    children: [
+                      "Welcome Dr. Bens"
+                          .text
+                          .size(media.height * 0.025 - 5)
+                          .color(Color(0xff00BCD4))
+                          .make(),
+                    ],
+                  ),
+                  10.heightBox,
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          // Navigator.pushNamed(context, "/schedule");
+                          Get.toNamed("/patients");
                         },
                         child: buildCard(
                           context: context,
-                          header: "Total Expense",
-                          price: "2.34K",
-                        )),
-                  ],
-                ),
-                20.heightBox,
-                "Today's Appointment"
-                    .text
-                    .size(18)
-                    .color(Color(0xffCECECE))
-                    .make(),
-                10.heightBox,
-                buildFullWidthBox(context),
-                10.heightBox,
-                buildFullWidthBox(context),
-                10.heightBox,
-                Image.asset(
-                  'assets/showcase.png',
-                  height: media.height * 0.15 - 5,
-                  fit: BoxFit.contain,
-                ).centered(),
-                // Container(
-                //   color: Colors.white,
-                //   height: 100,
-                //   width: 100,
-                // ).centered(),
-                10.heightBox,
-                "OOPS!!! no clinic Address has been added. Please add to sync your dashboard...."
-                    .text
-                    .size(media.height * 0.02 - 5)
-                    .center
-                    .color(Color(0xff989696))
-                    .make(),
-                // AutoSizeText(
-                //   "OOPS!!! no clinic Address has been added. Please add to sync your dashboard....",
-                //   style: TextStyle(color: Color(0xff989696)),
-                //   maxLines: 1,
-                //   minFontSize: (media.height * 0.03),
-                //   textAlign: TextAlign.center,
-                // ).centered(),
-                10.heightBox,
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddClinicPage()));
-                  },
-                  child: "Add Clinic Address"
-                      .text
-                      .size(media.height * 0.02 - 5)
-                      .make(),
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Coolors.secondaryBtn),
+                          header: "Total Patient",
+                          price: "totalPatient", //"234",
+                          icon: 'assets/user-friends.png',
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          // Navigator.pushNamed(context, "/schedule");
+                          Get.toNamed("/schedule");
+                        },
+                        child: buildCard(
+                          context: context,
+                          header: "Appointment",
+                          price: "appointments", //"234",
+                          icon: 'assets/patient.png',
+                        ),
+                      ),
+                    ],
                   ),
-                ).wh(media.width * 0.5 - 5, media.height * 0.05 - 5).centered(),
-              ],
+                  10.heightBox,
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          // Navigator.pushNamed(context, "/schedule");
+                          Get.toNamed("/incomeDetails");
+                        },
+                        child: buildCard(
+                            context: context,
+                            header: "Total Income",
+                            price: "totalIncome" //"2.34K",
+                            ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      InkWell(
+                          onTap: () {
+                            // Navigator.pushNamed(context, "/expenditureDetails");
+                            Get.toNamed("/expenditureDetails");
+                          },
+                          child: buildCard(
+                              context: context,
+                              header: "Total Expense",
+                              price: "totalExpense" //"2.34K",
+                              )),
+                    ],
+                  ),
+                  10.heightBox,
+                  "Today's Appointment"
+                      .text
+                      .size(media.height * 0.02)
+                      .color(Color(0xffCECECE))
+                      .make(),
+                  10.heightBox,
+                  Obx(() {
+                    if (dashboardC.isLoading.value)
+                      return Center(child: CircularProgressIndicator());
+                    else if (dashboardC.todaysApp.length == 0)
+                      return "No appointments available"
+                          .text
+                          .color(Color(0xff646262))
+                          .make();
+                    else
+                      return CarouselSlider(
+                        items: generateSlider(dashboardC.todaysApp, context),
+                        carouselController: _controller,
+                        options: CarouselOptions(
+                          autoPlay: false,
+                          height: (media.height * 0.09 + 10 - 5) * 2.2,
+                          viewportFraction: 1,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _current = index;
+                            });
+                          },
+                        ),
+                      );
+                  }),
+                  5.heightBox,
+                  Obx(() {
+                    return generateIndicators(context);
+                  }),
+                  // buildFullWidthBox(context),
+                  // 10.heightBox,
+                  // buildFullWidthBox(context),
+                  10.heightBox,
+                  Image.asset(
+                    'assets/showcase.png',
+                    height: media.height * 0.1 - 5,
+                    fit: BoxFit.contain,
+                  ).centered(),
+                  // Container(
+                  //   color: Colors.white,
+                  //   height: 100,
+                  //   width: 100,
+                  // ).centered(),
+                  10.heightBox,
+                  Align(
+                    alignment: Alignment.center,
+                    child:
+                        "OOPS!!! no clinic Address has been added. Please add to sync your dashboard...."
+                            .text
+                            .size(media.height * 0.02 - 5)
+                            .center
+                            .color(Color(0xff989696))
+                            .make(),
+                  ),
+
+                  // AutoSizeText(
+                  //   "OOPS!!! no clinic Address has been added. Please add to sync your dashboard....",
+                  //   style: TextStyle(color: Color(0xff989696)),
+                  //   maxLines: 1,
+                  //   minFontSize: (media.height * 0.03),
+                  //   textAlign: TextAlign.center,
+                  // ).centered(),
+                  10.heightBox,
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddClinicPage()));
+                    },
+                    child: "Add Clinic Address"
+                        .text
+                        .size(media.height * 0.02 - 5)
+                        .make(),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Coolors.secondaryBtn),
+                    ),
+                  )
+                      .wh(media.width * 0.5 - 5, media.height * 0.05 - 5)
+                      .centered(),
+                ],
+              ),
             ),
           ),
         ),
@@ -290,13 +363,28 @@ class DashboardPage extends StatelessWidget {
                       .size(media.height * 0.02 - 5)
                       .color(Color(0xff00ADB5))
                       .make(),
-                  FittedBox(
-                    fit: BoxFit.contain,
-                    child: price.text
-                        .size(media.height * 0.029)
-                        .color(Colors.white)
-                        .make(),
-                  )
+                  5.heightBox,
+                  Obx(() {
+                    if (dashboardC.isLoading.value)
+                      return SizedBox(
+                        child: Center(
+                            child: CircularProgressIndicator(
+                          strokeWidth: 3,
+                        )),
+                        height: 25.0,
+                        width: 25.0,
+                      );
+                    else
+                      return FittedBox(
+                        fit: BoxFit.contain,
+                        child: dashboardC.userStats[price]
+                            .toString()
+                            .text
+                            .size(media.height * 0.029)
+                            .color(Colors.white)
+                            .make(),
+                      );
+                  })
                 ],
               ),
               Spacer(),
@@ -318,20 +406,21 @@ class DashboardPage extends StatelessWidget {
             ],
           ),
           color: Color(0xff1F2125),
-          height: media.height * 0.11 - 5, //80,
+          height: media.height * 0.11 - 3, //80,
           width: media.width * 0.5 - 10 - 5 // 160,
           ),
     );
   }
 
-  ClipRRect buildFullWidthBox(BuildContext context) {
+  ClipRRect buildFullWidthBox(
+      BuildContext context, List<TodaysApp> _todaysApp, int i) {
     final media = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: InkWell(
         onTap: () {
-          // Navigator.pushNamed(context, "/patientDetails");
-          Get.toNamed("/patientDetails", arguments: "Andy Murray");
+          Get.toNamed("/patientDetails",
+              arguments: _todaysApp[i].patientName.toString());
         },
         child: Container(
                 padding: EdgeInsets.all(10),
@@ -340,15 +429,19 @@ class DashboardPage extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        "Andy Murray"
+                        _todaysApp[i]
+                            .patientName
+                            .toString()
                             .text
-                            .size(media.height * 0.025 - 5)
+                            .size(media.height * 0.023 - 5)
                             .color(Color(0xff00ADB5))
                             .make(),
                         Spacer(),
-                        "Arizona"
+                        _todaysApp[i]
+                            .state
+                            .toString()
                             .text
-                            .size(media.height * 0.025 - 5)
+                            .size(media.height * 0.023 - 5)
                             .color(Color(0xff00ADB5))
                             .make(),
                       ],
@@ -358,37 +451,73 @@ class DashboardPage extends StatelessWidget {
                       children: [
                         Image.asset(
                           'assets/small-teeth.png',
-                          height: media.height * 0.05 - 5,
+                          height: media.height * 0.036 - 5,
                           fit: BoxFit.contain,
                         ),
                         Image.asset(
                           'assets/big-teeth.png',
-                          height: media.height * 0.05 - 5,
+                          height: media.height * 0.036 - 5,
                           fit: BoxFit.contain,
                         ),
-                        // Icon(
-                        //   Icons.accessibility_outlined,
-                        //   color: Color(0xffCECECE),
-                        // ),
-                        // Icon(
-                        //   Icons.accessibility_rounded,
-                        //   color: Colors.white,
-                        //   size: 35,
-                        // ),
                         Spacer(),
-                        "7:30 PM"
+                        _todaysApp[i]
+                            .time
+                            .toString()
                             .text
-                            .size(media.height * 0.02 - 5)
+                            .size(media.height * 0.023 - 5)
                             .color(Color(0xffFFFFFF))
                             .make(),
                       ],
                     ),
                   ],
                 ),
-                height: media.height * 0.11 + 10 - 5 //80,
+                height: media.height * 0.09 + 10 - 5 //80,
                 )
             .wFull(context),
       ),
+    );
+  }
+
+  List<Widget> generateSlider(
+      List<TodaysApp> _todaysApp, BuildContext context) {
+    List<Widget> list = [];
+    for (var i = 0; i < _todaysApp.length; i = i + 2) {
+      list.add(Column(
+        children: [
+          buildFullWidthBox(context, _todaysApp, i),
+          10.heightBox,
+          (i + 1) < _todaysApp.length
+              ? buildFullWidthBox(context, _todaysApp, i + 1)
+              : Container()
+        ],
+      ));
+    }
+    return list;
+  }
+
+  Row generateIndicators(BuildContext context) {
+    final media = MediaQuery.of(context).size;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: dashboardC.todaysApp.asMap().entries.map((entry) {
+        return (entry.key < (dashboardC.todaysApp.length / 2).round())
+            ? GestureDetector(
+                onTap: () => _controller.animateToPage(entry.key),
+                child: Container(
+                  width: media.height * 0.01 - 2, //6.0,
+                  height: media.height * 0.01 - 2, //6.0,
+                  margin: EdgeInsets.symmetric(horizontal: media.width * 0.01),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (Theme.of(context).brightness == Brightness.light
+                            ? Colors.white
+                            : Color(0xff5C5E5E))
+                        .withOpacity(_current == entry.key ? 1 : 0.4),
+                  ),
+                ),
+              )
+            : Container();
+      }).toList(),
     );
   }
 }

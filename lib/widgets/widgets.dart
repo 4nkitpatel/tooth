@@ -70,7 +70,7 @@ class Wgt {
     ).wFull(context);
   }
 
-  static getTFF({String text, onChange}) {
+  static getTFF({String text, onChange, String type}) {
     return TextFormField(
       style: TextStyle(color: Color(0xff00ADB5)),
       decoration: InputDecoration(
@@ -86,7 +86,61 @@ class Wgt {
         fillColor: Color(0xff393E46),
       ),
       onChanged: onChange,
+      onSaved: onChange,
+      validator: (value) {
+        return validator(type, value);
+      },
     ).pOnly(left: 16, right: 16);
+  }
+
+  static String validator(type, value) {
+    if (type == "email") {
+      if (!GetUtils.isEmail(value))
+        return "Email is not valid";
+      else
+        return null;
+    } else if (type == "lencheck") {
+      if (value == "")
+        return "Please enter valid value";
+      else if (GetUtils.isNum(value))
+        return "Only string/characters are allowed";
+      else if (value.length < 2 || value.length > 30)
+        return "Entered value can be at most 30 characters";
+      else
+        return null;
+    } else if (type == "phoneno") {
+      if (value.length != 10 || !GetUtils.isPhoneNumber(value))
+        return "Please enter valid phone number";
+      else
+        return null;
+    } else if (type == "aplhanumeric") {
+      if (value == "")
+        return "Please enter valid value";
+      else if (value.length < 5)
+        return "value must me greater then 5 characters";
+      else if (!GetUtils.isLengthLessThan(value, 30))
+        return "Entered value can be at most 30 characters";
+      else
+        return null;
+    } else if (type == "address") {
+      if (value == "")
+        return "Please enter valid address";
+      else if (!GetUtils.isLengthLessThan(value, 250))
+        return "Entered value can be at most 250 characters";
+      else
+        return null;
+    } else if (type == "pincode") {
+      if (value == "")
+        return "Please enter valid pincode";
+      else if (!GetUtils.isNum(value))
+        return "Only numbers are allowed";
+      else if (value.length != 6)
+        return "Please enter a valid pincode";
+      else
+        return null;
+    } else {
+      return null;
+    }
   }
 
   static getImg(String path, double height, double width) {
@@ -284,7 +338,8 @@ class Wgt {
 }
 
 class DateWgt extends StatefulWidget {
-  DateWgt({Key key}) : super(key: key);
+  final cb;
+  DateWgt({Key key, this.cb}) : super(key: key);
 
   @override
   _SWgtState createState() => _SWgtState();
@@ -292,36 +347,59 @@ class DateWgt extends StatefulWidget {
 
 class _SWgtState extends State<DateWgt> {
   DateTime date;
+  bool error = false;
   String getDateText() {
     if (date == null) {
-      return "Select Date";
+      return "DOB - DD/MM/YYYY";
     } else {
-      return '${date.month}/${date.day}/${date.year}';
+      print("===========");
+      // widget.cb('${date.day}/${date.month}/${date.year}');
+      return '${date.day}/${date.month}/${date.year}';
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return TextButton.icon(
-            onPressed: () => pickDate(context),
-            label: Text(getDateText()),
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.all(10),
-              backgroundColor: Coolors.secondaryBtn,
-              primary: Colors.white,
-            ),
-            icon: Icon(Icons.date_range))
-        .centered();
+    return InkWell(
+      splashFactory: InkRipple.splashFactory,
+      onTap: () async {
+        var data = await pickDate(context);
+        widget.cb(data); // Call Function that has showDatePicker()
+      },
+      child: Ink(
+        color: error ? Colors.transparent : Color(0xff393E46),
+        child: IgnorePointer(child: generateTFFDate()),
+      ),
+    ).pOnly(left: 16, right: 16);
+  }
+
+  Widget generateTFFDate() {
+    return TextFormField(
+      style: TextStyle(color: Color(0xff00ADB5)),
+      decoration: InputDecoration(
+        hintText: getDateText(),
+        hintStyle: TextStyle(color: Color(0xff00ADB5)),
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+        ),
+        filled: true,
+        focusColor: Color(0xff393E46),
+        hoverColor: Color(0xff393E46),
+        contentPadding: EdgeInsets.all(10),
+        fillColor: error ? Color(0xff393E46) : Colors.transparent,
+      ),
+    );
   }
 
   Future pickDate(BuildContext context) async {
     final newDate = await showDatePicker(
       context: context,
       initialDate: DateTime(DateTime.now().year - 18),
-      firstDate: DateTime(DateTime.now().year - 50),
+      firstDate: DateTime(DateTime.now().year - 100),
       lastDate: DateTime(DateTime.now().year - 2),
     );
     if (newDate == null) return;
     setState(() => date = newDate);
+    return '${newDate.day}/${newDate.month}/${newDate.year}';
   }
 }

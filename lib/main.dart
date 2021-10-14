@@ -8,6 +8,7 @@ import 'package:tooth/pages/expenditure.dart';
 import 'package:tooth/pages/first_visit.dart';
 import 'package:tooth/screens/Welcome/login.dart';
 import 'package:tooth/screens/Welcome/welcome.dart';
+import 'package:tooth/screens/dashboard/add_clinic.dart';
 import 'package:tooth/screens/dashboard/advice.dart';
 import 'package:tooth/screens/dashboard/dashboard.dart';
 import 'package:tooth/screens/dashboard/expenditure_details.dart';
@@ -17,6 +18,7 @@ import 'package:tooth/screens/dashboard/patient_details.dart';
 import 'package:tooth/screens/dashboard/patients.dart';
 import 'package:tooth/screens/dashboard/schedule.dart';
 import 'package:tooth/screens/dashboard/symptoms.dart';
+import 'package:tooth/screens/signup/last_page.dart';
 import 'package:tooth/screens/signup/signup_page.dart';
 
 void main() {
@@ -46,8 +48,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Vendor',
-      defaultTransition: Transition.downToUp,
-      transitionDuration: Duration(milliseconds: 500),
+      defaultTransition: Transition.rightToLeft,
+      transitionDuration: Duration(milliseconds: 369),
       theme: ThemeData(
         primaryColor: Coolors.bgColorT,
         accentColor: Coolors.appBar,
@@ -60,8 +62,9 @@ class MyApp extends StatelessWidget {
       getPages: [
         // GetPage(name: '/', page: () => WelcomePage()),
         GetPage(name: '/signup', page: () => SignUpPage()),
+        GetPage(name: '/afterSignup', page: () => LastPage()),
         GetPage(name: '/login', page: () => LoginPage()),
-        GetPage(name: '/firstvisit', page: () => FirstVisit()),
+        GetPage(name: '/addclinic', page: () => AddClinicPage()),
         GetPage(name: '/expenditure', page: () => ExpenditurePage()),
         GetPage(name: '/dashboard', page: () => DashboardPage()),
         GetPage(name: '/advice', page: () => AdvicePage()),

@@ -5,9 +5,9 @@ import 'package:tooth/controllers/AdviceList.dart';
 import 'package:tooth/controllers/patient.dart';
 import 'package:tooth/models/AdviceList.dart';
 import 'package:tooth/screens/dashboard/advice.dart';
-import 'package:tooth/screens/dashboard/medication.dart';
-import 'package:tooth/services/api.service.dart';
-import 'package:tooth/widgets/widgets.dart';
+// import 'package:tooth/screens/dashboard/medication.dart';
+// import 'package:tooth/services/api.service.dart';
+// import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:get/get.dart';
 
