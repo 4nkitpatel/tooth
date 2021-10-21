@@ -17,6 +17,7 @@ class AddressListController extends GetxController {
     try {
       isLoading(true);
       var address = await ApiServices.fetchAddressList();
+      print(address);
       if (address != null) {
         addressList.value = address;
         isSelected.value = List<bool>.filled(address.length, false).toList();

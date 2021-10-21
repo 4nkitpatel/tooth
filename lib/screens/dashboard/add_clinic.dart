@@ -97,7 +97,8 @@ class AddClinicPage extends StatelessWidget {
                               print(message);
                               // redirect to
                               if (message["status"] == 201) {
-                                Get.offAllNamed("/dashboard");
+                                Get.offAllNamed("/dashboard",
+                                    arguments: args["drName"]);
                               } else {
                                 Get.snackbar(
                                   "Error",
@@ -116,7 +117,8 @@ class AddClinicPage extends StatelessWidget {
                     5.heightBox,
                     GestureDetector(
                       onTap: () {
-                        Get.toNamed("/dashboard");
+                        Get.offAllNamed("/dashboard",
+                            arguments: args["drName"]);
                       },
                       child: "Add clinic later".text.blue400.underline.make(),
                     )

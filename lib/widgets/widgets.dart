@@ -70,8 +70,9 @@ class Wgt {
     ).wFull(context);
   }
 
-  static getTFF({String text, onChange, String type}) {
+  static getTFF({String text, onChange, String type, dynamic showPassword}) {
     return TextFormField(
+      obscureText: showPassword != null ? showPassword : false,
       style: TextStyle(color: Color(0xff00ADB5)),
       decoration: InputDecoration(
         hintText: text,
@@ -97,6 +98,13 @@ class Wgt {
     if (type == "email") {
       if (!GetUtils.isEmail(value))
         return "Email is not valid";
+      else
+        return null;
+    } else if (type == "password") {
+      if (value == "")
+        return "Please enter valid password";
+      else if (value.length < 8)
+        return "Please Entered atleast 8 character long password";
       else
         return null;
     } else if (type == "lencheck") {

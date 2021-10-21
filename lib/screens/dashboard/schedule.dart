@@ -52,7 +52,80 @@ class _SchedulePageState extends State<SchedulePage> {
             ),
           ],
         ),
-        bottomNavigationBar: BottomAppBar(
+        bottomNavigationBar:
+            // SizedBox(
+            //   height: 45,
+            //   child: BottomNavigationBar(
+            //     backgroundColor: Color(0xff1F2125),
+            //     iconSize: 18,
+            //     type: BottomNavigationBarType.fixed,
+            //     unselectedFontSize: 10,
+            //     currentIndex: 1,
+            //     selectedFontSize: 10,
+            //     items: [
+            //       BottomNavigationBarItem(
+            //         icon: InkWell(
+            //           borderRadius: BorderRadius.circular(50),
+            //           onTap: () {
+            //             Get.toNamed("/dashboard");
+            //           },
+            //           child: ImageIcon(
+            //             AssetImage('assets/nav-boy.png'),
+            //             // size: 40,
+            //             color: Color(0xffA6A6A6),
+            //           ),
+            //         ).pOnly(bottom: 5),
+            //         label: "Dashboard",
+            //         // backgroundColor: Color(0xff1F2125),
+            //       ),
+            //       BottomNavigationBarItem(
+            //         icon: InkWell(
+            //           borderRadius: BorderRadius.circular(50),
+            //           onTap: () {
+            //             Get.toNamed("/schedule");
+            //           },
+            //           child: ImageIcon(
+            //             AssetImage('assets/nav-calendar.png'),
+            //             // size: 40,
+            //             color: Color(0xffA6A6A6),
+            //           ),
+            //         ).pOnly(bottom: 5),
+            //         label: "Appointment",
+            //         // backgroundColor: Color(0xff1F2125),
+            //       ),
+            //       BottomNavigationBarItem(
+            //         icon: InkWell(
+            //           borderRadius: BorderRadius.circular(50),
+            //           onTap: () {
+            //             Get.toNamed("/patients");
+            //           },
+            //           child: ImageIcon(
+            //             AssetImage('assets/nav-laddy.png'),
+            //             // size: 40,
+            //             color: Color(0xffA6A6A6),
+            //           ),
+            //         ).pOnly(bottom: 5),
+            //         label: "Patients",
+            //         // backgroundColor: Color(0xff1F2125),
+            //       ),
+            //       BottomNavigationBarItem(
+            //         icon: InkWell(
+            //           borderRadius: BorderRadius.circular(50),
+            //           onTap: () {
+            //             // Get.toNamed("/patients");
+            //           },
+            //           child: ImageIcon(
+            //             AssetImage('assets/more_icon.png'),
+            //             // size: 40,
+            //             color: Color(0xffA6A6A6),
+            //           ),
+            //         ).pOnly(bottom: 5),
+            //         label: "More",
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            BottomAppBar(
           color: Color(0xff1F2125),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,42 +135,95 @@ class _SchedulePageState extends State<SchedulePage> {
                 onTap: () {
                   Get.toNamed("/dashboard");
                 },
-                child: ImageIcon(
-                  AssetImage('assets/nav-boy.png'),
-                  size: 40,
-                  color: Color(0xffA6A6A6),
-                ),
+                child: Container(
+                  height: 40,
+                  child: Column(
+                    children: [
+                      ImageIcon(
+                        AssetImage('assets/nav-boy.png'),
+                        size: 25,
+                        color: Color(0xffA6A6A6),
+                      ),
+                      3.heightBox,
+                      Text(
+                        "Dashboard",
+                        style: TextStyle(color: Colors.white, fontSize: 9),
+                      )
+                    ],
+                  ),
+                ).pOnly(left: 10),
               ),
               InkWell(
                 borderRadius: BorderRadius.circular(50),
                 onTap: () {
                   Get.toNamed("/schedule");
                 },
-                child: ImageIcon(
-                  AssetImage('assets/nav-calendar.png'),
-                  size: 40,
-                  color: Color(0xffA6A6A6),
-                ),
+                child: Container(
+                  height: 45,
+                  child: Column(
+                    children: [
+                      ImageIcon(
+                        AssetImage('assets/nav-calendar.png'),
+                        size: 25,
+                        color: Color(0xffA6A6A6),
+                      ),
+                      3.heightBox,
+                      Text(
+                        "Appointment",
+                        style: TextStyle(color: Colors.blue, fontSize: 9),
+                      )
+                    ],
+                  ),
+                ).pOnly(top: 5),
               ),
               InkWell(
                 borderRadius: BorderRadius.circular(50),
                 onTap: () {
                   Get.toNamed("/patients");
                 },
-                child: ImageIcon(
-                  AssetImage('assets/nav-laddy.png'),
-                  size: 40,
-                  color: Color(0xffA6A6A6),
+                child: Container(
+                  height: 40,
+                  child: Column(
+                    children: [
+                      ImageIcon(
+                        AssetImage('assets/nav-laddy.png'),
+                        size: 25,
+                        color: Color(0xffA6A6A6),
+                      ),
+                      3.heightBox,
+                      Text(
+                        "Patients",
+                        style: TextStyle(color: Colors.white, fontSize: 9),
+                      )
+                      // "Patients".text.size(5).white.make()
+                    ],
+                  ),
                 ),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.more_horiz,
-                  size: 30,
-                  color: Color(0xffA6A6A6),
+              InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () {
+                  // Get.toNamed("/patients");
+                },
+                child: Container(
+                  height: 40,
+                  child: Column(
+                    children: [
+                      ImageIcon(
+                        AssetImage('assets/more_icon.png'),
+                        size: 25,
+                        color: Color(0xffA6A6A6),
+                      ),
+                      3.heightBox,
+                      Text(
+                        "More",
+                        style: TextStyle(color: Colors.white, fontSize: 9),
+                      )
+                      // "Patients".text.size(5).white.make()
+                    ],
+                  ),
                 ),
-              )
+              ).pOnly(right: 10),
             ],
           ),
         ),

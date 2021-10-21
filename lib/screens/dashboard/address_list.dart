@@ -13,6 +13,7 @@ class _AddressListPageState extends State<AddressListPage> {
   final AddressListController addressC = Get.put(AddressListController());
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xff161819),
@@ -22,27 +23,27 @@ class _AddressListPageState extends State<AddressListPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFormField(
-                  style: TextStyle(color: Color(0xff00ADB5)),
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    hintStyle: TextStyle(color: Color(0xff00ADB5)),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    focusColor: Color(0xff393E46),
-                    hoverColor: Color(0xff393E46),
-                    contentPadding: EdgeInsets.only(left: 20),
-                    fillColor: Color(0xff393E46),
-                  ),
-                ),
-                20.heightBox,
+                // TextFormField(
+                //   style: TextStyle(color: Color(0xff00ADB5)),
+                //   decoration: InputDecoration(
+                //     hintText: 'Search',
+                //     hintStyle: TextStyle(color: Color(0xff00ADB5)),
+                //     border: OutlineInputBorder(
+                //       borderSide: BorderSide.none,
+                //     ),
+                //     filled: true,
+                //     focusColor: Color(0xff393E46),
+                //     hoverColor: Color(0xff393E46),
+                //     contentPadding: EdgeInsets.only(left: 20),
+                //     fillColor: Color(0xff393E46),
+                //   ),
+                // ),
+                // 20.heightBox,
                 "Suggested Searches".text.color(Color(0xffCECECE)).make(),
                 10.heightBox,
                 Container(
-                  height: 350,
-                  // color: Color(0xff2C2C2E),
+                  height: media.height * 0.5,
+                  // color: Colors.pinkAccent,
                   child: Obx(
                     () {
                       if (addressC.isLoading.value)
@@ -58,7 +59,7 @@ class _AddressListPageState extends State<AddressListPage> {
                                 // color: Color(0xff003049),
                                 color: Color(0xff2C2C2E),
                                 width: MediaQuery.of(context).size.width,
-                                height: 100,
+                                height: media.height * 0.1,
                                 child: Row(
                                   children: [
                                     Column(

@@ -18,8 +18,8 @@ class Address {
   String id;
   String address;
   String addressName;
-  int lat;
-  int long;
+  String lat;
+  String long;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
         id: json["id"],

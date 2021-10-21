@@ -8,13 +8,13 @@ import 'package:velocity_x/velocity_x.dart';
 
 class SignUpPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
+  String email;
+  String whatsAppNo;
+  String drName;
+  String qualification;
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
-    String email;
-    String whatsAppNo;
-    String drName;
-    String qualification;
 
     return Scaffold(
         appBar: AppBar(
@@ -58,7 +58,7 @@ class SignUpPage extends StatelessWidget {
                       ),
                       17.heightBox,
                       Wgt.getTFF(
-                        text: "Dr",
+                        text: "Full Name",
                         type: "lencheck",
                         onChange: (value) => drName = value,
                       ),

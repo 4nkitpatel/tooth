@@ -66,7 +66,11 @@ class _CalendarState extends State<Calendar> {
                     // alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Color(0xff707070), width: 1),
+                      border: Border.all(
+                          color: currentDateSelectedIndex == index
+                              ? Colors.white
+                              : Color(0xff707070),
+                          width: 1),
                       color: currentDateSelectedIndex == index
                           ? Color(0xff0A84FF)
                           : Color(0xff161819),

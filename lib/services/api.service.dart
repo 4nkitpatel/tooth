@@ -93,31 +93,32 @@ class ApiServices {
   }
 
   static Future<List<Address>> fetchAddressList() async {
-    var res =
-        await client.get(Uri.http('3.23.102.140:7000', '/api/v1/address'));
+    // var res =
+    //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/address'));
+    var res = await client.get(Uri.http('localhost:3000', '/address'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
-      print(jsonDecode(jsonStr)['data']);
-      var data = jsonEncode(jsonDecode(jsonStr)['data']);
+      // print(jsonDecode(jsonStr)['data']);
+      // var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      // return addressFromJson(jsonStr);
-      return addressFromJson(data);
+      return addressFromJson(jsonStr);
+      // return addressFromJson(data);
     } else {
       return null; //handle it
     }
   }
 
   static Future<List<Schedule>> fetchSchedules() async {
-    var res =
-        await client.get(Uri.http('3.23.102.140:7000', '/api/v1/schedule'));
-    // await client.get(Uri.http('localhost:3000', '/schedule'));
+    // var res =
+    //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/schedule'));
+    var res = await client.get(Uri.http('localhost:3000', '/schedule'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
-      print(jsonDecode(jsonStr)['data']);
-      var data = jsonEncode(jsonDecode(jsonStr)['data']);
+      // print(jsonDecode(jsonStr)['data']);
+      // var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      // return scheduleFromJson(jsonStr);
-      return scheduleFromJson(data);
+      return scheduleFromJson(jsonStr);
+      // return scheduleFromJson(data);
     } else {
       return null; //handle it
     }
@@ -220,6 +221,27 @@ class ApiServices {
       return {
         "data": res.body,
         "message": "SignUp successfully",
+        "status": res.statusCode
+      };
+    } else {
+      return {
+        "data": res.body,
+        "message": "Something went wrong",
+        "status": res.statusCode
+      };
+    }
+  }
+
+  static Future<Map<dynamic, dynamic>> onLogin(json) async {
+    final url = Uri.parse('http://localhost:3000/login');
+    final headers = {"Content-type": "application/json"};
+    final res =
+        await client.post(url, headers: headers, body: jsonEncode(json));
+    if (res.statusCode == 201) {
+      print('Body: ${res.body}');
+      return {
+        "data": res.body,
+        "message": "login successfully",
         "status": res.statusCode
       };
     } else {
