@@ -5,6 +5,8 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:get/instance_manager.dart';
 
 class AddressListPage extends StatefulWidget {
+  final Function cb;
+  const AddressListPage({Key key, this.cb}) : super(key: key);
   @override
   _AddressListPageState createState() => _AddressListPageState();
 }
@@ -83,8 +85,13 @@ class _AddressListPageState extends State<AddressListPage> {
                                           Color(0xff0A84FF)),
                                       value: addressC.isSelected[index],
                                       onChanged: (value) {
+                                        // print(value);
+                                        // print(addressC.addressList[index]);
+                                        // print(addressC.isSelected);
                                         setState(() {
                                           addressC.isSelected[index] = value;
+                                          widget.cb(addressC.addressList[index],
+                                              value);
                                         });
                                       },
                                     ),

@@ -125,16 +125,16 @@ class ApiServices {
   }
 
   static Future<List<Patients>> fetchPatients() async {
-    var res =
-        await client.get(Uri.http('3.23.102.140:7000', '/api/v1/patients'));
-    // var res = await client.get(Uri.http('localhost:3000', '/patients'));
+    // var res =
+    //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/patients'));
+    var res = await client.get(Uri.http('localhost:3000', '/patients'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
-      print(jsonDecode(jsonStr)['data']);
-      var data = jsonEncode(jsonDecode(jsonStr)['data']);
+      // print(jsonDecode(jsonStr)['data']);
+      // var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      return patientsFromJson(data);
-      // return patientsFromJson(jsonStr);
+      // return patientsFromJson(data);
+      return patientsFromJson(jsonStr);
     } else {
       return null; //handle it
     }
@@ -211,6 +211,28 @@ class ApiServices {
     }
   }
 
+  static Future<Map<dynamic, dynamic>> sendGreetings(json) async {
+    final url = Uri.parse('http://localhost:3000/greetings');
+    final headers = {"Content-type": "application/json"};
+    final res =
+        await client.post(url, headers: headers, body: jsonEncode(json));
+    if (res.statusCode == 201) {
+      print('Body: ${res.body}');
+      return {
+        "data": res.body,
+        "message": "Successfully sent a greetings",
+        "status": res.statusCode
+      };
+      // return res;
+    } else {
+      return {
+        "data": res.body,
+        "message": "Something went wrong while sending",
+        "status": res.statusCode
+      };
+    }
+  }
+
   static Future<Map<dynamic, dynamic>> onSignUp(json) async {
     final url = Uri.parse('http://localhost:3000/signup');
     final headers = {"Content-type": "application/json"};
@@ -240,7 +262,7 @@ class ApiServices {
     if (res.statusCode == 201) {
       print('Body: ${res.body}');
       return {
-        "data": res.body,
+        "data": "Dr Name", // TODO we need drName in res.body
         "message": "login successfully",
         "status": res.statusCode
       };

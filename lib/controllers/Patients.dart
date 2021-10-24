@@ -4,6 +4,7 @@ import 'package:tooth/services/api.service.dart';
 
 class PatientsController extends GetxController {
   var patientsList = List<Patients>.empty().obs;
+  // var filteredList = List<Patients>.empty().obs;
   var isLoading = true.obs;
 
   @override
@@ -12,7 +13,7 @@ class PatientsController extends GetxController {
     fetchPatients();
   }
 
-  void fetchPatients() async {
+  Future fetchPatients() async {
     try {
       isLoading(true);
       var patients = await ApiServices.fetchPatients();
@@ -21,6 +22,18 @@ class PatientsController extends GetxController {
       }
     } finally {
       isLoading(false);
+    }
+  }
+
+  Future<dynamic> sendGreetings(json) async {
+    // '{"tab": "2Tab","when": "BF","days": "15"}'
+    var response = await ApiServices.sendGreetings(json);
+    print("data $response");
+    if (response["status"] == 201) {
+      // return response.body; //"Successfully added";
+      return response;
+    } else {
+      return response;
     }
   }
 }

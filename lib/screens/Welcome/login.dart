@@ -109,7 +109,8 @@ class _LoginPageState extends State<LoginPage> {
                           var message = await ApiServices.onLogin(args);
                           // redirect to
                           if (message["status"] == 201) {
-                            Get.offAllNamed("/dashboard");
+                            Get.offAllNamed("/dashboard",
+                                arguments: message['data']);
                           } else {
                             Get.snackbar(
                               "Error",

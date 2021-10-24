@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tooth/colors.dart';
-import 'package:tooth/pages/expenditure.dart';
-import 'package:tooth/pages/first_visit.dart';
 import 'package:tooth/screens/Welcome/login.dart';
 import 'package:tooth/screens/Welcome/welcome.dart';
 import 'package:tooth/screens/dashboard/add_clinic.dart';
@@ -65,7 +63,6 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/afterSignup', page: () => LastPage()),
         GetPage(name: '/login', page: () => LoginPage()),
         GetPage(name: '/addclinic', page: () => AddClinicPage()),
-        GetPage(name: '/expenditure', page: () => ExpenditurePage()),
         GetPage(name: '/dashboard', page: () => DashboardPage()),
         GetPage(name: '/advice', page: () => AdvicePage()),
         GetPage(name: '/medication', page: () => MedicationPage()),

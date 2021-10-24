@@ -2,9 +2,14 @@ import 'package:drag_select_grid_view/drag_select_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
+import 'package:tooth/colors.dart';
 import 'package:tooth/controllers/Patients.dart';
+import 'package:tooth/controllers/search.controller.dart';
+import 'package:tooth/models/Patients.dart';
+import 'package:tooth/screens/dashboard/address_list.dart';
 import 'package:tooth/screens/dashboard/bottom_chooser.dart';
 import 'package:tooth/screens/dashboard/medication.dart';
+import 'package:tooth/widgets/refresh_indicator.dart';
 import 'package:tooth/widgets/selectable_item_widget.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:get/instance_manager.dart';
@@ -18,10 +23,18 @@ class PatientsPage extends StatefulWidget {
 class _PatientsPageState extends State<PatientsPage> {
   final controller = DragSelectGridViewController();
   final PatientsController patientsC = Get.put(PatientsController());
+  final SearchController searchC = Get.put(SearchController());
+
+  List<Patients> filteredData = [];
+  // TODO on unselect flase undo the filte tha you did on that
+  // List _searchResult = [];
+  // List _patientDetails;
 
   @override
   void initState() {
     super.initState();
+    searchC.initializeDetails(patientsC.patientsList);
+    // _patientDetails = patientsC.patientsList;
     controller.addListener(rebuild);
   }
 
@@ -36,6 +49,7 @@ class _PatientsPageState extends State<PatientsPage> {
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
     final isSelected = controller.value.isSelecting;
+
     final text = isSelected
         ? '${controller.value.amount} Images Selected'
             .text
@@ -54,10 +68,19 @@ class _PatientsPageState extends State<PatientsPage> {
           backgroundColor: Color(0xff1F2125),
           leadingWidth: 100,
           leading: isSelected
-              ? CloseButton()
+              ? CloseButton(
+                  onPressed: () {
+                    controller.value = Selection({});
+                  },
+                )
               : InkWell(
                   onTap: () {
                     // Navigator.pop(context);
+                    Set<int> all = Set();
+                    for (var i = 0; i < patientsC.patientsList.length; i++) {
+                      all.add(i);
+                    }
+                    controller.value = Selection(all);
                   },
                   child: "Select All"
                       .text
@@ -69,12 +92,6 @@ class _PatientsPageState extends State<PatientsPage> {
             // if (isSelected)
             InkWell(
               onTap: () {
-                final urlSelectedImages = controller.value.selectedIndexes
-                    .map<String>(
-                        (index) => patientsC.patientsList[index].imageUrl)
-                    .toList();
-                // HERE WE willl get selectd image
-                // Now redirecting to main page as antar said
                 Get.toNamed("/dashboard");
               },
               child: "Done"
@@ -281,6 +298,7 @@ class _PatientsPageState extends State<PatientsPage> {
                   contentPadding: EdgeInsets.only(left: 20),
                   fillColor: Color(0xff393E46),
                 ),
+                onChanged: searchC.onSearchTextChanged,
               ),
               20.heightBox,
               Row(
@@ -301,7 +319,21 @@ class _PatientsPageState extends State<PatientsPage> {
                   Spacer(),
                   InkWell(
                     onTap: () {
-                      Get.bottomSheet(MedicationPage());
+                      Get.bottomSheet(AddressListPage(
+                        cb: (data, isSelected) {
+                          isSelected
+                              ? filteredData +=
+                                  patientsC.patientsList.filter((element) {
+                                  return element.addressName ==
+                                      data.addressName;
+                                }).toList()
+                              : filteredData = filteredData.filter((element) {
+                                  return element.addressName !=
+                                      data.addressName;
+                                }).toList();
+                          setState(() {});
+                        },
+                      ));
                     },
                     child: "All Clinics"
                         .text
@@ -325,24 +357,19 @@ class _PatientsPageState extends State<PatientsPage> {
                             .text
                             .color(Color(0xff646262))
                             .make();
+                      else if (searchC.searchText.isNotEmpty)
+                        return RefreshWidget(
+                          child: createDragSelectGridView(searchC.searchResult),
+                          onRefresh: patientsC.fetchPatients,
+                        );
                       else
-                        return DragSelectGridView(
-                          triggerSelectionOnTap: true,
-                          gridController: controller,
-                          padding: EdgeInsets.all(8),
-                          itemCount: patientsC.patientsList.length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 0.7,
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
+                        return RefreshWidget(
+                          child: createDragSelectGridView(
+                            filteredData.length > 0
+                                ? filteredData
+                                : patientsC.patientsList,
                           ),
-                          itemBuilder: (context, index, isSelected) =>
-                              SelectableItemWidget(
-                            patient: patientsC.patientsList[index],
-                            isSelected: isSelected,
-                          ),
+                          onRefresh: patientsC.fetchPatients,
                         );
                     },
                   ),
@@ -351,7 +378,35 @@ class _PatientsPageState extends State<PatientsPage> {
               Wgt.getSecondaryBtn(
                 text: 'Send Greetings',
                 context: context,
-                cb: () {
+                cb: () async {
+                  final selectedData = controller.value.selectedIndexes
+                      .map((index) => patientsC.patientsList[index])
+                      .toList();
+                  print(selectedData);
+                  if (selectedData.length > 0) {
+                    var data = await patientsC.sendGreetings(selectedData);
+                    print("data ==> $data");
+                    Get.snackbar(
+                      "Message",
+                      data["message"],
+                      backgroundColor: Color(0xff0A84FF),
+                      snackPosition: SnackPosition.BOTTOM,
+                      duration: Duration(seconds: 2),
+                      animationDuration: Duration(milliseconds: 500),
+                      colorText: Colors.white,
+                    );
+                    controller.value = Selection({});
+                  } else {
+                    Get.snackbar(
+                      "Message",
+                      "Select atleast one patient",
+                      backgroundColor: Color(0xff0A84FF),
+                      snackPosition: SnackPosition.BOTTOM,
+                      duration: Duration(seconds: 2),
+                      animationDuration: Duration(milliseconds: 500),
+                      colorText: Colors.white,
+                    );
+                  }
                   // Navigator.pushNamed(context, '/schedule');
                   // Get.toNamed("/schedule");
                 },
@@ -362,4 +417,36 @@ class _PatientsPageState extends State<PatientsPage> {
       ),
     );
   }
+
+  DragSelectGridView createDragSelectGridView(List data) {
+    return DragSelectGridView(
+      triggerSelectionOnTap: true,
+      gridController: controller,
+      padding: EdgeInsets.all(8),
+      itemCount: data.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        childAspectRatio: 0.7,
+        crossAxisCount: 3,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+      ),
+      itemBuilder: (context, index, isSelected) => SelectableItemWidget(
+        patient: data[index],
+        isSelected: isSelected,
+      ),
+    );
+  }
+
+  // onSearchTextChanged(String text) async {
+  //   _searchResult.clear();
+  //   if (text.isEmpty) {
+  //     setState(() {});
+  //     return;
+  //   }
+  //   _patientDetails.forEach((patient) {
+  //     if (patient.name.toLowerCase().contains(text.toLowerCase()))
+  //       _searchResult.add(patient);
+  //   });
+  //   setState(() {});
+  // }
 }
