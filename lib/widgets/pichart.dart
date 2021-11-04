@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:tooth/colors.dart';
 
 class PieChartSample2 extends StatefulWidget {
   @override
@@ -63,42 +64,44 @@ class PieChart2State extends State {
   List<PieChartSectionData> showingSections() {
     return List.generate(3, (i) {
       final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 25.0 : 16.0;
+      final fontSize = isTouched ? 19.0 : 13.0;
       final radius = isTouched ? 40.0 : 30.0;
       switch (i) {
         case 0:
           return PieChartSectionData(
             color: const Color(0xff1F78B4),
-            value: 70,
-            showTitle: false,
-            // title: '40%',
+            value: 60,
+            // showTitle: true,
+            title: '60%',
             radius: radius,
-            // titleStyle: TextStyle(
-            //     fontSize: fontSize,
-            //     fontWeight: FontWeight.bold,
-            //     color: const Color(0xffffffff)),
+            titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: Coolors.bgColorP),
           );
         case 1:
           return PieChartSectionData(
             color: const Color(0xffA6CEE3),
-            value: 30,
-            showTitle: false,
+            value: 20,
+            // showTitle: false,
+            title: '20%',
             radius: radius,
-            // titleStyle: TextStyle(
-            //     fontSize: fontSize,
-            //     fontWeight: FontWeight.bold,
-            //     color: const Color(0xffffffff)),
+            titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: Coolors.bgColorP),
           );
         case 2:
           return PieChartSectionData(
             color: const Color(0xffB2DF8A),
-            value: 15,
-            showTitle: false,
+            value: 20,
+            // showTitle: false,
+            title: '20%',
             radius: radius,
-            // titleStyle: TextStyle(
-            //     fontSize: fontSize,
-            //     fontWeight: FontWeight.bold,
-            //     color: const Color(0xffffffff)),
+            titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: Coolors.bgColorP),
           );
         // case 3:
         //   return PieChartSectionData(

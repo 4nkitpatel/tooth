@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:tooth/controllers/Expenditures.dart';
+import 'package:tooth/screens/dashboard/address_list.dart';
 import 'package:tooth/screens/dashboard/bottom_chooser.dart';
 import 'package:tooth/screens/dashboard/medication.dart';
 import 'package:tooth/widgets/pichart.dart';
+import 'package:tooth/widgets/refresh_indicator.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:get/instance_manager.dart';
@@ -21,6 +23,7 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
       Get.put(ExpendituresController());
   int touchedIndex = -1;
   String builderFor = 'expenditure';
+  List<dynamic> filteredData = [];
   int initialIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -257,7 +260,23 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                   Spacer(),
                   InkWell(
                     onTap: () {
-                      Get.bottomSheet(MedicationPage());
+                      Get.bottomSheet(AddressListPage(
+                        cb: (data, isSelected) {
+                          List list = builderFor == 'expenditure'
+                              ? expendituresC.expendituresList
+                              : expendituresC.materialList;
+                          isSelected
+                              ? filteredData += list.filter((element) {
+                                  return element.addressName ==
+                                      data.addressName;
+                                }).toList()
+                              : filteredData = filteredData.filter((element) {
+                                  return element.addressName !=
+                                      data.addressName;
+                                }).toList();
+                          setState(() {});
+                        },
+                      ));
                     },
                     child: "All Clinics"
                         .text
@@ -336,9 +355,15 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                     // color: Colors.red,
                     child: (() {
                       if (builderFor == 'expenditure')
-                        return buildObxForExpenditures(context);
+                        return RefreshWidget(
+                          child: buildObxForExpenditures(context),
+                          onRefresh: expendituresC.fetchExpenditures,
+                        );
                       else
-                        return buildObxForMaterials(context);
+                        return RefreshWidget(
+                          child: buildObxForMaterials(context),
+                          onRefresh: expendituresC.fetchMaterials,
+                        );
                     }())),
               ),
               5.heightBox,
@@ -359,13 +384,15 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
   }
 
   Obx buildObxForExpenditures(BuildContext context) {
+    var data =
+        filteredData.length > 0 ? filteredData : expendituresC.expendituresList;
     return Obx(() {
       if (expendituresC.isLoading.value)
         return Center(child: CircularProgressIndicator());
       else
         return ListView.separated(
           separatorBuilder: (context, index) => 10.heightBox,
-          itemCount: expendituresC.expendituresList.length,
+          itemCount: data.length,
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
@@ -383,18 +410,27 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          expendituresC.expendituresList[index].labName.text
+                          data[index]
+                              .labName
+                              .toString()
+                              .text
                               .size(MediaQuery.of(context).size.height * 0.024 -
                                   5)
                               .color(Color(0xff00ADB5))
                               .make(),
-                          expendituresC.expendituresList[index].price.text
+                          data[index]
+                              .price
+                              .toString()
+                              .text
                               .size(
                                   MediaQuery.of(context).size.height * 0.02 - 5)
                               // .size(10)
                               .white
                               .make(),
-                          expendituresC.expendituresList[index].paymentMode.text
+                          data[index]
+                              .paymentMode
+                              .toString()
+                              .text
                               .size(
                                   MediaQuery.of(context).size.height * 0.02 - 5)
                               // .size(10)
@@ -406,18 +442,27 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          expendituresC.expendituresList[index].state.text
+                          data[index]
+                              .state
+                              .toString()
+                              .text
                               .size(MediaQuery.of(context).size.height * 0.024 -
                                   5)
                               .color(Color(0xff00ADB5))
                               .make(),
-                          expendituresC.expendituresList[index].time.text
+                          data[index]
+                              .time
+                              .toString()
+                              .text
                               .size(
                                   MediaQuery.of(context).size.height * 0.02 - 5)
                               // .size(10)
                               .white
                               .make(),
-                          expendituresC.expendituresList[index].date.text
+                          data[index]
+                              .date
+                              .toString()
+                              .text
                               .size(
                                   MediaQuery.of(context).size.height * 0.02 - 5)
                               // .size(10)
@@ -436,13 +481,15 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
   }
 
   Obx buildObxForMaterials(BuildContext context) {
+    var data =
+        filteredData.length > 0 ? filteredData : expendituresC.materialList;
     return Obx(() {
       if (expendituresC.isLoading.value)
         return Center(child: CircularProgressIndicator());
       else
         return ListView.separated(
           separatorBuilder: (context, index) => 10.heightBox,
-          itemCount: expendituresC.materialList.length,
+          itemCount: data.length,
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
@@ -460,19 +507,25 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          expendituresC.materialList[index].materialname.text
+                          data[index]
+                              .materialname
+                              .toString()
+                              .text
                               .size(MediaQuery.of(context).size.height * 0.024 -
                                   5)
                               .color(Color(0xff00ADB5))
                               .make(),
-                          ("Rs ${expendituresC.materialList[index].price}")
+                          ("Rs ${data[index].price}")
                               .text
                               .size(
                                   MediaQuery.of(context).size.height * 0.02 - 5)
                               // .size(10)
                               .white
                               .make(),
-                          expendituresC.materialList[index].paymentmode.text
+                          data[index]
+                              .paymentmode
+                              .toString()
+                              .text
                               .size(
                                   MediaQuery.of(context).size.height * 0.02 - 5)
                               // .size(10)
@@ -484,12 +537,15 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          expendituresC.materialList[index].state.text
+                          data[index]
+                              .state
+                              .toString()
+                              .text
                               .size(MediaQuery.of(context).size.height * 0.024 -
                                   5)
                               .color(Color(0xff00ADB5))
                               .make(),
-                          readableDate(expendituresC.materialList[index].time)
+                          readableDate(data[index].time)
                               .text
                               // .size(10)
                               .size(

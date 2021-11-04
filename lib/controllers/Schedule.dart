@@ -12,7 +12,7 @@ class ScheduleController extends GetxController {
     fetchSchedules();
   }
 
-  void fetchSchedules() async {
+  Future fetchSchedules() async {
     try {
       isLoading(true);
       var schedules = await ApiServices.fetchSchedules();

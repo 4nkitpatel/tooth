@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:tooth/controllers/Schedule.dart';
+import 'package:tooth/models/Schedule.dart';
+import 'package:tooth/screens/dashboard/address_list.dart';
 import 'package:tooth/screens/dashboard/bottom_chooser.dart';
 import 'package:tooth/screens/dashboard/medication.dart';
 import 'package:tooth/widgets/custome_date_picker.dart';
+import 'package:tooth/widgets/refresh_indicator.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -15,6 +18,7 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
   final ScheduleController scheduleC = Get.put(ScheduleController());
   String selectedDate = '';
+  List<Schedule> filteredData = [];
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
@@ -261,7 +265,21 @@ class _SchedulePageState extends State<SchedulePage> {
                   Spacer(),
                   InkWell(
                     onTap: () {
-                      Get.bottomSheet(MedicationPage());
+                      Get.bottomSheet(AddressListPage(
+                        cb: (data, isSelected) {
+                          isSelected
+                              ? filteredData +=
+                                  scheduleC.schedulesList.filter((element) {
+                                  return element.addressName ==
+                                      data.addressName;
+                                }).toList()
+                              : filteredData = filteredData.filter((element) {
+                                  return element.addressName !=
+                                      data.addressName;
+                                }).toList();
+                          setState(() {});
+                        },
+                      ));
                     },
                     child: "All Clinics"
                         .text
@@ -284,144 +302,156 @@ class _SchedulePageState extends State<SchedulePage> {
                           .color(Color(0xff646262))
                           .make();
                     else
-                      return ListView.separated(
-                        separatorBuilder: (context, index) => 10.heightBox,
-                        itemCount: scheduleC.schedulesList.length,
-                        itemBuilder: (context, index) {
-                          return Dismissible(
-                            background: slideRightBackground(context),
-                            secondaryBackground: slideLeftBackground(),
-                            confirmDismiss: (direction) async {
-                              if (direction == DismissDirection.endToStart) {
-                                final bool res = await showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        content: Text(
-                                            "Are you sure you want to Approve item at ${index}?"),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                            child: Text(
-                                              "Cancel",
-                                              style: TextStyle(
-                                                  color: Colors.black),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          FlatButton(
-                                            child: Text(
-                                              "Delete",
-                                              style:
-                                                  TextStyle(color: Colors.red),
-                                            ),
-                                            onPressed: () {
-                                              // TODO: Delete the item from DB etc..
-                                              // setState(() {
-                                              //   itemsList.removeAt(index);
-                                              // });
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    });
-                                return res;
-                              } else {
-                                // TODO: Navigate to edit page;
-                                return null;
-                              }
-                            },
-                            key: Key(index.toString()),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: Ink(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Color(0xff1F2125),
-                                ),
-                                child: InkWell(
-                                  onTap: () {
-                                    Get.toNamed("/patientDetails");
-                                  },
-                                  child: ClipRRect(
-                                    child: Container(
-                                      // color: Color(0xff1F2125),
-                                      width: MediaQuery.of(context).size.width,
-                                      height: media.height * 0.11,
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              scheduleC.schedulesList[index]
-                                                  .name.text
-                                                  .size(
-                                                      media.height * 0.024 - 5)
-                                                  .color(Color(0xff00ADB5))
-                                                  .make(),
-                                              scheduleC.schedulesList[index]
-                                                  .treatment.text
-                                                  .size(media.height * 0.02 - 5)
-                                                  .white
-                                                  .make(),
-                                              scheduleC.schedulesList[index]
-                                                  .visit.text
-                                                  .size(media.height * 0.02 - 5)
-                                                  .color(Color(0xffA8A3A3))
-                                                  .make(),
-                                            ],
-                                          ),
-                                          Spacer(),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.30,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                scheduleC.schedulesList[index]
-                                                    .state.text
-                                                    .size(media.height * 0.024 -
-                                                        5)
-                                                    .color(Color(0xff00ADB5))
-                                                    .make(),
-                                                scheduleC.schedulesList[index]
-                                                    .time.text
-                                                    .size(
-                                                        media.height * 0.02 - 5)
-                                                    .white
-                                                    .make(),
-                                                scheduleC.schedulesList[index]
-                                                    .insuredStatus.text
-                                                    .size(
-                                                        media.height * 0.02 - 5)
-                                                    .white
-                                                    .make(),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ).p8(),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
+                      return RefreshWidget(
+                        child: generateDismissible(
+                          media,
+                          filteredData.length > 0
+                              ? filteredData
+                              : scheduleC.schedulesList,
+                        ),
+                        onRefresh: scheduleC.fetchSchedules,
                       );
                   })),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  ListView generateDismissible(Size media, List data) {
+    return ListView.separated(
+      separatorBuilder: (context, index) => 10.heightBox,
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return Dismissible(
+          background: slideRightBackground(context),
+          secondaryBackground: slideLeftBackground(),
+          confirmDismiss: (direction) async {
+            if (direction == DismissDirection.endToStart) {
+              final bool res = await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Text(
+                          "Are you sure you want to Approve item at ${index}?"),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        FlatButton(
+                          child: Text(
+                            "Delete",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          onPressed: () {
+                            // TODO: Delete the item from DB etc..
+                            // setState(() {
+                            //   itemsList.removeAt(index);
+                            // });
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  });
+              return res;
+            } else {
+              // TODO: Navigate to edit page;
+              return null;
+            }
+          },
+          key: Key(index.toString()),
+          child: Material(
+            color: Colors.transparent,
+            child: Ink(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Color(0xff1F2125),
+              ),
+              child: InkWell(
+                onTap: () {
+                  Get.toNamed("/patientDetails");
+                },
+                child: ClipRRect(
+                  child: Container(
+                    // color: Color(0xff1F2125),
+                    width: MediaQuery.of(context).size.width,
+                    height: media.height * 0.11,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            data[index]
+                                .name
+                                .toString()
+                                .text
+                                .size(media.height * 0.024 - 5)
+                                .color(Color(0xff00ADB5))
+                                .make(),
+                            data[index]
+                                .treatment
+                                .toString()
+                                .text
+                                .size(media.height * 0.02 - 5)
+                                .white
+                                .make(),
+                            data[index]
+                                .visit
+                                .toString()
+                                .text
+                                .size(media.height * 0.02 - 5)
+                                .color(Color(0xffA8A3A3))
+                                .make(),
+                          ],
+                        ),
+                        Spacer(),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.30,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              data[index]
+                                  .state
+                                  .toString()
+                                  .text
+                                  .size(media.height * 0.024 - 5)
+                                  .color(Color(0xff00ADB5))
+                                  .make(),
+                              data[index]
+                                  .time
+                                  .toString()
+                                  .text
+                                  .size(media.height * 0.02 - 5)
+                                  .white
+                                  .make(),
+                              data[index]
+                                  .insuredStatus
+                                  .toString()
+                                  .text
+                                  .size(media.height * 0.02 - 5)
+                                  .white
+                                  .make(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ).p8(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 

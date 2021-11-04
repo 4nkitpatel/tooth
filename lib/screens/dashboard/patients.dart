@@ -26,7 +26,6 @@ class _PatientsPageState extends State<PatientsPage> {
   final SearchController searchC = Get.put(SearchController());
 
   List<Patients> filteredData = [];
-  // TODO on unselect flase undo the filte tha you did on that
   // List _searchResult = [];
   // List _patientDetails;
 

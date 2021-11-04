@@ -23,6 +23,7 @@ class _RefreshWidgetState extends State<RefreshWidget> {
       Platform.isAndroid ? buildAndroidList() : buildIOSList();
 
   Widget buildAndroidList() => RefreshIndicator(
+        displacement: 10.0,
         onRefresh: widget.onRefresh,
         child: widget.child,
       );

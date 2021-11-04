@@ -14,6 +14,11 @@ class DashboardController extends GetxController {
     fetchTodaysApp();
   }
 
+  Future fetchData() async {
+    fetchUserStats();
+    fetchTodaysApp();
+  }
+
   void fetchUserStats() async {
     try {
       isLoading(true);
@@ -26,6 +31,8 @@ class DashboardController extends GetxController {
     }
   }
 
+// TODO in this we will call appointmnet/scehdule api only just with param - today
+// ? this is just a simulation
   void fetchTodaysApp() async {
     try {
       isLoading(true);

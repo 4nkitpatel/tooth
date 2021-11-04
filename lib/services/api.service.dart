@@ -141,28 +141,32 @@ class ApiServices {
   }
 
   static Future<List<Expenditures>> fetchExpenditures() async {
-    var res =
-        await client.get(Uri.http('3.23.102.140:7000', '/api/v1/expenditures'));
+    var res = await client.get(Uri.http('localhost:3000', '/expenditures'));
+    // var res =
+    //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/expenditures'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
-      print(jsonDecode(jsonStr)['data']);
-      var data = jsonEncode(jsonDecode(jsonStr)['data']);
+      // print(jsonDecode(jsonStr)['data']);
+      // var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      return expendituresFromJson(data);
+      // return expendituresFromJson(data);
+      return expendituresFromJson(jsonStr);
     } else {
       return null; //handle it
     }
   }
 
   static Future<List<Materials>> fetchMaterials() async {
-    var res =
-        await client.get(Uri.http('3.23.102.140:7000', '/api/v1/materials'));
+    var res = await client.get(Uri.http('localhost:3000', '/materials'));
+    // var res =
+    //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/materials'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
-      print(jsonDecode(jsonStr)['data']);
-      var data = jsonEncode(jsonDecode(jsonStr)['data']);
+      // print(jsonDecode(jsonStr)['data']);
+      // var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      return materialsFromJson(data);
+      return materialsFromJson(jsonStr);
+      // return materialsFromJson(data);
     } else {
       return null; //handle it
     }

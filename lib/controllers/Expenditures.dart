@@ -14,7 +14,7 @@ class ExpendituresController extends GetxController {
     fetchExpenditures();
   }
 
-  void fetchExpenditures() async {
+  Future fetchExpenditures() async {
     try {
       isLoading(true);
       var expenditures = await ApiServices.fetchExpenditures();
@@ -26,7 +26,7 @@ class ExpendituresController extends GetxController {
     }
   }
 
-  void fetchMaterials() async {
+  Future fetchMaterials() async {
     try {
       isLoading(true);
       var materials = await ApiServices.fetchMaterials();

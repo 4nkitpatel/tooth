@@ -7,15 +7,15 @@ String expendituresToJson(List<Expenditures> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Expenditures {
-  Expenditures({
-    this.id,
-    this.labName,
-    this.price,
-    this.paymentMode,
-    this.state,
-    this.time,
-    this.date,
-  });
+  Expenditures(
+      {this.id,
+      this.labName,
+      this.price,
+      this.paymentMode,
+      this.state,
+      this.time,
+      this.date,
+      this.addressName});
 
   String id;
   String labName;
@@ -24,16 +24,17 @@ class Expenditures {
   String state;
   String time;
   String date;
+  String addressName;
 
   factory Expenditures.fromJson(Map<String, dynamic> json) => Expenditures(
-        id: json["id"],
-        labName: json["labName"] ?? "",
-        price: json["price"] ?? "",
-        paymentMode: json["paymentMode"] ?? "",
-        state: json["state"] ?? "",
-        time: json["time"] ?? "",
-        date: json["date"] ?? "",
-      );
+      id: json["id"],
+      labName: json["labName"] ?? "",
+      price: json["price"] ?? "",
+      paymentMode: json["paymentMode"] ?? "",
+      state: json["state"] ?? "",
+      time: json["time"] ?? "",
+      date: json["date"] ?? "",
+      addressName: json["addressName"] ?? "");
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -43,5 +44,6 @@ class Expenditures {
         "state": state,
         "time": time,
         "date": date,
+        "addressName": addressName
       };
 }

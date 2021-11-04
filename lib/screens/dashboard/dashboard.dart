@@ -9,6 +9,7 @@ import 'package:tooth/screens/dashboard/add_clinic.dart';
 import 'package:tooth/screens/dashboard/address_list.dart';
 import 'package:tooth/screens/dashboard/bottom_chooser.dart';
 import 'package:get/get.dart';
+import 'package:tooth/widgets/refresh_indicator.dart';
 // import 'package:tooth/screens/dashboard/medication.dart';
 // import 'package:tooth/widgets/custome_date_picker.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -24,6 +25,7 @@ class _DashboardPageState extends State<DashboardPage> {
   int _current = 0;
   DateTime lastPressed;
   final drName = Get.arguments;
+  List<TodaysApp> filteredData = [];
 
   @override
   Widget build(BuildContext context) {
@@ -273,199 +275,233 @@ class _DashboardPageState extends State<DashboardPage> {
           }
         },
         child: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Get.bottomSheet(Container(
-                            height: 300,
-                            child: ChooseTime(),
-                          ));
-                        },
-                        child: "Wed, May 31"
-                            .text
-                            .size(media.height * 0.02 - 5)
-                            .color(Color(0xff0A84FF))
-                            .make(),
-                      ),
-                      Spacer(),
-                      InkWell(
-                        onTap: () {
-                          Get.bottomSheet(AddressListPage());
-                        },
-                        child: "All Clinics"
-                            .text
-                            .size(media.height * 0.02 - 5)
-                            .color(Color(0xff0A84FF))
-                            .make(),
-                      )
-                    ],
-                  ),
-                  10.heightBox,
-                  Row(
-                    children: [
-                      "Welcome Dr. $drName"
-                          .text
-                          .size(media.height * 0.025 - 5)
-                          .color(Color(0xff00BCD4))
-                          .make(),
-                    ],
-                  ),
-                  10.heightBox,
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          // Navigator.pushNamed(context, "/schedule");
-                          Get.toNamed("/patients");
-                        },
-                        child: buildCard(
-                          context: context,
-                          header: "Total Patient",
-                          price: "totalPatient", //"234",
-                          icon: 'assets/user-friends.png',
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          // Navigator.pushNamed(context, "/schedule");
-                          Get.toNamed("/schedule");
-                        },
-                        child: buildCard(
-                          context: context,
-                          header: "Appointment",
-                          price: "appointments", //"234",
-                          icon: 'assets/patient.png',
-                        ),
-                      ),
-                    ],
-                  ),
-                  10.heightBox,
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          // Navigator.pushNamed(context, "/schedule");
-                          Get.toNamed("/incomeDetails");
-                        },
-                        child: buildCard(
-                            context: context,
-                            header: "Total Income",
-                            price: "totalIncome" //"2.34K",
-                            ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      InkWell(
+          child: RefreshWidget(
+            onRefresh: dashboardC.fetchData,
+            child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
                           onTap: () {
-                            // Navigator.pushNamed(context, "/expenditureDetails");
-                            Get.toNamed("/expenditureDetails");
+                            Get.bottomSheet(Container(
+                              height: 300,
+                              child: ChooseTime(),
+                            ));
                           },
-                          child: buildCard(
-                              context: context,
-                              header: "Total Expense",
-                              price: "totalExpense" //"2.34K",
-                              )),
-                    ],
-                  ),
-                  10.heightBox,
-                  "Today's Appointment"
-                      .text
-                      .size(media.height * 0.02)
-                      .color(Color(0xffCECECE))
-                      .make(),
-                  10.heightBox,
-                  Obx(() {
-                    if (dashboardC.isLoading.value)
-                      return Center(child: CircularProgressIndicator());
-                    else if (dashboardC.todaysApp.length == 0)
-                      return "No appointments available"
-                          .text
-                          .color(Color(0xff646262))
-                          .make();
-                    else
-                      return CarouselSlider(
-                        items: generateSlider(dashboardC.todaysApp, context),
-                        carouselController: _controller,
-                        options: CarouselOptions(
-                          autoPlay: false,
-                          height: (media.height * 0.09 + 10 - 5) * 2.2,
-                          viewportFraction: 1,
-                          onPageChanged: (index, reason) {
-                            setState(() {
-                              _current = index;
-                            });
-                          },
+                          child: "Wed, May 31"
+                              .text
+                              .size(media.height * 0.02 - 5)
+                              .color(Color(0xff0A84FF))
+                              .make(),
                         ),
-                      );
-                  }),
-                  5.heightBox,
-                  Obx(() {
-                    return generateIndicators(context);
-                  }),
-                  // buildFullWidthBox(context),
-                  // 10.heightBox,
-                  // buildFullWidthBox(context),
-                  10.heightBox,
-                  Image.asset(
-                    'assets/showcase.png',
-                    height: media.height * 0.1 - 5,
-                    fit: BoxFit.contain,
-                  ).centered(),
-                  // Container(
-                  //   color: Colors.white,
-                  //   height: 100,
-                  //   width: 100,
-                  // ).centered(),
-                  10.heightBox,
-                  Align(
-                    alignment: Alignment.center,
-                    child:
-                        "OOPS!!! no clinic Address has been added. Please add to sync your dashboard...."
-                            .text
-                            .size(media.height * 0.02 - 5)
-                            .center
-                            .color(Color(0xff989696))
-                            .make(),
-                  ),
-
-                  // AutoSizeText(
-                  //   "OOPS!!! no clinic Address has been added. Please add to sync your dashboard....",
-                  //   style: TextStyle(color: Color(0xff989696)),
-                  //   maxLines: 1,
-                  //   minFontSize: (media.height * 0.03),
-                  //   textAlign: TextAlign.center,
-                  // ).centered(),
-                  10.heightBox,
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddClinicPage()));
-                    },
-                    child: "Add Clinic Address"
-                        .text
-                        .size(media.height * 0.02 - 5)
-                        .make(),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Coolors.secondaryBtn),
+                        Spacer(),
+                        InkWell(
+                          onTap: () {
+                            Get.bottomSheet(AddressListPage(
+                              cb: (data, isSelected) {
+                                isSelected
+                                    ? filteredData +=
+                                        dashboardC.todaysApp.filter((element) {
+                                        return element.addressName ==
+                                            data.addressName;
+                                      }).toList()
+                                    : filteredData =
+                                        filteredData.filter((element) {
+                                        return element.addressName !=
+                                            data.addressName;
+                                      }).toList();
+                                setState(() {});
+                              },
+                            ));
+                          },
+                          child: "All Clinics"
+                              .text
+                              .size(media.height * 0.02 - 5)
+                              .color(Color(0xff0A84FF))
+                              .make(),
+                        )
+                      ],
                     ),
-                  )
-                      .wh(media.width * 0.5 - 5, media.height * 0.05 - 5)
-                      .centered(),
-                ],
+                    10.heightBox,
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              "Welcome Dr. $drName"
+                                  .text
+                                  .size(media.height * 0.025 - 5)
+                                  .color(Color(0xff00BCD4))
+                                  .make(),
+                            ],
+                          ),
+                          10.heightBox,
+                          Row(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  // Navigator.pushNamed(context, "/schedule");
+                                  Get.toNamed("/patients");
+                                },
+                                child: buildCard(
+                                  context: context,
+                                  header: "Total Patient",
+                                  price: "totalPatient", //"234",
+                                  icon: 'assets/user-friends.png',
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  // Navigator.pushNamed(context, "/schedule");
+                                  Get.toNamed("/schedule");
+                                },
+                                child: buildCard(
+                                  context: context,
+                                  header: "Appointment",
+                                  price: "appointments", //"234",
+                                  icon: 'assets/patient.png',
+                                ),
+                              ),
+                            ],
+                          ),
+                          10.heightBox,
+                          Row(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  // Navigator.pushNamed(context, "/schedule");
+                                  Get.toNamed("/incomeDetails");
+                                },
+                                child: buildCard(
+                                    context: context,
+                                    header: "Total Income",
+                                    price: "totalIncome" //"2.34K",
+                                    ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    // Navigator.pushNamed(context, "/expenditureDetails");
+                                    Get.toNamed("/expenditureDetails");
+                                  },
+                                  child: buildCard(
+                                      context: context,
+                                      header: "Total Expense",
+                                      price: "totalExpense" //"2.34K",
+                                      )),
+                            ],
+                          ),
+                          10.heightBox,
+                          "Today's Appointment"
+                              .text
+                              .size(media.height * 0.02)
+                              .color(Color(0xffCECECE))
+                              .make(),
+                          10.heightBox,
+                          Obx(() {
+                            if (dashboardC.isLoading.value)
+                              return Center(child: CircularProgressIndicator());
+                            else if (dashboardC.todaysApp.length == 0)
+                              return "No appointments available"
+                                  .text
+                                  .color(Color(0xff646262))
+                                  .make();
+                            else
+                              return CarouselSlider(
+                                items: generateSlider(
+                                    filteredData.length > 0
+                                        ? filteredData
+                                        : dashboardC.todaysApp,
+                                    context),
+                                carouselController: _controller,
+                                options: CarouselOptions(
+                                  autoPlay: false,
+                                  height: (media.height * 0.09 + 10 - 5) * 2.2,
+                                  viewportFraction: 1,
+                                  onPageChanged: (index, reason) {
+                                    setState(() {
+                                      _current = index;
+                                    });
+                                  },
+                                ),
+                              );
+                          }),
+                          5.heightBox,
+                          Obx(() {
+                            return generateIndicators(
+                                filteredData.length > 0
+                                    ? filteredData
+                                    : dashboardC.todaysApp,
+                                context);
+                          }),
+                          // buildFullWidthBox(context),
+                          // 10.heightBox,
+                          // buildFullWidthBox(context),
+                          10.heightBox,
+                          Image.asset(
+                            'assets/showcase.png',
+                            height: media.height * 0.1 - 5,
+                            fit: BoxFit.contain,
+                          ).centered(),
+                          // Container(
+                          //   color: Colors.white,
+                          //   height: 100,
+                          //   width: 100,
+                          // ).centered(),
+                          10.heightBox,
+                          Align(
+                            alignment: Alignment.center,
+                            child:
+                                "OOPS!!! no clinic Address has been added. Please add to sync your dashboard...."
+                                    .text
+                                    .size(media.height * 0.02 - 5)
+                                    .center
+                                    .color(Color(0xff989696))
+                                    .make(),
+                          ),
+
+                          // AutoSizeText(
+                          //   "OOPS!!! no clinic Address has been added. Please add to sync your dashboard....",
+                          //   style: TextStyle(color: Color(0xff989696)),
+                          //   maxLines: 1,
+                          //   minFontSize: (media.height * 0.03),
+                          //   textAlign: TextAlign.center,
+                          // ).centered(),
+                          10.heightBox,
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddClinicPage()));
+                            },
+                            child: "Add Clinic Address"
+                                .text
+                                .size(media.height * 0.02 - 5)
+                                .make(),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  Coolors.secondaryBtn),
+                            ),
+                          )
+                              .wh(media.width * 0.5 - 5,
+                                  media.height * 0.05 - 5)
+                              .centered(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -547,7 +583,7 @@ class _DashboardPageState extends State<DashboardPage> {
       child: InkWell(
         onTap: () {
           Get.toNamed("/patientDetails",
-              arguments: _todaysApp[i].patientName.toString());
+              arguments: _todaysApp[i].name.toString());
         },
         child: Container(
                 padding: EdgeInsets.all(10),
@@ -557,7 +593,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     Row(
                       children: [
                         _todaysApp[i]
-                            .patientName
+                            .name
                             .toString()
                             .text
                             .size(media.height * 0.023 - 5)
@@ -622,12 +658,12 @@ class _DashboardPageState extends State<DashboardPage> {
     return list;
   }
 
-  Row generateIndicators(BuildContext context) {
+  Row generateIndicators(List<TodaysApp> _todaysApp, BuildContext context) {
     final media = MediaQuery.of(context).size;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: dashboardC.todaysApp.asMap().entries.map((entry) {
-        return (entry.key < (dashboardC.todaysApp.length / 2).round())
+      children: _todaysApp.asMap().entries.map((entry) {
+        return (entry.key < (_todaysApp.length / 2).round())
             ? GestureDetector(
                 onTap: () => _controller.animateToPage(entry.key),
                 child: Container(
