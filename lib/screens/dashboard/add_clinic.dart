@@ -85,12 +85,14 @@ class AddClinicPage extends StatelessWidget {
                           final isValid = formKey.currentState.validate();
                           if (isValid) {
                             formKey.currentState.save();
-                            args["pincode"] = pincode;
-                            args["city"] = city;
-                            args["state"] = state;
-                            args["address"] = address;
-                            print("Final ==== > $args");
-                            if (args != null) {
+                            if (args != null &&
+                                !args.isEmpty &&
+                                args.runtimeType.toString() != 'String') {
+                              print("Final ==== > $args");
+                              args["pincode"] = pincode;
+                              args["city"] = city;
+                              args["state"] = state;
+                              args["address"] = address;
                               print("Final ==== > $args");
                               // API call on success
                               var message = await ApiServices.onSignUp(args);
@@ -99,6 +101,27 @@ class AddClinicPage extends StatelessWidget {
                               if (message["status"] == 201) {
                                 Get.offAllNamed("/dashboard",
                                     arguments: args["drName"]);
+                              } else {
+                                Get.snackbar(
+                                  "Error",
+                                  message["message"],
+                                  backgroundColor: Colors.redAccent,
+                                  snackPosition: SnackPosition.BOTTOM,
+                                );
+                              }
+                            } else {
+                              var arg = {};
+                              arg["pincode"] = pincode;
+                              arg["city"] = city;
+                              arg["state"] = state;
+                              arg["address"] = address;
+                              print("Final ==== > $arg");
+                              // API call on success
+                              var message = await ApiServices.onAddClinic(arg);
+                              print(message);
+                              // redirect to
+                              if (message["status"] == 201) {
+                                Get.toNamed("/dashboard", arguments: args);
                               } else {
                                 Get.snackbar(
                                   "Error",
@@ -116,9 +139,27 @@ class AddClinicPage extends StatelessWidget {
                     "OR".text.white.make(),
                     5.heightBox,
                     GestureDetector(
-                      onTap: () {
-                        Get.offAllNamed("/dashboard",
-                            arguments: args["drName"]);
+                      onTap: () async {
+                        if (args != null &&
+                            !args.isEmpty &&
+                            args.runtimeType.toString() != 'String') {
+                          var message = await ApiServices.onSignUp(args);
+                          print(message);
+                          // redirect to
+                          if (message["status"] == 201) {
+                            Get.offAllNamed("/dashboard",
+                                arguments: args["drName"]);
+                          } else {
+                            Get.snackbar(
+                              "Error",
+                              message["message"],
+                              backgroundColor: Colors.redAccent,
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
+                          }
+                        } else {
+                          Get.toNamed("/dashboard", arguments: args);
+                        }
                       },
                       child: "Add clinic later".text.blue400.underline.make(),
                     )

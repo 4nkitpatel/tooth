@@ -14,10 +14,10 @@ class ExpendituresController extends GetxController {
     fetchExpenditures();
   }
 
-  Future fetchExpenditures() async {
+  Future fetchExpenditures({String time = 'Default'}) async {
     try {
       isLoading(true);
-      var expenditures = await ApiServices.fetchExpenditures();
+      var expenditures = await ApiServices.fetchExpenditures(param: time);
       if (expenditures != null) {
         expendituresList.value = expenditures;
       }
@@ -26,10 +26,10 @@ class ExpendituresController extends GetxController {
     }
   }
 
-  Future fetchMaterials() async {
+  Future fetchMaterials({String time = 'Default'}) async {
     try {
       isLoading(true);
-      var materials = await ApiServices.fetchMaterials();
+      var materials = await ApiServices.fetchMaterials(param: time);
       if (materials != null) {
         materialList.value = materials;
       }

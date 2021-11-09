@@ -13,10 +13,10 @@ class PatientsController extends GetxController {
     fetchPatients();
   }
 
-  Future fetchPatients() async {
+  Future fetchPatients({String time = 'Default'}) async {
     try {
       isLoading(true);
-      var patients = await ApiServices.fetchPatients();
+      var patients = await ApiServices.fetchPatients(param: time);
       if (patients != null) {
         patientsList.value = patients;
       }

@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
@@ -23,6 +24,7 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
       Get.put(ExpendituresController());
   int touchedIndex = -1;
   String builderFor = 'expenditure';
+  String timeFilter = "Default";
   List<dynamic> filteredData = [];
   int initialIndex = 0;
   @override
@@ -247,11 +249,25 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                   InkWell(
                     onTap: () {
                       Get.bottomSheet(Container(
-                        height: 300,
-                        child: ChooseTime(),
+                        // height: 300,
+                        child: ChooseTime(
+                          // time: timeFilter,
+                          cb: (value) {
+                            print("============== > ${describeEnum(value)}");
+                            setState(() {
+                              timeFilter = describeEnum(value);
+                              builderFor == 'expenditure'
+                                  ? expendituresC.fetchExpenditures(
+                                      time: timeFilter)
+                                  : expendituresC.fetchMaterials(
+                                      time: timeFilter);
+                            });
+                          },
+                        ),
                       ));
                     },
-                    child: "Wed, May 31"
+                    child: timeFilter
+                        .toString()
                         .text
                         .size(media.height * 0.023 - 5)
                         .color(Color(0xff0A84FF))
@@ -328,18 +344,20 @@ class _ExpenditureDetailsPageState extends State<ExpenditureDetailsPage> {
                   onToggle: (index) {
                     print('switched to: $index');
                     if (index == 1) {
-                      expendituresC.fetchMaterials();
+                      expendituresC.fetchMaterials(time: timeFilter);
                       setState(() {
                         builderFor = 'materail';
                         initialIndex = index;
                       });
                     } else if (index == 2) {
                       // call api
+                      expendituresC.fetchExpenditures(time: timeFilter);
                       setState(() {
                         builderFor = 'expenditure';
                         initialIndex = index;
                       });
                     } else {
+                      expendituresC.fetchExpenditures(time: timeFilter);
                       setState(() {
                         builderFor = 'expenditure';
                         initialIndex = index;

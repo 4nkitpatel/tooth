@@ -1,17 +1,27 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:get/instance_manager.dart';
 
 class ChooseTime extends StatefulWidget {
+  final Function cb;
+  final String time;
+  const ChooseTime({Key key, this.cb, this.time}) : super(key: key);
   @override
   _ChooseTimeState createState() => _ChooseTimeState();
 }
 
-enum Timepframe { Weekly, Yearly, Monthly, Today }
+// T enumFromString<T>(List<T> values, String value) {
+//   return values.firstWhere((v) => v.toString().split('.')[1] == value,
+//       orElse: () => null);
+// }
+
+enum Timepframe { Today, Weekly, Monthly, Yearly, Default }
+
+Timepframe time = Timepframe.Default;
 
 class _ChooseTimeState extends State<ChooseTime> {
-  Timepframe time = Timepframe.Weekly;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,6 +39,21 @@ class _ChooseTimeState extends State<ChooseTime> {
                 RadioListTile<Timepframe>(
                   activeColor: Colors.blue,
                   title: const Text(
+                    'Default',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  value: Timepframe.Default,
+                  groupValue: time,
+                  onChanged: (Timepframe value) {
+                    setState(() {
+                      time = value;
+                      widget.cb(time);
+                    });
+                  },
+                ),
+                RadioListTile<Timepframe>(
+                  activeColor: Colors.blue,
+                  title: const Text(
                     'Today',
                     style: TextStyle(color: Colors.white),
                   ),
@@ -37,6 +62,7 @@ class _ChooseTimeState extends State<ChooseTime> {
                   onChanged: (Timepframe value) {
                     setState(() {
                       time = value;
+                      widget.cb(time);
                     });
                   },
                 ),
@@ -51,6 +77,7 @@ class _ChooseTimeState extends State<ChooseTime> {
                   onChanged: (Timepframe value) {
                     setState(() {
                       time = value;
+                      widget.cb(time);
                     });
                   },
                 ),
@@ -65,6 +92,7 @@ class _ChooseTimeState extends State<ChooseTime> {
                   onChanged: (Timepframe value) {
                     setState(() {
                       time = value;
+                      widget.cb(time);
                     });
                   },
                 ),
@@ -79,6 +107,7 @@ class _ChooseTimeState extends State<ChooseTime> {
                   onChanged: (Timepframe value) {
                     setState(() {
                       time = value;
+                      widget.cb(time);
                     });
                   },
                 ),

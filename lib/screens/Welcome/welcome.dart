@@ -1,11 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tooth/colors.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
+  @override
+  _WelcomePageState createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  List<String> userData;
+  @override
+  void initState() {
+    getValidationData().whenComplete(() async {
+      if (userData != null && userData.length > 0)
+        Get.toNamed('/dashboard', arguments: userData[1]);
+    });
+    super.initState();
+  }
+
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var userdata = sharedPreferences.getStringList("userdata");
+    print(userdata);
+    setState(() {
+      userData = userdata;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;

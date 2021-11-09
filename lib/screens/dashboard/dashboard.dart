@@ -1,13 +1,17 @@
 // import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tooth/colors.dart';
 import 'package:tooth/controllers/dashboard.dart';
 import 'package:tooth/models/todaysApp.dart';
+import 'package:tooth/screens/Welcome/welcome.dart';
 import 'package:tooth/screens/dashboard/add_clinic.dart';
 import 'package:tooth/screens/dashboard/address_list.dart';
 import 'package:tooth/screens/dashboard/bottom_chooser.dart';
+import 'package:get/route_manager.dart';
 import 'package:get/get.dart';
 import 'package:tooth/widgets/refresh_indicator.dart';
 // import 'package:tooth/screens/dashboard/medication.dart';
@@ -25,6 +29,8 @@ class _DashboardPageState extends State<DashboardPage> {
   int _current = 0;
   DateTime lastPressed;
   final drName = Get.arguments;
+  String timeFilter = "Default";
+  String locationParam = "";
   List<TodaysApp> filteredData = [];
 
   @override
@@ -47,9 +53,14 @@ class _DashboardPageState extends State<DashboardPage> {
           Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  final SharedPreferences sharedPreferences =
+                      await SharedPreferences.getInstance();
+                  sharedPreferences.remove("userdata");
+                  Get.offAll(WelcomePage());
+                },
                 child: Icon(
-                  Icons.settings,
+                  Icons.logout_rounded,
                   size: 26.0,
                 ),
               )),
@@ -288,11 +299,22 @@ class _DashboardPageState extends State<DashboardPage> {
                         InkWell(
                           onTap: () {
                             Get.bottomSheet(Container(
-                              height: 300,
-                              child: ChooseTime(),
+                              // height: 300,
+                              child: ChooseTime(
+                                // time: timeFilter,
+                                cb: (value) {
+                                  print(
+                                      "============== > ${describeEnum(value)}");
+                                  setState(() {
+                                    timeFilter = describeEnum(value);
+                                    dashboardC.fetchUserStats(time: timeFilter);
+                                  });
+                                },
+                              ),
                             ));
                           },
-                          child: "Wed, May 31"
+                          child: timeFilter
+                              .toString()
                               .text
                               .size(media.height * 0.02 - 5)
                               .color(Color(0xff0A84FF))
@@ -303,17 +325,41 @@ class _DashboardPageState extends State<DashboardPage> {
                           onTap: () {
                             Get.bottomSheet(AddressListPage(
                               cb: (data, isSelected) {
-                                isSelected
-                                    ? filteredData +=
-                                        dashboardC.todaysApp.filter((element) {
-                                        return element.addressName ==
-                                            data.addressName;
-                                      }).toList()
-                                    : filteredData =
-                                        filteredData.filter((element) {
-                                        return element.addressName !=
-                                            data.addressName;
-                                      }).toList();
+                                if (isSelected) {
+                                  filteredData +=
+                                      dashboardC.todaysApp.filter((element) {
+                                    return element.addressName ==
+                                        data.addressName;
+                                  }).toList();
+                                  filteredData.forEach((v) => locationParam
+                                          .contains(v.addressName)
+                                      ? null
+                                      : locationParam += '${v.addressName},');
+                                  print(locationParam.replaceRange(
+                                      locationParam.length - 1,
+                                      locationParam.length,
+                                      ""));
+                                  print("===============> $filteredData");
+                                  dashboardC.fetchUserStats(
+                                      time: timeFilter,
+                                      location: locationParam.replaceRange(
+                                          locationParam.length - 1,
+                                          locationParam.length,
+                                          ""));
+                                } else {
+                                  filteredData = filteredData.filter((element) {
+                                    return element.addressName !=
+                                        data.addressName;
+                                  }).toList();
+                                  dynamic param = locationParam.split(",");
+                                  param.remove(data.addressName);
+                                  locationParam = param.join(",");
+                                  dashboardC.fetchUserStats(
+                                      time: timeFilter,
+                                      location: locationParam.isEmpty
+                                          ? "All"
+                                          : locationParam);
+                                }
                                 setState(() {});
                               },
                             ));
@@ -480,10 +526,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           10.heightBox,
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AddClinicPage()));
+                              Get.toNamed("/addclinic", arguments: drName);
                             },
                             child: "Add Clinic Address"
                                 .text

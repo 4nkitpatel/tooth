@@ -13,11 +13,14 @@ class LastPage extends StatefulWidget {
 
 class _LastPageState extends State<LastPage> {
   final args = Get.arguments;
+  bool passwordShow = true;
   final formKey = GlobalKey<FormState>();
   String mobNo;
   String dob;
   String registation;
   String selectedDate;
+  String pass;
+  String confPass;
   bool isDateEntered = false;
 
   @override
@@ -81,7 +84,42 @@ class _LastPageState extends State<LastPage> {
                     onChange: (value) => registation = value,
                   ),
                   17.heightBox,
+                  Wgt.getTFF(
+                    text: "Create password",
+                    type: "password",
+                    showPassword: passwordShow,
+                    onChange: (val) => pass = val,
+                  ),
+                  17.heightBox,
+                  Wgt.getTFF(
+                    text: "Confirm password",
+                    type: "password",
+                    showPassword: passwordShow,
+                    onChange: (val) => confPass = val,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        passwordShow = !passwordShow;
+                        print(passwordShow);
+                      });
+                    },
+                    child: passwordShow
+                        ? "Show password"
+                            .text
+                            .blue400
+                            .underline
+                            .make()
+                            .pOnly(left: 25, right: 16, top: 5)
+                        : "Hide password"
+                            .text
+                            .blue400
+                            .underline
+                            .make()
+                            .pOnly(left: 25, right: 16, top: 5),
+                  ),
                   // Spacer(),
+                  17.heightBox,
                   Padding(
                     padding: EdgeInsets.all(16),
                     child: Wgt.getSecondaryBtn(
@@ -89,17 +127,28 @@ class _LastPageState extends State<LastPage> {
                       context: context,
                       cb: () {
                         // Navigator.pushNamed(context, '/dashboard');
-                        args["registation"] = registation;
-                        args["date"] = selectedDate;
-                        args["mobNo"] = mobNo;
-                        print(args);
-                        print("registation $registation");
-                        print("date $selectedDate");
-                        print("mobNo $mobNo");
+
                         final isValid = formKey.currentState.validate();
                         if (isValid && isDateEntered) {
                           formKey.currentState.save();
-                          Get.toNamed("/addclinic", arguments: args);
+                          if (pass == confPass) {
+                            args["registation"] = registation;
+                            args["date"] = selectedDate;
+                            args["mobNo"] = mobNo;
+                            args["password"] = pass;
+                            print(args);
+                            print("registation $registation");
+                            print("date $selectedDate");
+                            print("mobNo $mobNo");
+                            Get.toNamed("/addclinic", arguments: args);
+                          } else {
+                            Get.snackbar(
+                              "Error",
+                              "Password and confirm password must be same",
+                              backgroundColor: Colors.redAccent,
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
+                          }
                         }
                       },
                     ),

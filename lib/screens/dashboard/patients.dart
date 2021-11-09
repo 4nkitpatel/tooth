@@ -1,4 +1,5 @@
 import 'package:drag_select_grid_view/drag_select_grid_view.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
@@ -26,6 +27,7 @@ class _PatientsPageState extends State<PatientsPage> {
   final SearchController searchC = Get.put(SearchController());
 
   List<Patients> filteredData = [];
+  String timeFilter = "Default";
   // List _searchResult = [];
   // List _patientDetails;
 
@@ -305,11 +307,20 @@ class _PatientsPageState extends State<PatientsPage> {
                   InkWell(
                     onTap: () {
                       Get.bottomSheet(Container(
-                        height: 300,
-                        child: ChooseTime(),
+                        // height: 300,
+                        child: ChooseTime(
+                          cb: (value) {
+                            print("============== > ${describeEnum(value)}");
+                            setState(() {
+                              timeFilter = describeEnum(value);
+                              patientsC.fetchPatients(time: timeFilter);
+                            });
+                          },
+                        ),
                       ));
                     },
-                    child: "Wed, May 31"
+                    child: timeFilter
+                        .toString()
                         .text
                         .size(media.height * 0.023 - 5)
                         .color(Color(0xff0A84FF))

@@ -19,10 +19,12 @@ class DashboardController extends GetxController {
     fetchTodaysApp();
   }
 
-  void fetchUserStats() async {
+  void fetchUserStats(
+      {String time = 'Default', String location = "All"}) async {
     try {
       isLoading(true);
-      var stats = await ApiServices.fetchUserStats();
+      var stats =
+          await ApiServices.fetchUserStats(time: time, location: location);
       if (stats != null) {
         userStats.value = stats;
       }

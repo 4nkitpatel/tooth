@@ -45,8 +45,11 @@ class ApiServices {
     }
   }
 
-  static Future<Map<String, dynamic>> fetchUserStats() async {
-    var res = await client.get(Uri.http('127.0.0.1:3000', '/userStats'));
+  static Future<Map<String, dynamic>> fetchUserStats(
+      {String time, String location}) async {
+    final queryParams = {'time': time, 'location': location};
+    var res =
+        await client.get(Uri.http('127.0.0.1:3000', '/userStats', queryParams));
     // var res =
     //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/Symptoms'));
     if (res.statusCode == 200) {
@@ -124,10 +127,12 @@ class ApiServices {
     }
   }
 
-  static Future<List<Patients>> fetchPatients() async {
+  static Future<List<Patients>> fetchPatients({String param}) async {
+    final queryParams = {'time': param};
     // var res =
     //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/patients'));
-    var res = await client.get(Uri.http('localhost:3000', '/patients'));
+    var res =
+        await client.get(Uri.http('localhost:3000', '/patients', queryParams));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
       // print(jsonDecode(jsonStr)['data']);
@@ -140,8 +145,10 @@ class ApiServices {
     }
   }
 
-  static Future<List<Expenditures>> fetchExpenditures() async {
-    var res = await client.get(Uri.http('localhost:3000', '/expenditures'));
+  static Future<List<Expenditures>> fetchExpenditures({String param}) async {
+    final queryParams = {'time': param};
+    var res = await client
+        .get(Uri.http('localhost:3000', '/expenditures', queryParams));
     // var res =
     //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/expenditures'));
     if (res.statusCode == 200) {
@@ -156,8 +163,10 @@ class ApiServices {
     }
   }
 
-  static Future<List<Materials>> fetchMaterials() async {
-    var res = await client.get(Uri.http('localhost:3000', '/materials'));
+  static Future<List<Materials>> fetchMaterials({String param}) async {
+    final queryParams = {'time': param};
+    var res =
+        await client.get(Uri.http('localhost:3000', '/materials', queryParams));
     // var res =
     //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/materials'));
     if (res.statusCode == 200) {
@@ -258,6 +267,27 @@ class ApiServices {
     }
   }
 
+  static Future<Map<dynamic, dynamic>> onAddClinic(json) async {
+    final url = Uri.parse('http://localhost:3000/addclinic');
+    final headers = {"Content-type": "application/json"};
+    final res =
+        await client.post(url, headers: headers, body: jsonEncode(json));
+    if (res.statusCode == 201) {
+      print('Body: ${res.body}');
+      return {
+        "data": res.body,
+        "message": "Add Clinic successfully",
+        "status": res.statusCode
+      };
+    } else {
+      return {
+        "data": res.body,
+        "message": "Something went wrong",
+        "status": res.statusCode
+      };
+    }
+  }
+
   static Future<Map<dynamic, dynamic>> onLogin(json) async {
     final url = Uri.parse('http://localhost:3000/login');
     final headers = {"Content-type": "application/json"};
@@ -266,7 +296,7 @@ class ApiServices {
     if (res.statusCode == 201) {
       print('Body: ${res.body}');
       return {
-        "data": "Dr Name", // TODO we need drName in res.body
+        "data": "Name", // TODO we need drName in res.body
         "message": "login successfully",
         "status": res.statusCode
       };

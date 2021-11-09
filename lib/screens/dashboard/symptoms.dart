@@ -63,7 +63,7 @@ class _SymptomsPageState extends State<SymptomsPage> {
           centerTitle: true,
           title: Text.rich(
             TextSpan(
-              text: "Mr. Andy \n",
+              text: "${args[2]} \n",
               style: TextStyle(
                 fontSize: 17,
               ),

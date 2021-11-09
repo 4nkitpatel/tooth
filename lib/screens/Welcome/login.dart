@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tooth/colors.dart';
 import 'package:tooth/services/api.service.dart';
 import 'package:tooth/widgets/widgets.dart';
@@ -109,6 +110,10 @@ class _LoginPageState extends State<LoginPage> {
                           var message = await ApiServices.onLogin(args);
                           // redirect to
                           if (message["status"] == 201) {
+                            final SharedPreferences sharedPreferences =
+                                await SharedPreferences.getInstance();
+                            sharedPreferences.setStringList(
+                                "userdata", [phoneno, message['data']]);
                             Get.offAllNamed("/dashboard",
                                 arguments: message['data']);
                           } else {

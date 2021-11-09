@@ -182,7 +182,8 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                   onTap: () {
                                     Get.toNamed("/symptoms", arguments: [
                                       "Upper Left",
-                                      patientC.teethStatus[0]["upperleft"]
+                                      patientC.teethStatus[0]["upperleft"],
+                                      name
                                     ]);
                                   },
                                   child: patientC.teethStatus.length == 0 ||
@@ -223,7 +224,8 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                   onTap: () {
                                     Get.toNamed("/symptoms", arguments: [
                                       "Upper Right",
-                                      patientC.teethStatus[0]["upperright"]
+                                      patientC.teethStatus[0]["upperright"],
+                                      name
                                     ]);
                                   },
                                   child: patientC.teethStatus.length == 0 ||
@@ -268,7 +270,8 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                   onTap: () {
                                     Get.toNamed("/symptoms", arguments: [
                                       "Lower Left",
-                                      patientC.teethStatus[0]["lowerleft"]
+                                      patientC.teethStatus[0]["lowerleft"],
+                                      name
                                     ]);
                                   },
                                   child: patientC.teethStatus.length == 0 ||
@@ -309,7 +312,8 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                   onTap: () {
                                     Get.toNamed("/symptoms", arguments: [
                                       "Lower Right",
-                                      patientC.teethStatus[0]["lowerright"]
+                                      patientC.teethStatus[0]["lowerright"],
+                                      name
                                     ]);
                                   },
                                   child: patientC.teethStatus.length == 0 ||
