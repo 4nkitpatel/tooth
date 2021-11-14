@@ -12,15 +12,28 @@ class ScheduleController extends GetxController {
     fetchSchedules();
   }
 
-  Future fetchSchedules() async {
+  Future fetchSchedules({timeFilter = ""}) async {
     try {
       isLoading(true);
-      var schedules = await ApiServices.fetchSchedules();
+      var schedules = await ApiServices.fetchSchedules(filter: timeFilter);
+
       if (schedules != null) {
         schedulesList.value = schedules;
       }
     } finally {
       isLoading(false);
+    }
+  }
+
+  Future<dynamic> onAppointmentApprove(json) async {
+    // '{"tab": "2Tab","when": "BF","days": "15"}'
+    var response = await ApiServices.onAppointmentApprove(json);
+    print("data $response");
+    if (response["status"] == 201) {
+      // return response.body; //"Successfully added";
+      return response;
+    } else {
+      return response;
     }
   }
 }

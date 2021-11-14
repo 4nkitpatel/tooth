@@ -6,6 +6,7 @@ import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tooth/colors.dart';
 import 'package:tooth/controllers/dashboard.dart';
+import 'package:tooth/models/Schedule.dart';
 import 'package:tooth/models/todaysApp.dart';
 import 'package:tooth/screens/Welcome/welcome.dart';
 import 'package:tooth/screens/dashboard/add_clinic.dart';
@@ -31,7 +32,7 @@ class _DashboardPageState extends State<DashboardPage> {
   final drName = Get.arguments;
   String timeFilter = "Default";
   String locationParam = "";
-  List<TodaysApp> filteredData = [];
+  List<Schedule> filteredData = [];
 
   @override
   Widget build(BuildContext context) {
@@ -458,10 +459,15 @@ class _DashboardPageState extends State<DashboardPage> {
                             if (dashboardC.isLoading.value)
                               return Center(child: CircularProgressIndicator());
                             else if (dashboardC.todaysApp.length == 0)
-                              return "No appointments available"
-                                  .text
-                                  .color(Color(0xff646262))
-                                  .make();
+                              return Container(
+                                width: media.width,
+                                height: (media.height * 0.09 + 10 - 5) * 2.2,
+                                child: "No appointments available"
+                                    .text
+                                    .color(Color(0xff646262))
+                                    .make()
+                                    .centered(),
+                              );
                             else
                               return CarouselSlider(
                                 items: generateSlider(
@@ -619,7 +625,7 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   ClipRRect buildFullWidthBox(
-      BuildContext context, List<TodaysApp> _todaysApp, int i) {
+      BuildContext context, List<Schedule> _todaysApp, int i) {
     final media = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
@@ -660,11 +666,13 @@ class _DashboardPageState extends State<DashboardPage> {
                           height: media.height * 0.036 - 5,
                           fit: BoxFit.contain,
                         ),
-                        Image.asset(
-                          'assets/big-teeth.png',
-                          height: media.height * 0.036 - 5,
-                          fit: BoxFit.contain,
-                        ),
+                        _todaysApp[i].insuredStatus == "Insured"
+                            ? Image.asset(
+                                'assets/big-teeth.png',
+                                height: media.height * 0.036 - 5,
+                                fit: BoxFit.contain,
+                              )
+                            : Container(),
                         Spacer(),
                         _todaysApp[i]
                             .time
@@ -684,8 +692,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  List<Widget> generateSlider(
-      List<TodaysApp> _todaysApp, BuildContext context) {
+  List<Widget> generateSlider(List<Schedule> _todaysApp, BuildContext context) {
     List<Widget> list = [];
     for (var i = 0; i < _todaysApp.length; i = i + 2) {
       list.add(Column(
@@ -701,7 +708,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return list;
   }
 
-  Row generateIndicators(List<TodaysApp> _todaysApp, BuildContext context) {
+  Row generateIndicators(List<Schedule> _todaysApp, BuildContext context) {
     final media = MediaQuery.of(context).size;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

@@ -1,10 +1,11 @@
 import 'package:get/state_manager.dart';
-import 'package:tooth/models/todaysApp.dart';
+import 'package:tooth/models/Schedule.dart';
+// import 'package:tooth/models/todaysApp.dart';
 import 'package:tooth/services/api.service.dart';
 
 class DashboardController extends GetxController {
   var userStats = {}.obs;
-  var todaysApp = List<TodaysApp>.empty().obs;
+  var todaysApp = List<Schedule>.empty().obs;
   var isLoading = true.obs;
 
   @override
@@ -38,7 +39,8 @@ class DashboardController extends GetxController {
   void fetchTodaysApp() async {
     try {
       isLoading(true);
-      var app = await ApiServices.fetchTodaysApp();
+      var app = await ApiServices.fetchSchedules(
+          filter: ""); //DateTime.now().toString()
       if (app != null) {
         todaysApp.value = app;
       }

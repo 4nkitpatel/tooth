@@ -44,6 +44,8 @@ class _CalendarState extends State<Calendar> {
               separatorBuilder: (BuildContext context, int index) {
                 return SizedBox(width: media.height * 0.015);
               },
+              physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
               itemCount: 365,
               controller: scrollController,
               scrollDirection: Axis.horizontal,
@@ -53,11 +55,13 @@ class _CalendarState extends State<Calendar> {
                     setState(() {
                       currentDateSelectedIndex = index;
                       selectedDate = DateTime.now().add(Duration(days: index));
-                      widget.cb(listOfMonths[selectedDate.month - 1] +
-                          ' ' +
-                          selectedDate.day.toString() +
-                          ', ' +
-                          listOfDays[selectedDate.weekday - 1].toString());
+                      widget.cb(
+                          listOfMonths[selectedDate.month - 1] +
+                              ' ' +
+                              selectedDate.day.toString() +
+                              ', ' +
+                              listOfDays[selectedDate.weekday - 1].toString(),
+                          selectedDate);
                     });
                   },
                   child: Container(

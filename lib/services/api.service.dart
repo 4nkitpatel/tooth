@@ -30,20 +30,20 @@ class ApiServices {
     }
   }
 
-  static Future<List<TodaysApp>> fetchTodaysApp() async {
-    var res = await client.get(Uri.http('127.0.0.1:3000', '/todaysApp'));
-    // var res =
-    //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/Symptoms'));
-    if (res.statusCode == 200) {
-      var jsonStr = res.body;
-      // print(jsonDecode(jsonStr)['data']);
-      // var data = jsonEncode(jsonDecode(jsonStr)['data']);
-      return todaysAppFromJson(jsonStr);
-      // return todaysAppFromJson(data);
-    } else {
-      return null; //handle it
-    }
-  }
+  // static Future<List<TodaysApp>> fetchTodaysApp() async {
+  //   var res = await client.get(Uri.http('127.0.0.1:3000', '/todaysApp'));
+  //   // var res =
+  //   //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/Symptoms'));
+  //   if (res.statusCode == 200) {
+  //     var jsonStr = res.body;
+  //     // print(jsonDecode(jsonStr)['data']);
+  //     // var data = jsonEncode(jsonDecode(jsonStr)['data']);
+  //     return todaysAppFromJson(jsonStr);
+  //     // return todaysAppFromJson(data);
+  //   } else {
+  //     return null; //handle it
+  //   }
+  // }
 
   static Future<Map<String, dynamic>> fetchUserStats(
       {String time, String location}) async {
@@ -66,15 +66,16 @@ class ApiServices {
   }
 
   static Future<List<Medication>> fetchMedications() async {
-    var res =
-        await client.get(Uri.http('3.23.102.140:7000', '/api/v1/medication'));
+    // var res =
+    //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/medication'));
+    var res = await client.get(Uri.http('localhost:3000', '/medication'));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
-      print(jsonDecode(jsonStr)['data']);
-      var data = jsonEncode(jsonDecode(jsonStr)['data']);
+      // print(jsonDecode(jsonStr)['data']);
+      // var data = jsonEncode(jsonDecode(jsonStr)['data']);
       // this will given my model may be from app.quicktype.io
-      // return medicationFromJson(jsonStr);
-      return medicationFromJson(data);
+      return medicationFromJson(jsonStr);
+      // return medicationFromJson(data);
     } else {
       return null; //handle it
     }
@@ -111,10 +112,15 @@ class ApiServices {
     }
   }
 
-  static Future<List<Schedule>> fetchSchedules() async {
+  static Future<List<Schedule>> fetchSchedules({filter}) async {
+    var queryParams;
+    if (filter.toString().isNotEmpty) {
+      queryParams = {'time': filter.toString()};
+    }
     // var res =
     //     await client.get(Uri.http('3.23.102.140:7000', '/api/v1/schedule'));
-    var res = await client.get(Uri.http('localhost:3000', '/schedule'));
+    var res =
+        await client.get(Uri.http('localhost:3000', '/schedule', queryParams));
     if (res.statusCode == 200) {
       var jsonStr = res.body;
       // print(jsonDecode(jsonStr)['data']);
@@ -241,6 +247,28 @@ class ApiServices {
       return {
         "data": res.body,
         "message": "Something went wrong while sending",
+        "status": res.statusCode
+      };
+    }
+  }
+
+  static Future<Map<dynamic, dynamic>> onAppointmentApprove(json) async {
+    final url = Uri.parse('http://localhost:3000/approvedappointment');
+    final headers = {"Content-type": "application/json"};
+    final res =
+        await client.post(url, headers: headers, body: jsonEncode(json));
+    if (res.statusCode == 201) {
+      print('Body: ${res.body}');
+      return {
+        "data": res.body,
+        "message": "Successfully sent appointment",
+        "status": res.statusCode
+      };
+      // return res;
+    } else {
+      return {
+        "data": res.body,
+        "message": "Something went wrong while appointing",
         "status": res.statusCode
       };
     }

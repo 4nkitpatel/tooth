@@ -355,7 +355,7 @@ class DateWgt extends StatefulWidget {
 
 class _SWgtState extends State<DateWgt> {
   DateTime date;
-  bool error = false;
+  bool error = true;
   String getDateText() {
     if (date == null) {
       return "DOB - DD/MM/YYYY";
