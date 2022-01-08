@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:tooth/controllers/AdviceList.dart';
+import 'package:tooth/controllers/search.controller.dart';
+import 'package:tooth/models/AdviceList.dart';
 import 'package:tooth/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:get/instance_manager.dart';
@@ -22,7 +24,18 @@ class _AdvicePageState extends State<AdvicePage> {
     'assets/braces.png',
     'assets/braces.png',
   ];
+  final selectedAdvice = [];
   final AdviceListController adviceC = Get.put(AdviceListController());
+  final SearchController searchC = Get.put(SearchController());
+
+  @override
+  void initState() {
+    // freqValue = frequency.first;
+    super.initState();
+    searchC.initializeDetails(adviceC.adviceList);
+    // _patientDetails = patientsC.patientsList;
+  }
+
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
@@ -66,7 +79,11 @@ class _AdvicePageState extends State<AdvicePage> {
           actions: <Widget>[
             InkWell(
               onTap: () {
-                Get.toNamed("/dashboard");
+                Get.toNamed("/patientDetails");
+                //             adviceC.isSelected.asMap().forEach((key, value) {
+                //   if (value) selectedAdvice.add(adviceC.adviceList[key]);
+                // });
+                // TODO add isSelected true and send POST call and in patient deatls just GET call jo true vo dikhana.
               },
               child: "Done"
                   .text
@@ -98,9 +115,7 @@ class _AdvicePageState extends State<AdvicePage> {
                     contentPadding: EdgeInsets.only(left: 20),
                     fillColor: Color(0xff393E46),
                   ),
-                  onChanged: (String text) {
-                    print(text);
-                  },
+                  onChanged: searchC.onSearchTextChanged,
                 ),
                 20.heightBox,
                 "Advice List"
@@ -121,72 +136,10 @@ class _AdvicePageState extends State<AdvicePage> {
                           .color(Color(0xff646262))
                           .make()
                           .centered();
+                    else if (searchC.searchText.isNotEmpty)
+                      return generateListView(media, searchC.searchResult);
                     else
-                      return ListView.separated(
-                        separatorBuilder: (context, index) => 10.heightBox,
-                        itemCount: adviceC.adviceList.length,
-                        itemBuilder: (context, index) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
-                            child: Container(
-                              color: Color(0xff2C2C2E),
-                              width: MediaQuery.of(context).size.width,
-                              height: 100,
-                              child: Row(
-                                // mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  iconImagePath.length - 1 >= index
-                                      ? Image.asset(iconImagePath[index])
-                                      : Container(height: 100, width: 70),
-                                  10.widthBox,
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      adviceC.adviceList[index].name.text
-                                          .size(media.height * 0.023 - 5)
-                                          .white
-                                          .make(),
-                                      "Price"
-                                          .text
-                                          .size(media.height * 0.02 - 5)
-                                          .white
-                                          .make(),
-                                      adviceC.adviceList[index].price.text
-                                          .size(media.height * 0.02 - 5)
-                                          .color(Color(0xff9F9FA5))
-                                          .make(),
-                                    ],
-                                  ),
-                                  Spacer(),
-                                  Checkbox(
-                                    shape: CircleBorder(),
-                                    fillColor: MaterialStateProperty.all(
-                                        Color(0xff0A84FF)),
-                                    value: adviceC.isSelected[index],
-                                    onChanged: (value) {
-                                      setState(() {
-                                        adviceC.isSelected[index] = value;
-                                      });
-                                    },
-                                  ),
-                                  // Radio(
-                                  //   activeColor: Colors.red,
-                                  //   fillColor:
-                                  //       MaterialStateProperty.all(Colors.white),
-                                  //   value: index,
-                                  //   groupValue: -1,
-                                  //   onChanged: (value) {
-                                  //     print(value);
-                                  //   },
-                                  // ),
-                                ],
-                              ).p8(),
-                            ),
-                          );
-                        },
-                      );
+                      return generateListView(media, adviceC.adviceList);
                   }),
                 ),
                 10.heightBox,
@@ -194,13 +147,7 @@ class _AdvicePageState extends State<AdvicePage> {
                   text: 'Add Custom Advice',
                   context: context,
                   cb: () {
-                    // Navigator.pushNamed(context, "/symptoms");
-                    // Get.toNamed("/symptoms");
-                    // TODO dialogBox issue in big screen
                     Container(
-                      // height: media.height * 0.3,
-                      // width: media.width * 0.2,
-                      // color: Colors.red,
                       child: Wgt.showDialog(
                         context,
                         (json) async {
@@ -217,6 +164,77 @@ class _AdvicePageState extends State<AdvicePage> {
           ),
         ),
       ),
+    );
+  }
+
+  ListView generateListView(Size media, List data) {
+    return ListView.separated(
+      separatorBuilder: (context, index) => 10.heightBox,
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(5),
+          child: Container(
+            color: Color(0xff2C2C2E),
+            width: MediaQuery.of(context).size.width,
+            height: 100,
+            child: Row(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                data[index].imageUrl.toString().isNotEmpty
+                    ? Image.network(data[index].imageUrl)
+                    : Container(height: 100, width: 70),
+                // iconImagePath.length - 1 >= index
+                //     ? Image.asset(iconImagePath[index])
+                //     : Container(height: 100, width: 70),
+                10.widthBox,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    data[index]
+                        .name
+                        .toString()
+                        .text
+                        .size(media.height * 0.023 - 5)
+                        .white
+                        .make(),
+                    "Price".text.size(media.height * 0.02 - 5).white.make(),
+                    data[index]
+                        .price
+                        .toString()
+                        .text
+                        .size(media.height * 0.02 - 5)
+                        .color(Color(0xff9F9FA5))
+                        .make(),
+                  ],
+                ),
+                Spacer(),
+                Checkbox(
+                  shape: CircleBorder(),
+                  fillColor: MaterialStateProperty.all(Color(0xff0A84FF)),
+                  value: adviceC.isSelected[index],
+                  onChanged: (value) {
+                    setState(() {
+                      adviceC.isSelected[index] = value;
+                    });
+                  },
+                ),
+                // Radio(
+                //   activeColor: Colors.red,
+                //   fillColor:
+                //       MaterialStateProperty.all(Colors.white),
+                //   value: index,
+                //   groupValue: -1,
+                //   onChanged: (value) {
+                //     print(value);
+                //   },
+                // ),
+              ],
+            ).p8(),
+          ),
+        );
+      },
     );
   }
 }

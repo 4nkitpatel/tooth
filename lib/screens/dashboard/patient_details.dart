@@ -20,6 +20,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
   final AdviceListController adviceC = Get.put(AdviceListController());
   final PatientController patientC = Get.put(PatientController());
   final name = Get.arguments;
+  // final selectedAdvice = [];
   int _current = 0;
   final CarouselController _controller = CarouselController();
   DateTime date;
@@ -40,6 +41,18 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
     );
     if (newDate == null) return;
     setState(() => date = newDate);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("======================== > INIT STATE <======================");
+    print(adviceC.isSelected);
+    // adviceC.isSelected.asMap().forEach((key, value) {
+    //   if (value) selectedAdvice.add(adviceC.adviceList[key]);
+    // });
+    // print("========================> $selectedAdvice");
   }
 
   @override
@@ -379,6 +392,11 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                               .text
                               .color(Color(0xff646262))
                               .make();
+                        // else if (selectedAdvice.length == 0)
+                        //   return "Please select the advice by clicking '+' button"
+                        //       .text
+                        //       .color(Color(0xff646262))
+                        //       .make();
                         else
                           return CarouselSlider(
                             items: generateSlider(adviceC.adviceList, context),
