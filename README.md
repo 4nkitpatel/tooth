@@ -12,4 +12,6 @@ A new Flutter app for Dentists.
 
 3. run the Flutter app
 
+### Below is the demo of the app (sometime it takes time to load)
+
 ![Tooth demo](tooth.gif)
